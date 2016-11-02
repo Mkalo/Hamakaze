@@ -22,7 +22,7 @@ module.exports = class StatsCommand extends Command {
 			<Hamakaze Statistics>
 
 			[UPTIME](${moment.duration(this.client.uptime).format('d[ DAYS], h[ HOURS], m[ MINUTES, and ]s[ SECONDS]')})
-			[MEMORY USEAGE](${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB)
+			[MEMORY USAGE](${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB)
 			[VERSION](${version})
 
 			<Serving>

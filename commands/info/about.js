@@ -8,7 +8,7 @@ module.exports = class AboutCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'about',
-			group: 'util',
+			group: 'info',
 			memberName: 'about',
 			description: 'Displays statistics about the bot.',
 			guildOnly: true
