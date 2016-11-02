@@ -84,6 +84,8 @@ client.on('error', winston.error)
 
 client.registry
 	.registerGroups([
+		['info', 'Info'],
+		['anime', 'Anime'],
 		['fun', 'Fun'],
 		['tags', 'Tags'],
 		['rep', 'Reputation']
