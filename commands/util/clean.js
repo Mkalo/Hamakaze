@@ -10,7 +10,7 @@ module.exports = class CleanCommand extends Command {
 			memberName: 'clean',
 			description: 'Deletes messages.',
 			format: '<number> [[filter] [argument]]',
-			details: `Deletes msgs. Here is a list of filters:
+			details: `Deletes messages. Here is a list of filters:
 				__invites:__ Messages containing an invite
 				__user @user:__ Messages sent by @user
 				__bots:__ Messages sent by bots
@@ -58,10 +58,10 @@ module.exports = class CleanCommand extends Command {
 		const limit = args.limit;
 		const filter = args.filter;
 		let messageFilter;
-		if (args.filter) {
-			if (args.filter === 'invite') {
+		if (filter) {
+			if (filter === 'invite') {
 				messageFilter = message => message.content.search(/(discord\.gg\/.+|discordapp\.com\/invite\/.+)/i) !== -1;
-			} else if (args.filter === 'user') {
+			} else if (filter === 'user') {
 				if (args.member) {
 					const member = args.member;
 					const user = member.user;
@@ -69,13 +69,13 @@ module.exports = class CleanCommand extends Command {
 				} else {
 					return msg.say(`${msg.author}, you have to mention someone.`);
 				}
-			} else if (args.filter === 'bots') {
+			} else if (filter === 'bots') {
 				messageFilter = message => message.author.bot;
-			} else if (args.filter === 'you') {
+			} else if (filter === 'you') {
 				messageFilter = message => message.author.id === message.client.user.id;
-			} else if (args.filter === 'upload') {
+			} else if (filter === 'upload') {
 				messageFilter = message => message.attachments.size !== 0;
-			} else if (args.filter === 'links') {
+			} else if (filter === 'links') {
 				messageFilter = message => message.content.search(/https?:\/\/[^ \/\.]+\.[^ \/\.]+/) !== -1;
 			} else {
 				return msg.say(`${msg.author}, that is not a valid filter. Do \`help clean\` for all available filters.`);
