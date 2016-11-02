@@ -36,7 +36,7 @@ module.exports = class MangaCommand extends Command {
 		nani.init(config.AniListID, config.AniListSecret);
 	}
 
-	async run(msg, args) {
+	async run(msg, args) { // eslint-disable-line consistent-return
 		const manga = args.manga;
 		// Because human interaction kek
 		msg.channel.startTyping();
