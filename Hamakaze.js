@@ -3,10 +3,10 @@ const oneLine = require('common-tags').oneLine;
 const path = require('path');
 const winston = require('winston');
 
-const token = require('./settings').token;
+const config = require('./settings');
 
 const client = new commando.Client({
-	owner: '81440962496172032',
+	owner: config.owner,
 	commandPrefix: '',
 	disableEveryone: true,
 	messageCacheLifetime: 30,
@@ -87,10 +87,11 @@ client.registry
 		['info', 'Info'],
 		['anime', 'Anime'],
 		['fun', 'Fun'],
+		['weather', 'Weather'],
 		['tags', 'Tags'],
 		['rep', 'Reputation']
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
-client.login(token);
+client.login(config.token);
