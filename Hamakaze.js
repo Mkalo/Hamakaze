@@ -1,6 +1,8 @@
+const CaseModel = require('./mongoDB/models/Case');
 const commando = require('discord.js-commando');
 const oneLine = require('common-tags').oneLine;
 const path = require('path');
+const stripIndents = require('common-tags').stripIndents;
 const winston = require('winston');
 
 const config = require('./settings');
@@ -44,38 +46,100 @@ const client = new commando.Client({
 client.on('error', winston.error)
 	.on('warn', winston.warn)
 	.on('ready', () => {
-		winston.log(oneLine`
+		winston.info(oneLine`
 			Hamakaze setting sail...
 			${client.user.username}#${client.user.discriminator} (${client.user.id})
 		`);
 	})
 	.on('disconnect', () => { winston.warn('Disconnected!'); })
 	.on('reconnect', () => { winston.warn('Reconnecting...'); })
+	.on('guildBanAdd', (guild, user) => {
+		if (!this.client.hasPermission('MANAGE_CHANNELS')) return;
+
+		let caseNumber;
+		CaseModel.getCaseNumber(guild.id).then(caseNum => {
+			caseNumber = parseInt(caseNum.caseNumber) + 1;
+		}).catch(() => {
+			caseNumber = 1;
+		})
+		.then(async () => {
+			let modChannel = await guild.channels.find('name', 'mod-log');
+			if (!modChannel) {
+				modChannel = await guild.createChannel('mod-log', 'text');
+			}
+
+			return modChannel.sendMessage(stripIndents`**Ban** | Case ${caseNumber}
+				**User:** ${user.username}#${user.discriminator} (${user.id})
+				Responsible moderator, please do \`reason ${caseNumber} <reason>!\`
+			`).then(message => {
+				return new CaseModel({
+					caseNumber: caseNumber,
+					action: 'Ban',
+					targetID: user.id,
+					targetName: `${user.username}#${user.discriminator}`,
+					guildID: guild.id,
+					guildName: guild.name,
+					messageID: message.id
+				}).save();
+			});
+		});
+	})
+	.on('guildBanRemove', (guild, user) => {
+		if (!this.client.hasPermission('MANAGE_CHANNELS')) return;
+
+		let caseNumber;
+		CaseModel.getCaseNumber(guild.id).then(caseNum => {
+			caseNumber = parseInt(caseNum.caseNumber) + 1;
+		}).catch(() => {
+			caseNumber = 1;
+		})
+		.then(async () => {
+			let modChannel = await guild.channels.find('name', 'mod-log');
+			if (!modChannel) {
+				modChannel = await guild.createChannel('mod-log', 'text');
+			}
+
+			return modChannel.sendMessage(stripIndents`**Unban** | Case ${caseNumber}
+				**User:** ${user.username}#${user.discriminator} (${user.id})
+				Responsible moderator, please do \`reason ${caseNumber} <reason>!\`
+			`).then(message => {
+				return new CaseModel({
+					caseNumber: caseNumber,
+					action: 'Unban',
+					targetID: user.id,
+					targetName: `${user.username}#${user.discriminator}`,
+					guildID: guild.id,
+					guildName: guild.name,
+					messageID: message.id
+				}).save();
+			});
+		});
+	})
 	.on('commandError', (cmd, err) => {
 		if (err instanceof commando.FriendlyError) return;
 		winston.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
 	})
 	.on('commandBlocked', (msg, reason) => {
-		winston.log(oneLine`
+		winston.info(oneLine`
 			Command ${msg.command ? `${msg.command.groupID}:${msg.command.memberName}` : ''}
 			blocked; ${reason}
 		`);
 	})
 	.on('commandPrefixChange', (guild, prefix) => {
-		winston.log(oneLine`
+		winston.info(oneLine`
 			Prefix changed to ${prefix || 'the default'}
 			${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.
 		`);
 	})
 	.on('commandStatusChange', (guild, command, enabled) => {
-		winston.log(oneLine`
+		winston.info(oneLine`
 			Command ${command.groupID}:${command.memberName}
 			${enabled ? 'enabled' : 'disabled'}
 			${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.
 		`);
 	})
 	.on('groupStatusChange', (guild, group, enabled) => {
-		winston.log(oneLine`
+		winston.info(oneLine`
 			Group ${group.id}
 			${enabled ? 'enabled' : 'disabled'}
 			${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.
@@ -86,6 +150,7 @@ client.registry
 	.registerGroups([
 		['info', 'Info'],
 		['anime', 'Anime'],
+		['mod', 'Moderation'],
 		['fun', 'Fun'],
 		['weather', 'Weather'],
 		['tags', 'Tags'],
