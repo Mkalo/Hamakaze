@@ -1,3 +1,5 @@
+global.Promise = require('bluebird');
+
 const CaseModel = require('./mongoDB/models/Case');
 const commando = require('discord.js-commando');
 const oneLine = require('common-tags').oneLine;
