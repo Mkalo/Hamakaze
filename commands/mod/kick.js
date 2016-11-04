@@ -19,12 +19,12 @@ module.exports = class KickCommand extends Command {
 			args: [
 				{
 					key: 'member',
-					prompt: 'What user would you like to ban?\n',
+					prompt: 'What user would you like to kick?\n',
 					type: 'member'
 				},
 				{
 					key: 'reason',
-					prompt: 'What is your reason for the ban?\n',
+					prompt: 'What is your reason for the kick?\n',
 					type: 'string',
 					default: '',
 					max: 120
