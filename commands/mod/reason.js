@@ -26,8 +26,7 @@ module.exports = class ReasonCommand extends Command {
 					key: 'reason',
 					prompt: 'What is your reason for the ban/kick?\n',
 					type: 'string',
-					default: '',
-					max: 120
+					max: 200
 				}
 			]
 		});
@@ -57,6 +56,7 @@ module.exports = class ReasonCommand extends Command {
 				**Reason:** ${message.reason}
 				**Responsible Moderator:** ${message.userName}
 			`);
+			msg.say(`👌`);
 		}).catch(error => { winston.error(error); });
 	}
 
@@ -75,6 +75,7 @@ module.exports = class ReasonCommand extends Command {
 				**Reason:** ${message.reason}
 				**Responsible Moderator:** ${message.userName}
 			`);
+			msg.say(`👌`);
 		}).catch(error => { winston.error(error); });
 	}
 };

@@ -27,7 +27,7 @@ module.exports = class BanCommand extends Command {
 					prompt: 'What is your reason for the ban?\n',
 					type: 'string',
 					default: '',
-					max: 120
+					max: 200
 				}
 			]
 		});
@@ -77,7 +77,10 @@ module.exports = class BanCommand extends Command {
 			reason: reason,
 			userID: msg.author.id,
 			userName: `${msg.author.username}#${msg.author.discriminator}`
-		}).save().then(async () => { return this.message(msg, user, caseNumber, reason); })
+		}).save().then(async () => {
+			msg.say(`🆗`);
+			return this.message(msg, user, caseNumber, reason);
+		})
 		.catch(error => { winston.error(error); });
 	}
 
@@ -95,7 +98,7 @@ module.exports = class BanCommand extends Command {
 
 		return modChannel.sendMessage(stripIndents`**Ban** | Case ${caseNumber}
 			**User:** ${user.username}#${user.discriminator} (${user.id})
-			**Reason:** ${reason}
+			**Reason:** ${reason ? reason : `Responsible moderator, please do \`reason ${caseNumber} <reason>!\``}
 			**Responsible Moderator:** ${msg.author.username}#${msg.author.discriminator}
 		`).then(messageID => { CaseModel.messageID(caseNumber, msg.guild.id, messageID.id); });
 	}
