@@ -55,6 +55,7 @@ client.on('error', winston.error)
 	})
 	.on('disconnect', () => { winston.warn('Disconnected!'); })
 	.on('reconnect', () => { winston.warn('Reconnecting...'); })
+	// Needs work (WIP)
 	.on('guildBanAdd', (guild, user) => {
 		if (!this.client.hasPermission('MANAGE_CHANNELS')) return;
 
@@ -86,6 +87,7 @@ client.on('error', winston.error)
 			});
 		});
 	})
+	// Needs work (WIP)
 	.on('guildBanRemove', (guild, user) => {
 		if (!this.client.hasPermission('MANAGE_CHANNELS')) return;
 

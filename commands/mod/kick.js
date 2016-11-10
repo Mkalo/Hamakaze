@@ -34,13 +34,7 @@ module.exports = class KickCommand extends Command {
 	}
 
 	async run(msg, args) {
-		if (!this.client.hasPermission('MANAGE_CHANNELS')) {
-			return msg.say(stripIndents`
-				I don't have the permission to manage Channels on this server, ${msg.author}
-				You need to either give me permissions to manage channels or create a channel with the name \`mod-log\`!
-			`);
-		}
-		if (!this.client.hasPermission('KICK_MEMBERS')) {
+		if (!msg.guild.member(this.client.user.id).hasPermission('KICK_MEMBERS')) {
 			return msg.say(stripIndents`
 				I don't have the permission to kick member on this server, ${msg.author}
 				You need to give me permissions to kick member.
@@ -83,18 +77,26 @@ module.exports = class KickCommand extends Command {
 			reason: reason,
 			userID: msg.author.id,
 			userName: `${msg.author.username}#${msg.author.discriminator}`
-		}).save().then(async () => {
-			let modChannel = await msg.guild.channels.find('name', 'mod-log');
-			if (!modChannel) {
-				modChannel = await msg.channel.guild.createChannel('mod-log', 'text');
-			}
-
-			return modChannel.sendMessage(stripIndents`**Kick** | Case ${caseNumber}
-				**User:** ${user.username}#${user.discriminator} (${user.id})
-				**Reason:** ${reason}
-				**Responsible Moderator:** ${msg.author.username}#${msg.author.discriminator}
-			`).then(messageID => { CaseModel.messageID(caseNumber, msg.guild.id, messageID.id); });
-		})
+		}).save().then(async () => { return this.message(msg, user, caseNumber, reason); })
 		.catch(error => { winston.error(error); });
+	}
+
+	async message(msg, user, caseNumber, reason) {
+		let modChannel = await msg.guild.channels.find('name', 'mod-log');
+		if (!msg.guild.member(this.client.user.id).hasPermission('MANAGE_CHANNELS') && !modChannel) {
+			return msg.say(stripIndents`
+				I don't have the permission to manage channels on this server, ${msg.author}
+				If you want logging of bans/kicks you need to either give me permissions to manage channels or create a channel with the name \`mod-log\`!
+			`);
+		}
+		if (!modChannel) {
+			modChannel = await msg.guild.createChannel('mod-log', 'text');
+		}
+
+		return modChannel.sendMessage(stripIndents`**Kick** | Case ${caseNumber}
+			**User:** ${user.username}#${user.discriminator} (${user.id})
+			**Reason:** ${reason}
+			**Responsible Moderator:** ${msg.author.username}#${msg.author.discriminator}
+		`).then(messageID => { CaseModel.messageID(caseNumber, msg.guild.id, messageID.id); });
 	}
 };
