@@ -79,6 +79,7 @@ module.exports = class SoftbanCommand extends Command {
 			userName: `${msg.author.username}#${msg.author.discriminator}`
 		}).save().then(async () => {
 			msg.say(`🆗`);
+
 			return this.message(msg, user, caseNumber, reason);
 		})
 		.catch(error => { winston.error(error); });

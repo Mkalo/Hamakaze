@@ -75,7 +75,8 @@ module.exports = class ReasonCommand extends Command {
 				**Reason:** ${message.reason}
 				**Responsible Moderator:** ${message.userName}
 			`);
-			msg.say(`👌`);
+
+			return msg.say(`👌`);
 		}).catch(error => { winston.error(error); });
 	}
 };
