@@ -83,10 +83,11 @@ client.on('error', winston.error)
 					modChannel = await guild.createChannel('mod-log', 'text');
 				}
 
-				return modChannel.sendMessage(stripIndents`**Ban** | Case ${caseNumber}
+				modChannel.sendMessage(stripIndents`**Ban** | Case ${caseNumber}
 					**User:** ${user.username}#${user.discriminator} (${user.id})
 					Responsible moderator, please do \`reason ${caseNumber} <reason>!\`
 				`).then(messageID => { CaseModel.messageID(caseNumber, guild.id, messageID.id); });
+				return;
 			});
 		});
 	})
@@ -118,10 +119,11 @@ client.on('error', winston.error)
 					modChannel = await guild.createChannel('mod-log', 'text');
 				}
 
-				return modChannel.sendMessage(stripIndents`**Unban** | Case ${caseNumber}
+				modChannel.sendMessage(stripIndents`**Unban** | Case ${caseNumber}
 					**User:** ${user.username}#${user.discriminator} (${user.id})
 					Responsible moderator, please do \`reason ${caseNumber} <reason>!\`
 				`).then(messageID => { CaseModel.messageID(caseNumber, guild.id, messageID.id); });
+				return;
 			});
 		});
 	})

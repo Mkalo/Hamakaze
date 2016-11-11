@@ -6,7 +6,7 @@
   "author": "Crawl",
   "scripts": {
     "start": "",
-    "test": "eslint silent"
+    "test": "eslint ."
   },
   "repository": {
     "type": "git",

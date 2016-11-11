@@ -18,7 +18,7 @@ module.exports = class AboutCommand extends Command {
 		if (!config.OAuthLink) {
 			return msg.say(`I don't have an invite link for you at the moment. Sorry, ${msg.author}.`);
 		}
-		return msg.say(`Use this to add me to a server, ${msg.author}:
+		return msg.say(stripIndents`Use this to add me to a server, ${msg.author}:
 			${config.OAuthLink}
 			Make sure you are logged in!
 		`);
