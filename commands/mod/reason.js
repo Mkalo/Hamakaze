@@ -56,7 +56,7 @@ module.exports = class ReasonCommand extends Command {
 				**Reason:** ${message.reason}
 				**Responsible Moderator:** ${message.userName}
 			`);
-			msg.say(`👌`);
+			msg.say(`👌`).then(okMessage => okMessage.delete(3000));
 		}).catch(error => { winston.error(error); });
 	}
 
@@ -76,7 +76,7 @@ module.exports = class ReasonCommand extends Command {
 				**Responsible Moderator:** ${message.userName}
 			`);
 
-			return msg.say(`👌`);
+			return msg.say(`👌`).then(okMessage => okMessage.delete(3000));
 		}).catch(error => { winston.error(error); });
 	}
 };

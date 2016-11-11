@@ -11,7 +11,7 @@ module.exports = class BanCommand extends Command {
 			group: 'mod',
 			memberName: 'ban',
 			description: 'Bans a user.',
-			format: '<member>',
+			format: '<member> [reason]',
 			guildOnly: true,
 			argsType: 'multiple',
 			argsCount: 2,
@@ -78,7 +78,7 @@ module.exports = class BanCommand extends Command {
 			userID: msg.author.id,
 			userName: `${msg.author.username}#${msg.author.discriminator}`
 		}).save().then(async () => {
-			msg.say(`🆗`);
+			msg.say(`🆗`).then(message => message.delete(3000));
 
 			return this.message(msg, user, caseNumber, reason);
 		})

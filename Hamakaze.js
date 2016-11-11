@@ -57,8 +57,6 @@ client.on('error', winston.error)
 	.on('reconnect', () => { winston.warn('Reconnecting...'); })
 	// Needs work (WIP)
 	.on('guildBanAdd', (guild, user) => {
-		if (!this.client.hasPermission('MANAGE_CHANNELS')) return;
-
 		let caseNumber;
 		CaseModel.getCaseNumber(guild.id).then(caseNum => {
 			caseNumber = parseInt(caseNum.caseNumber) + 1;
@@ -66,31 +64,34 @@ client.on('error', winston.error)
 			caseNumber = 1;
 		})
 		.then(async () => {
-			let modChannel = await guild.channels.find('name', 'mod-log');
-			if (!modChannel) {
-				modChannel = await guild.createChannel('mod-log', 'text');
-			}
+			return new CaseModel({
+				caseNumber: caseNumber,
+				action: 'Ban',
+				targetID: user.id,
+				targetName: `${user.username}#${user.discriminator}`,
+				guildID: guild.id,
+				guildName: guild.name
+			}).save().then(async () => {
+				let modChannel = await guild.channels.find('name', 'mod-log');
+				if (!modChannel) {
+					modChannel = await guild.createChannel('mod-log', 'text');
+				}
 
-			return modChannel.sendMessage(stripIndents`**Ban** | Case ${caseNumber}
-				**User:** ${user.username}#${user.discriminator} (${user.id})
-				Responsible moderator, please do \`reason ${caseNumber} <reason>!\`
-			`).then(message => {
-				return new CaseModel({
-					caseNumber: caseNumber,
-					action: 'Ban',
-					targetID: user.id,
-					targetName: `${user.username}#${user.discriminator}`,
-					guildID: guild.id,
-					guildName: guild.name,
-					messageID: message.id
-				}).save();
+				if (!guild.member(this.client.user.id).hasPermission('MANAGE_CHANNELS') && !modChannel) return;
+
+				if (!modChannel) {
+					modChannel = await guild.createChannel('mod-log', 'text');
+				}
+
+				return modChannel.sendMessage(stripIndents`**Ban** | Case ${caseNumber}
+					**User:** ${user.username}#${user.discriminator} (${user.id})
+					Responsible moderator, please do \`reason ${caseNumber} <reason>!\`
+				`).then(messageID => { CaseModel.messageID(caseNumber, guild.id, messageID.id); });
 			});
 		});
 	})
 	// Needs work (WIP)
 	.on('guildBanRemove', (guild, user) => {
-		if (!this.client.hasPermission('MANAGE_CHANNELS')) return;
-
 		let caseNumber;
 		CaseModel.getCaseNumber(guild.id).then(caseNum => {
 			caseNumber = parseInt(caseNum.caseNumber) + 1;
@@ -98,24 +99,29 @@ client.on('error', winston.error)
 			caseNumber = 1;
 		})
 		.then(async () => {
-			let modChannel = await guild.channels.find('name', 'mod-log');
-			if (!modChannel) {
-				modChannel = await guild.createChannel('mod-log', 'text');
-			}
+			return new CaseModel({
+				caseNumber: caseNumber,
+				action: 'Unban',
+				targetID: user.id,
+				targetName: `${user.username}#${user.discriminator}`,
+				guildID: guild.id,
+				guildName: guild.name
+			}).save().then(async () => {
+				let modChannel = await guild.channels.find('name', 'mod-log');
+				if (!modChannel) {
+					modChannel = await guild.createChannel('mod-log', 'text');
+				}
 
-			return modChannel.sendMessage(stripIndents`**Unban** | Case ${caseNumber}
-				**User:** ${user.username}#${user.discriminator} (${user.id})
-				Responsible moderator, please do \`reason ${caseNumber} <reason>!\`
-			`).then(message => {
-				return new CaseModel({
-					caseNumber: caseNumber,
-					action: 'Unban',
-					targetID: user.id,
-					targetName: `${user.username}#${user.discriminator}`,
-					guildID: guild.id,
-					guildName: guild.name,
-					messageID: message.id
-				}).save();
+				if (!guild.member(this.client.user.id).hasPermission('MANAGE_CHANNELS') && !modChannel) return;
+
+				if (!modChannel) {
+					modChannel = await guild.createChannel('mod-log', 'text');
+				}
+
+				return modChannel.sendMessage(stripIndents`**Unban** | Case ${caseNumber}
+					**User:** ${user.username}#${user.discriminator} (${user.id})
+					Responsible moderator, please do \`reason ${caseNumber} <reason>!\`
+				`).then(messageID => { CaseModel.messageID(caseNumber, guild.id, messageID.id); });
 			});
 		});
 	})
