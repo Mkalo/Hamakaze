@@ -20,7 +20,22 @@ module.exports = class CatgirlCommand extends Command {
 			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
 			json: true
 		})
-		.then(response => { return msg.say(response.url); })
+		.then(response => {
+			let embed = {
+				color: 3447003,
+				author: {
+					name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
+					icon_url: `${msg.author.avatarURL}` // eslint-disable-line camelcase
+				},
+				image: { url: `${response.url}` },
+				timestamp: new Date(),
+				footer: {
+					icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
+					text: 'Catgirls'
+				}
+			};
+			return msg.channel.sendMessage('', { embed });
+		})
 		.catch(error => msg.say(`Error: Status code ${error.status || error.esponse}`));
 	}
 };

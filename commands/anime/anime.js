@@ -53,8 +53,7 @@ module.exports = class AnimeCommand extends Command {
 				color: 3447003,
 				author: {
 					name: title,
-					url: `http://www.anilist.co/anime/${data.id}`,
-					icon_url: `${data.image_url_med}` // eslint-disable-line camelcase
+					url: `http://www.anilist.co/anime/${data.id}`
 				},
 				fields: [
 					{
@@ -93,6 +92,7 @@ module.exports = class AnimeCommand extends Command {
 						inline: false
 					}
 				],
+				thumbnail: { url: `${data.image_url_med}` },
 				footer: {
 					icon_url: msg.client.user.avatarURL, // eslint-disable-line camelcase
 					text: `Started: ${moment.utc(data.start_date).format('DD/MM/YYYY')} | Finished: ${data.end_date !== null ? moment.utc(data.end_date).format('DD/MM/YYYY') : '?'}`
