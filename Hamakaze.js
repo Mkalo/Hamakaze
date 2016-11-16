@@ -73,9 +73,6 @@ client.on('error', winston.error)
 				guildName: guild.name
 			}).save().then(async () => {
 				let modChannel = await guild.channels.find('name', 'mod-log');
-				if (!modChannel) {
-					modChannel = await guild.createChannel('mod-log', 'text');
-				}
 
 				if (!guild.member(this.client.user.id).hasPermission('MANAGE_CHANNELS') && !modChannel) return;
 
@@ -109,9 +106,6 @@ client.on('error', winston.error)
 				guildName: guild.name
 			}).save().then(async () => {
 				let modChannel = await guild.channels.find('name', 'mod-log');
-				if (!modChannel) {
-					modChannel = await guild.createChannel('mod-log', 'text');
-				}
 
 				if (!guild.member(this.client.user.id).hasPermission('MANAGE_CHANNELS') && !modChannel) return;
 

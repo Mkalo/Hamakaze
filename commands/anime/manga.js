@@ -1,17 +1,9 @@
 const { Command } = require('discord.js-commando');
 const moment = require('moment');
 const nani = require('nani');
-const stripIndents = require('common-tags').stripIndents;
 const winston = require('winston');
 
 const config = require('../../settings');
-
-const seasons = {
-	1: 'Winter',
-	2: 'Spring',
-	3: 'Summer',
-	4: 'Fall'
-};
 
 module.exports = class MangaCommand extends Command {
 	constructor(client) {
@@ -26,8 +18,8 @@ module.exports = class MangaCommand extends Command {
 
 			args: [
 				{
-					key: 'anime',
-					prompt: 'What anime would you like to look up?\n',
+					key: 'manga',
+					prompt: 'What manga would you like to look up?\n',
 					type: 'string'
 				}
 			]
@@ -38,8 +30,7 @@ module.exports = class MangaCommand extends Command {
 
 	async run(msg, args) { // eslint-disable-line consistent-return
 		const manga = args.manga;
-		// Because human interaction kek
-		msg.channel.startTyping();
+
 		try {
 			let data = await nani.get(`manga/search/${manga}`);
 			if (!Array.isArray(data)) {
@@ -47,29 +38,63 @@ module.exports = class MangaCommand extends Command {
 				return msg.say(data.error.messages[0]);
 			}
 			data = data.length === 1 ? data[0] : data.find(en => en.title_english.toLowerCase() === manga.toLowerCase() || en.title_romaji.toLowerCase() === manga.toLowerCase()) || data[0];
-			let title = data.title_english !== '' && data.title_romaji !== data.title_english ? `**${data.title_english}** / **${data.title_romaji}** / **${data.title_japanese}**` : `**${data.title_romaji}** / **${data.title_japanese}**`;
-			let synopsis = data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '');
+			let title = data.title_english !== '' && data.title_romaji !== data.title_english ? `${data.title_english} / ${data.title_romaji} / ${data.title_japanese}` : `${data.title_romaji} / ${data.title_japanese}`;
+			let synopsis = data.description ? data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '').substring(0, 1000) : 'No description.';
 			let score = data.average_score / 10;
 
-			// It would be horrible if she wouldn't stop typing
-			msg.channel.stopTyping();
+			let embed = {
+				color: 3447003,
+				author: {
+					name: title,
+					url: `http://www.anilist.co/manga/${data.id}`,
+					icon_url: `${data.image_url_med}` // eslint-disable-line camelcase
+				},
+				fields: [
+					{
+						name: 'Type',
+						value: `${data.type}`,
+						inline: true
+					},
+					{
+						name: 'Volumes',
+						value: `${data.total_volumes}`,
+						inline: true
+					},
+					{
+						name: 'Status',
+						value: `${data.publishing_status.replace(/(\b\w)/gi, lc => lc.toUpperCase())}`,
+						inline: true
+					},
+					{
+						name: 'Genre(s)',
+						value: `${data.genres.join(', ')}`,
+						inline: true
+					},
+					{
+						name: 'Chapters',
+						value: `${data.total_chapters}`,
+						inline: true
+					},
+					{
+						name: 'Score',
+						value: `${score.toFixed(2)}`,
+						inline: true
+					},
+					{
+						name: 'Description:',
+						value: `${synopsis}`,
+						inline: false
+					}
+				],
+				footer: {
+					icon_url: msg.client.user.avatarURL, // eslint-disable-line camelcase
+					text: `Started: ${moment.utc(data.start_date).format('DD/MM/YYYY')} | Finished: ${data.end_date !== null ? moment.utc(data.end_date).format('DD/MM/YYYY') : '?'}`
+				}
+			};
 
-			return msg.say(stripIndents`
-				${title}
-				${data.type}  •  ${data.total_volumes} volumes, ${data.total_chapters} chapters  •  ${data.publishing_status.replace(/(\b\w)/gi, lc => lc.toUpperCase())} (${moment.utc(data.start_date).format('MMM DD, YYYY')} - ${data.end_date !== null ? moment.utc(data.end_date).format('MMM DD, YYYY') : '?'})
-				Season: ${data.season !== null ? this.parseSeason(data.season) : '?'}  •  Scored ${score.toFixed(2)}  •  Genres: ${data.genres.join(', ')}
-				<http://www.anilist.co/manga/${data.id}>
-
-				**Description:**
-				${synopsis}
-			`);
+			return msg.channel.sendMessage('', { embed });
 		} catch (error) {
-			msg.channel.stopTyping();
 			winston.error(error);
 		}
-	}
-
-	parseSeason(season) {
-		return season < 350 ? `${seasons[season % 10]} 20${Math.floor(season / 10)}` : `${seasons[season % 10]} 19${Math.floor(season / 10)}`;
 	}
 };
