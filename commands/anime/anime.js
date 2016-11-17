@@ -88,7 +88,7 @@ module.exports = class AnimeCommand extends Command {
 					},
 					{
 						name: 'Description:',
-						value: `${synopsis}`,
+						value: `${synopsis}\n\u200B`,
 						inline: false
 					}
 				],

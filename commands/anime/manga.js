@@ -81,7 +81,7 @@ module.exports = class MangaCommand extends Command {
 					},
 					{
 						name: 'Description:',
-						value: `${synopsis}`,
+						value: `${synopsis}\n\u200B`,
 						inline: false
 					}
 				],
