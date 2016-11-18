@@ -42,8 +42,10 @@ module.exports = class WeatherAlternativeCommand extends Command {
 			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
 			json: true
 		}).then(response => {
-			if (response.status !== 'OK') return this.handleNotOK(msg, response.body.status);
+			if (response.status !== 'OK') return this.handleNotOK(msg, response.status);
 			if (response.results.length === 0) return msg.reply('I couldn\'t find a place with the location you provded me');
+
+			let geocodelocation = response.results[0].formatted_address;
 
 			return request({
 				uri: `https://api.darksky.net/forecast/${config.WeatherAPIKey}/${response.results[0].geometry.location.lat},${response.results[0].geometry.location.lng}?exclude=minutely,hourly,flags&units=auto`,
@@ -65,7 +67,7 @@ module.exports = class WeatherAlternativeCommand extends Command {
 					color: 3447003,
 					fields: [
 						{
-							name: `${location.substr(0, 35)}`,
+							name: `${geocodelocation.substr(0, 35)}`,
 							value: `${this.getBase(icon)}`,
 							inline: true
 						},
@@ -118,21 +120,20 @@ module.exports = class WeatherAlternativeCommand extends Command {
 			});
 		}).catch(error => {
 			winston.error(error);
-			return msg.say(`Error: Status code ${error.status || error.response} from Google.`);
 		});
 	}
 
 	handleNotOK(msg, status) {
 		if (status === 'ZERO_RESULTS') {
-			return { plain: `${msg.author}, your request returned no results.` };
+			return `${msg.author}, your request returned no results.`;
 		} else if (status === 'REQUEST_DENIED') {
-			return { plain: `Error: Geocode API Request was denied.` };
+			return `Error: Geocode API Request was denied.`;
 		} else if (status === 'INVALID_REQUEST') {
-			return { plain: `Error: Invalid Request,` };
+			return `Error: Invalid Request,`;
 		} else if (status === 'OVER_QUERY_LIMIT') {
-			return { plain: `${msg.author}, Query Limit Exceeded. Try again tomorrow.` };
+			return `${msg.author}, Query Limit Exceeded. Try again tomorrow.`;
 		} else {
-			return { plain: `Error: Unknown.` };
+			return `Error: Unknown.`;
 		}
 	}
 

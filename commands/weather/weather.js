@@ -54,7 +54,7 @@ module.exports = class WeatherCommand extends Command {
 			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
 			json: true
 		}).then(response => {
-			if (response.status !== 'OK') return this.handleNotOK(msg, response.body.status);
+			if (response.status !== 'OK') return this.handleNotOK(msg, response.status);
 			if (response.results.length === 0) return msg.reply('I couldn\'t find a place with the location you provded me');
 
 			let geocodelocation = response.results[0].formatted_address;
@@ -110,14 +110,14 @@ module.exports = class WeatherCommand extends Command {
 					ctx.shadowColor = 'rgba(255, 255, 255, 0.4)';
 					ctx.fillText(datetime, 20, 30);
 
-					if (location.length > 30) {
+					if (geocodelocation.length > 30) {
 						ctx.font = '16px Roboto';
 					} else {
 						ctx.font = '18px Roboto';
 					}
 					ctx.fillStyle = '#FFFFFF';
 					ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-					ctx.fillText(location.substr(0, 35), 25, 52);
+					ctx.fillText(geocodelocation.substr(0, 35), 25, 52);
 
 					// Temperature
 					ctx.font = '88px Roboto';
@@ -178,21 +178,20 @@ module.exports = class WeatherCommand extends Command {
 			});
 		}).catch(error => {
 			winston.error(error);
-			return msg.say(`Error: Status code ${error.status || error.response} from Google.`);
 		});
 	}
 
 	handleNotOK(msg, status) {
 		if (status === 'ZERO_RESULTS') {
-			return { plain: `${msg.author}, your request returned no results.` };
+			return `${msg.author}, your request returned no results.`;
 		} else if (status === 'REQUEST_DENIED') {
-			return { plain: `Error: Geocode API Request was denied.` };
+			return `Error: Geocode API Request was denied.`;
 		} else if (status === 'INVALID_REQUEST') {
-			return { plain: `Error: Invalid Request,` };
+			return `Error: Invalid Request,`;
 		} else if (status === 'OVER_QUERY_LIMIT') {
-			return { plain: `${msg.author}, Query Limit Exceeded. Try again tomorrow.` };
+			return `${msg.author}, Query Limit Exceeded. Try again tomorrow.`;
 		} else {
-			return { plain: `Error: Unknown.` };
+			return `Error: Unknown.`;
 		}
 	}
 
