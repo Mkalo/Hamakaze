@@ -63,7 +63,7 @@ module.exports = class WeatherAlternativeCommand extends Command {
 				let windspeed = res.currently.windSpeed;
 
 				let embed = {
-					color: 3447003,
+					color: this.getColor(icon),
 					fields: [
 						{
 							name: `${geocodelocation.substr(0, 35)}`,
@@ -137,6 +137,14 @@ module.exports = class WeatherAlternativeCommand extends Command {
 		if (icon === 'snow' || icon === 'sleet' || icon === 'fog' || icon === 'wind') return `🌫`;
 		if (icon === 'cloudy') return `☁`;
 		return `☀`;
+	}
+
+	getColor(icon) {
+		if (icon === 'clear-night' || icon === 'partly-cloudly-night') return 8547552;
+		if (icon === 'rain') return 1277387;
+		if (icon === 'snow' || icon === 'sleet' || icon === 'fog' || icon === 'wind') return 11318461;
+		if (icon === 'cloudy') return 8824516;
+		return 5937855;
 	}
 
 	getWindspeedUnit(units) {
