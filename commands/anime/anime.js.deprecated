@@ -22,7 +22,6 @@ module.exports = class AnimeCommand extends Command {
 			memberName: 'anime',
 			description: 'Get info on an anime.',
 			format: '<anime>',
-			guildOnly: true,
 
 			args: [
 				{

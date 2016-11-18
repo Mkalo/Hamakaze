@@ -20,7 +20,6 @@ module.exports = class WeatherCommand extends Command {
 			memberName: 'weather',
 			description: 'Get the weather.',
 			format: '<location>',
-			guildOnly: true,
 
 			args: [
 				{
@@ -171,14 +170,9 @@ module.exports = class WeatherCommand extends Command {
 				windDir.src = fs.readFileSync(path.join(__dirname, `../../assets/weather/pointer.png`));
 				generate();
 
-				return msg.channel.sendFile(canvas.toBuffer(), `${geocodelocation}.png`)
-					.catch(error => { winston.error(error); });
-			}).catch(error => {
-				return winston.error(error);
-			});
-		}).catch(error => {
-			winston.error(error);
-		});
+				return msg.channel.sendFile(canvas.toBuffer(), `${geocodelocation}.png`).catch(error => { winston.error(error); });
+			}).catch(error => { winston.error(error); });
+		}).catch(error => { winston.error(error); });
 	}
 
 	handleNotOK(msg, status) {

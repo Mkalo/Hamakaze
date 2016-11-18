@@ -42,6 +42,7 @@ module.exports = class TagAddCommand extends Command {
 
 		TagModel.get(name, msg.guild.id).then(tag => {
 			if (tag) return msg.say(`A tag with the name **${name}** already exists, ${msg.author}`);
+
 			return new TagModel({
 				userID: msg.author.id,
 				userName: `${msg.author.username}#${msg.author.discriminator}`,
@@ -64,7 +65,8 @@ module.exports = class TagAddCommand extends Command {
 					})
 			}).save().then(doc => {
 				redis.set(name + msg.guild.id, doc.content);
-				msg.say(`A tag with the name **${name}** has been added, ${msg.author}`);
+
+				return msg.say(`A tag with the name **${name}** has been added, ${msg.author}`);
 			});
 		}).catch(error => { winston.error(error); });
 	}

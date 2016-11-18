@@ -14,7 +14,6 @@ module.exports = class MangaCommand extends Command {
 			memberName: 'manga',
 			description: 'Get info on an manga.',
 			format: '<manga/novel>',
-			guildOnly: true,
 
 			args: [
 				{
@@ -93,8 +92,6 @@ module.exports = class MangaCommand extends Command {
 			};
 
 			return msg.channel.sendMessage('', { embed });
-		} catch (error) {
-			winston.error(error);
-		}
+		} catch (error) { winston.error(error); }
 	}
 };

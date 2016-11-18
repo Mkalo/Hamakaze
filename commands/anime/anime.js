@@ -21,7 +21,6 @@ module.exports = class AnimeCommand extends Command {
 			memberName: 'anime',
 			description: 'Get info on an anime.',
 			format: '<anime>',
-			guildOnly: true,
 
 			args: [
 				{
@@ -100,9 +99,7 @@ module.exports = class AnimeCommand extends Command {
 			};
 
 			return msg.channel.sendMessage('', { embed });
-		} catch (error) {
-			winston.error(error);
-		}
+		} catch (error) { winston.error(error); }
 	}
 
 	parseSeason(season) {

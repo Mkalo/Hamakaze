@@ -18,6 +18,7 @@ module.exports = class RepPlusCommand extends Command {
 			guildOnly: true,
 			argsType: 'multiple',
 			argsCount: 2,
+			autoAliases: false,
 
 			args: [
 				{
@@ -49,10 +50,9 @@ module.exports = class RepPlusCommand extends Command {
 					Please wait 24h.
 				`);
 			}
+
 			return this.rep(msg, user, reason);
-		}).catch(() => {
-			return this.rep(msg, user, reason);
-		});
+		}).catch(() => { return this.rep(msg, user, reason); });
 	}
 
 	async rep(msg, user, reason) {

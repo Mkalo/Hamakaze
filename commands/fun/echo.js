@@ -8,6 +8,7 @@ module.exports = class EchoCommand extends Command {
 			memberName: 'echo',
 			description: 'Repeats your message.',
 			format: '<message>',
+			guildOnly: true,
 
 			args: [
 				{
@@ -23,6 +24,7 @@ module.exports = class EchoCommand extends Command {
 
 	async run(msg, args) {
 		msg.delete();
+
 		return msg.say(`${args.message}`);
 	}
 };

@@ -17,7 +17,6 @@ module.exports = class WeatherAlternativeCommand extends Command {
 			memberName: 'weather-alt',
 			description: 'Get the weather.',
 			format: '<location>',
-			guildOnly: true,
 
 			args: [
 				{
@@ -113,14 +112,9 @@ module.exports = class WeatherAlternativeCommand extends Command {
 					}
 				};
 
-				return msg.channel.sendMessage('', { embed })
-					.catch(error => { winston.error(error); });
-			}).catch(error => {
-				return winston.error(error);
-			});
-		}).catch(error => {
-			winston.error(error);
-		});
+				return msg.channel.sendMessage('', { embed }).catch(error => { winston.error(error); });
+			}).catch(error => { winston.error(error); });
+		}).catch(error => { winston.error(error); });
 	}
 
 	handleNotOK(msg, status) {

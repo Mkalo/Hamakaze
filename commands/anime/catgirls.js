@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const request = require('request-promise');
+const winston = require('winston');
 
 const version = require('../../package').version;
 
@@ -36,6 +37,6 @@ module.exports = class CatgirlCommand extends Command {
 			};
 			return msg.channel.sendMessage('', { embed });
 		})
-		.catch(error => msg.say(`Error: Status code ${error.status || error.esponse}`));
+		.catch(error => { winston.error(error); });
 	}
 };

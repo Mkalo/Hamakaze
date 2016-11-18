@@ -41,9 +41,7 @@ module.exports = class KickCommand extends Command {
 			`);
 		}
 		if (!msg.member.hasPermission('KICK_MEMBERS')) {
-			return msg.say(stripIndents`
-				You don't have the permission to kick member on this server, ${msg.author}
-			`);
+			return msg.say(`You don't have the permission to kick member on this server, ${msg.author}`);
 		}
 
 		const member = args.member;

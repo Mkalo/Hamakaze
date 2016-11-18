@@ -36,11 +36,13 @@ module.exports = class TagCommand extends Command {
 			if (err) return winston.error(err);
 			if (reply) {
 				TagModel.incrementUses(name, guildID);
+
 				return msg.say(reply);
 			} else {
 				return TagModel.get(name, guildID).then(tag => {
 					if (!tag) return msg.say(`A tag with the name **${name}** doesn't exist, ${msg.author}`);
 					TagModel.incrementUses(name, guildID);
+
 					return redis.set(name + guildID, tag.content, () => { msg.say(tag.content); });
 				}).catch(error => { winston.error(error); });
 			}

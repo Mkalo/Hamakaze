@@ -41,9 +41,7 @@ module.exports = class SoftbanCommand extends Command {
 			`);
 		}
 		if (!msg.member.hasPermission('BAN_MEMBERS')) {
-			return msg.say(stripIndents`
-				You don't have the permission to ban member on this server, ${msg.author}
-			`);
+			return msg.say(`You don't have the permission to ban member on this server, ${msg.author}`);
 		}
 
 		const member = args.member;
