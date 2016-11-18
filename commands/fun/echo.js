@@ -14,6 +14,7 @@ module.exports = class EchoCommand extends Command {
 					key: 'message',
 					prompt: 'What would you like me to say?\n',
 					type: 'string',
+					default: '',
 					max: 1000
 				}
 			]

@@ -29,7 +29,8 @@ module.exports = class TagAddCommand extends Command {
 					key: 'content',
 					label: 'tagcontent',
 					prompt: 'What content would you like to add?\n',
-					type: 'string'
+					type: 'string',
+					max: 1800
 				}
 			]
 		});

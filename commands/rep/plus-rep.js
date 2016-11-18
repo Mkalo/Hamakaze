@@ -30,7 +30,7 @@ module.exports = class RepPlusCommand extends Command {
 					label: 'repreason',
 					prompt: 'What reason would you like to add?\n',
 					type: 'string',
-					max: 60
+					max: 200
 				}
 			]
 		});
