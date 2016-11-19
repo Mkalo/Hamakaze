@@ -55,7 +55,8 @@ module.exports = class FortuneCommand extends Command {
 			json: true
 		}).then(response => {
 			return msg.say(stripIndents`🗳 ${response.title}
-				<http://strawpoll.me/${response.id}>`);
+				<http://strawpoll.me/${response.id}>
+			`);
 		}).catch(error => { winston.error(error); });
 	}
 };
