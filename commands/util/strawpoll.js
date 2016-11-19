@@ -21,12 +21,14 @@ module.exports = class FortuneCommand extends Command {
 				{
 					key: 'title',
 					prompt: 'What title would you like the strawpoll to have?\n',
-					type: 'string'
+					type: 'string',
+					max: 200
 				},
 				{
 					key: 'options',
 					prompt: 'What options would you like the strawpoll to have?\n',
 					type: 'string',
+					max: 160,
 					infinite: true
 				}
 			]
@@ -47,7 +49,8 @@ module.exports = class FortuneCommand extends Command {
 			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
 			body: {
 				title: title,
-				options: options
+				options: options,
+				captcha: true
 			},
 			json: true
 		}).then(response => {
