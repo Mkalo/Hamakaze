@@ -51,23 +51,24 @@ module.exports = class ReasonCommand extends Command {
 		editMsg.edit(stripIndents`**${caseReason.action}** | Case ${caseNumber}
 			**User:** ${caseReason.targetName} (${caseReason.targetID})
 			**Reason:** ${caseReason.reason}
-			**Responsible Moderator:** ${caseReason.userName}
+			**Responsible Moderator:** ${caseReason.moderatorName}
 		`);
+
 		return msg.say(`👌`).then(okMessage => okMessage.delete(3000));
 	}
 
 	async update(msg, caseNumber, reason) {
 		let channelID = await msg.guild.channels.find('name', 'mod-log');
 		let checkMod = await Case.findOne({ where: { caseNumber, guildID: msg.guild.id } });
-		if (msg.author.id !== checkMod.userID) return msg.say(`Only the responsible moderator can change their reason, ${msg.author}`);
+		if (msg.author.id !== checkMod.moderatorID) return msg.say(`Only the responsible moderator can change their reason, ${msg.author}`);
 		Case.update({ reason }, { where: { caseNumber, guildID: msg.guild.id } });
 
 		let caseReason = await Case.findOne({ where: { caseNumber, guildID: msg.guild.id } });
-		let editMsg = await channelID.fetchMessage(caseReason.caseReasonID);
+		let editMsg = await channelID.fetchMessage(caseReason.messageID);
 		editMsg.edit(stripIndents`**${caseReason.action}** | Case ${caseNumber}
 			**User:** ${caseReason.targetName} (${caseReason.targetID})
 			**Reason:** ${caseReason.reason}
-			**Responsible Moderator:** ${caseReason.userName}
+			**Responsible Moderator:** ${caseReason.moderatorName}
 		`);
 
 		return msg.say(`👌`).then(okMessage => okMessage.delete(3000));

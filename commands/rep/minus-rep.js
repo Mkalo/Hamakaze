@@ -88,10 +88,10 @@ module.exports = class RepMinusCommand extends Command {
 								userID: user.id,
 								userName: `${user.username}#${user.discriminator}`,
 								guildID: msg.guild.id,
-								guildName: msg.guild.name
+								guildName: msg.guild.name,
+								negative: 1
 							});
 						});
-					RepUser.increment('negative');
 
 					return msg.say(`Successfully rep'd **${user.username}**, ${msg.author}`);
 				}

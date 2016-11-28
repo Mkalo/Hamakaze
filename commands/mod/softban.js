@@ -48,14 +48,14 @@ module.exports = class SoftbanCommand extends Command {
 
 		if (!member.bannable) return msg.say(`I can't do that, ${msg.author}`);
 
-		let caseNumber = await Case.findOne({ where: { caseNumber, guildID: msg.guild.id }, order: ['caseNumber', 'DESC'] });
+		let caseNumber = await Case.findOne({ where: { guildID: msg.guild.id }, order: '"caseNumber" DESC' });
 		if (!caseNumber) {
 			caseNumber = 1;
 
 			return this.ban(msg, member, user, caseNumber, reason);
 		}
 
-		caseNumber = parseInt(caseNumber) + 1;
+		caseNumber = parseInt(caseNumber.caseNumber) + 1;
 
 		return this.ban(msg, member, user, caseNumber, reason);
 	}
@@ -73,8 +73,8 @@ module.exports = class SoftbanCommand extends Command {
 					guildID: msg.guild.id,
 					guildName: msg.guild.name,
 					reason: reason,
-					userID: msg.author.id,
-					userName: `${msg.author.username}#${msg.author.discriminator}`
+					moderatorID: msg.author.id,
+					moderatorName: `${msg.author.username}#${msg.author.discriminator}`
 				});
 				msg.say(`🆗`).then(message => message.delete(3000));
 

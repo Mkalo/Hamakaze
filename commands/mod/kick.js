@@ -48,7 +48,7 @@ module.exports = class KickCommand extends Command {
 
 		if (!member.kickable) return msg.say(`I can't do that, ${msg.author}`);
 
-		let caseNumber = await Case.findOne({ where: { caseNumber, guildID: msg.guild.id }, order: ['caseNumber', 'DESC'] });
+		let caseNumber = await Case.findOne({ where: { guildID: msg.guild.id }, order: '"caseNumber" DESC' });
 		if (!caseNumber) {
 			caseNumber = 1;
 
@@ -73,8 +73,8 @@ module.exports = class KickCommand extends Command {
 					guildID: msg.guild.id,
 					guildName: msg.guild.name,
 					reason: reason,
-					userID: msg.author.id,
-					userName: `${msg.author.username}#${msg.author.discriminator}`
+					moderatorID: msg.author.id,
+					moderatorName: `${msg.author.username}#${msg.author.discriminator}`
 				});
 				msg.say(`🆗`).then(message => message.delete(3000));
 

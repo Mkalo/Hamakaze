@@ -88,10 +88,10 @@ module.exports = class RepPlusCommand extends Command {
 								userID: user.id,
 								userName: `${user.username}#${user.discriminator}`,
 								guildID: msg.guild.id,
-								guildName: msg.guild.name
+								guildName: msg.guild.name,
+								positive: 1
 							});
 						});
-					RepUser.increment('positive');
 
 					return msg.say(`Successfully rep'd **${user.username}**, ${msg.author}`);
 				}
