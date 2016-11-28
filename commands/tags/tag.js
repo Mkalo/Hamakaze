@@ -1,8 +1,7 @@
 const { Command } = require('discord.js-commando');
-const winston = require('winston');
 
 const { redis } = require('../../redis/redis');
-const TagModel = require('../../mongoDB/models/Tag');
+const Tag = require('../../postgreSQL/models/Tag');
 
 module.exports = class TagCommand extends Command {
 	constructor(client) {
@@ -32,19 +31,18 @@ module.exports = class TagCommand extends Command {
 	}
 
 	async findTagCached(msg, name, guildID) {
-		redis.get(name + guildID, (err, reply) => {
-			if (err) return winston.error(err);
-			if (reply) {
-				TagModel.incrementUses(name, guildID);
+		return redis.getAsync(name + guildID).then(async reply => {
+			if (reply !== 'undefined') {
+				let tag = await Tag.findOne({ where: { name: name, guildID: guildID } });
+				if (tag) tag.increment('uses');
 
 				return msg.say(reply);
 			} else {
-				return TagModel.get(name, guildID).then(tag => {
-					if (!tag) return msg.say(`A tag with the name **${name}** doesn't exist, ${msg.author}`);
-					TagModel.incrementUses(name, guildID);
+				let tag = await Tag.findOne({ where: { name: name, guildID: guildID } });
+				if (!tag) return msg.say(`A tag with the name **${name}** doesn't exist, ${msg.author}`);
+				tag.increment('uses');
 
-					return redis.set(name + guildID, tag.content, () => { msg.say(tag.content); });
-				}).catch(error => { winston.error(error); });
+				return redis.set(name + guildID, tag.content, () => { msg.say(tag.content); });
 			}
 		});
 	}

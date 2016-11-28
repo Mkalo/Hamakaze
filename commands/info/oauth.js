@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const stripIndents = require('common-tags').stripIndents;
 
-const config = require('../../settings');
+const oAuthLink = require('../../settings').oAuthLink;
 
 module.exports = class AboutCommand extends Command {
 	constructor(client) {
@@ -15,11 +15,11 @@ module.exports = class AboutCommand extends Command {
 	}
 
 	async run(msg) {
-		if (!config.OAuthLink) {
+		if (!oAuthLink) {
 			return msg.say(`I don't have an invite link for you at the moment. Sorry, ${msg.author}.`);
 		}
 		return msg.say(stripIndents`Use this to add me to a server, ${msg.author}:
-			${config.OAuthLink}
+			${oAuthLink}
 			Make sure you are logged in!
 		`);
 	}

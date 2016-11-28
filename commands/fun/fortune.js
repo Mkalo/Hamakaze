@@ -32,7 +32,7 @@ module.exports = class FortuneCommand extends Command {
 
 		return request({
 			uri: `http://www.yerkee.com/api/fortune/${category}`,
-			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
+			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/hamakaze-moe/Hamakaze/)` },
 			json: true
 		}).then(response => { return msg.say(response.fortune); }).catch(error => { winston.error(error); });
 	}

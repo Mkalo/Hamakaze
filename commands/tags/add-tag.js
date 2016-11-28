@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const winston = require('winston');
 
 const { redis } = require('../../redis/redis');
-const TagModel = require('../../mongoDB/models/Tag');
+const Tag = require('../../postgreSQL/models/Tag');
 
 module.exports = class TagAddCommand extends Command {
 	constructor(client) {
@@ -15,8 +15,6 @@ module.exports = class TagAddCommand extends Command {
 			format: '<tagname> <tagcontent>',
 			details: `Adds a Tag, usable for everyone on the server. (Markdown can be used.)`,
 			guildOnly: true,
-			argsType: 'multiple',
-			argsCount: 2,
 
 			args: [
 				{
@@ -40,34 +38,39 @@ module.exports = class TagAddCommand extends Command {
 		const name = args.name.toLowerCase();
 		const content = args.content;
 
-		TagModel.get(name, msg.guild.id).then(tag => {
-			if (tag) return msg.say(`A tag with the name **${name}** already exists, ${msg.author}`);
+		let tag = await Tag.findOne({ where: { name, guildID: msg.guild.id } });
+		if (tag) return msg.say(`A tag with the name **${name}** already exists, ${msg.author}`);
 
-			return new TagModel({
-				userID: msg.author.id,
-				userName: `${msg.author.username}#${msg.author.discriminator}`,
-				guildID: msg.guild.id,
-				guildName: msg.guild.name,
-				channelID: msg.channel.id,
-				channelName: msg.channel.name,
-				name: name,
-				content: content.replace(/@everyone/g, '@\u200Beveryone')
-					.replace(/@here/g, '@\u200Bhere')
-					.replace(/<@&[0-9]+>/g, roles => {
-						let replaceID = roles.replace(/<|&|>|@/g, '');
-						let role = msg.channel.guild.roles.get(replaceID);
-						return `@${role.name}`;
-					})
-					.replace(/<@!?[0-9]+>/g, user => {
-						let replaceID = user.replace(/<|!|>|@/g, '');
-						let member = msg.channel.guild.members.get(replaceID);
-						return `@${member.user.username}`;
-					})
-			}).save().then(doc => {
-				redis.set(name + msg.guild.id, doc.content);
+		let cleanContent = content.replace(/@everyone/g, '@\u200Beveryone')
+			.replace(/@here/g, '@\u200Bhere')
+			.replace(/<@&[0-9]+>/g, roles => {
+				let replaceID = roles.replace(/<|&|>|@/g, '');
+				let role = msg.channel.guild.roles.get(replaceID);
+				return `@${role.name}`;
+			})
+			.replace(/<@!?[0-9]+>/g, user => {
+				let replaceID = user.replace(/<|!|>|@/g, '');
+				let member = msg.channel.guild.members.get(replaceID);
+				return `@${member.user.username}`;
+			});
+
+		return Tag.sync()
+			.then(() => {
+				Tag.create({
+					userID: msg.author.id,
+					userName: `${msg.author.username}#${msg.author.discriminator}`,
+					guildID: msg.guild.id,
+					guildName: msg.guild.name,
+					channelID: msg.channel.id,
+					channelName: msg.channel.name,
+					name: name,
+					content: cleanContent
+				});
+
+				redis.setAsync(name + msg.guild.id, cleanContent);
 
 				return msg.say(`A tag with the name **${name}** has been added, ${msg.author}`);
-			});
-		}).catch(error => { winston.error(error); });
+			})
+			.catch(error => { winston.error(error); });
 	}
 };

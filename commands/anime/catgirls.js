@@ -18,7 +18,7 @@ module.exports = class CatgirlCommand extends Command {
 	async run(msg) {
 		return request({
 			uri: 'http://catgirls.brussell98.tk/api/random',
-			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
+			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/hamakaze-moe/Hamakaze/)` },
 			json: true
 		})
 		.then(response => {

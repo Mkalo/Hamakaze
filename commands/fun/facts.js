@@ -61,7 +61,7 @@ module.exports = class FactsCommand extends Command {
 		let type = subcategory ? types.includes(subcategory) ? subcategory : types[Math.floor(Math.random() * types.length)] : types[Math.floor(Math.random() * types.length)];
 		return request({
 			uri: `http://numbersapi.com/random/${type}`,
-			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
+			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/hamakaze-moe/Hamakaze/)` },
 			json: true
 		}).then(response => { return msg.say(response); }).catch(error => { winston.error(error); });
 	}
@@ -70,7 +70,7 @@ module.exports = class FactsCommand extends Command {
 		if (number) {
 			return request({
 				uri: `http://numbersapi.com/${number}/${type}`,
-				headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
+				headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/hamakaze-moe/Hamakaze/)` },
 				json: true
 			}).then(response => { return msg.say(response); }).catch(error => { winston.error(error); });
 		}
@@ -80,7 +80,7 @@ module.exports = class FactsCommand extends Command {
 	async getCat(msg) {
 		return request({
 			uri: 'http://catfacts-api.appspot.com/api/facts',
-			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/iCrawl/Hamakaze/)` },
+			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/hamakaze-moe/Hamakaze/)` },
 			json: true
 		}).then(response => {
 			return msg.say(stripIndents`🐱 **${msg.author}, did you know:**
