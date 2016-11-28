@@ -1,6 +1,5 @@
 const { Command } = require('discord.js-commando');
 const stripIndents = require('common-tags').stripIndents;
-const winston = require('winston');
 
 const Case = require('../../postgreSQL/models/Case');
 
@@ -34,47 +33,43 @@ module.exports = class ReasonCommand extends Command {
 		const caseNumber = args.caseNumber;
 		const reason = args.reason;
 
-		return CaseModel.get(caseNumber, msg.guild.id).then(checkReason => {
-			if (checkReason.reason === 'Placeholder') return this.updateReason(msg, caseNumber, reason);
+		let checkReason = await Case.findOne({ where: caseNumber, guildID: msg.guild.id });
+		if (!checkReason) return msg.say(`I couldn't find a case with this number, ${msg.author}`);
+		if (checkReason.reason === 'Placeholder') return this.updateReason(msg, caseNumber, reason);
 
-			return this.update(msg, caseNumber, reason);
-		}).catch(() => { msg.say(`I couldn't find a case with this number, ${msg.author}`); });
+		return this.update(msg, caseNumber, reason);
 	}
 
 	async updateReason(msg, caseNumber, reason) {
 		if (!msg.member.hasPermission('BAN_MEMBERS')) return msg.say(`You can't possibly have banned this user, ${msg.author}!`);
 		let channelID = await msg.guild.channels.find('name', 'mod-log');
 		let userName = `${msg.author.username}#${msg.author.discriminator}`;
-		CaseModel.updateReason(caseNumber, msg.guild.id, reason, msg.author.id, userName);
+		Case.update({ reason, moderatorID: msg.author.id, moderatorName: userName }, { where: { caseNumber, guildID: msg.guild.id } });
 
-		return CaseModel.get(caseNumber, msg.guild.id).then(async message => {
-			let editMsg = await channelID.fetchMessage(message.messageID);
-			editMsg.edit(stripIndents`**${message.action}** | Case ${caseNumber}
-				**User:** ${message.targetName} (${message.targetID})
-				**Reason:** ${message.reason}
-				**Responsible Moderator:** ${message.userName}
-			`);
-			msg.say(`👌`).then(okMessage => okMessage.delete(3000));
-		}).catch(error => { winston.error(error); });
+		let caseReason = await Case.findOne({ where: { caseNumber, guildID: msg.guild.id } });
+		let editMsg = await channelID.fetchMessage(caseReason.messageID);
+		editMsg.edit(stripIndents`**${caseReason.action}** | Case ${caseNumber}
+			**User:** ${caseReason.targetName} (${caseReason.targetID})
+			**Reason:** ${caseReason.reason}
+			**Responsible Moderator:** ${caseReason.userName}
+		`);
+		return msg.say(`👌`).then(okMessage => okMessage.delete(3000));
 	}
 
 	async update(msg, caseNumber, reason) {
 		let channelID = await msg.guild.channels.find('name', 'mod-log');
-		CaseModel.get(caseNumber, msg.guild.id).then(checkMod => {
-			if (msg.author.id !== checkMod.userID) msg.say(`Only the responsible moderator can change their reason, ${msg.author}`);
-			return;
-		});
-		CaseModel.update(caseNumber, msg.guild.id, reason);
+		let checkMod = await Case.findOne({ where: { caseNumber, guildID: msg.guild.id } });
+		if (msg.author.id !== checkMod.userID) return msg.say(`Only the responsible moderator can change their reason, ${msg.author}`);
+		Case.update({ reason }, { where: { caseNumber, guildID: msg.guild.id } });
 
-		return CaseModel.get(caseNumber, msg.guild.id).then(async message => {
-			let editMsg = await channelID.fetchMessage(message.messageID);
-			editMsg.edit(stripIndents`**${message.action}** | Case ${caseNumber}
-				**User:** ${message.targetName} (${message.targetID})
-				**Reason:** ${message.reason}
-				**Responsible Moderator:** ${message.userName}
-			`);
+		let caseReason = await Case.findOne({ where: { caseNumber, guildID: msg.guild.id } });
+		let editMsg = await channelID.fetchMessage(caseReason.caseReasonID);
+		editMsg.edit(stripIndents`**${caseReason.action}** | Case ${caseNumber}
+			**User:** ${caseReason.targetName} (${caseReason.targetID})
+			**Reason:** ${caseReason.reason}
+			**Responsible Moderator:** ${caseReason.userName}
+		`);
 
-			return msg.say(`👌`).then(okMessage => okMessage.delete(3000));
-		}).catch(error => { winston.error(error); });
+		return msg.say(`👌`).then(okMessage => okMessage.delete(3000));
 	}
 };
