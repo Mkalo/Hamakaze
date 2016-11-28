@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const stripIndents = require('common-tags').stripIndents;
 const winston = require('winston');
 
-const CaseModel = require('../../mongoDB/models/Case');
+const Case = require('../../postgreSQL/models/Case');
 
 module.exports = class BanCommand extends Command {
 	constructor(client) {
@@ -13,8 +13,6 @@ module.exports = class BanCommand extends Command {
 			description: 'Bans a user.',
 			format: '<member> [reason]',
 			guildOnly: true,
-			argsType: 'multiple',
-			argsCount: 2,
 
 			args: [
 				{
@@ -27,7 +25,7 @@ module.exports = class BanCommand extends Command {
 					prompt: 'What is your reason for the ban?\n',
 					type: 'string',
 					default: '',
-					max: 200
+					max: 250
 				}
 			]
 		});
@@ -47,40 +45,42 @@ module.exports = class BanCommand extends Command {
 		const member = args.member;
 		const user = member.user;
 		const reason = args.reason;
-		let caseNumber;
 
 		if (!member.bannable) return msg.say(`I can't do that, ${msg.author}`);
 
-		return CaseModel.getCaseNumber(msg.guild.id).then(caseNum => {
-			caseNumber = parseInt(caseNum.caseNumber) + 1;
-
-			return this.ban(msg, member, user, caseNumber, reason);
-		}).catch(() => {
+		let caseNumber = await Case.findOne({ where: { caseNumber, guildID: msg.guild.id }, order: ['caseNumber', 'DESC'] });
+		if (!caseNumber) {
 			caseNumber = 1;
 
 			return this.ban(msg, member, user, caseNumber, reason);
-		});
+		}
+
+		caseNumber = parseInt(caseNumber) + 1;
+
+		return this.ban(msg, member, user, caseNumber, reason);
 	}
 
 	async ban(msg, member, user, caseNumber, reason) {
 		member.ban(1);
 
-		return new CaseModel({
-			caseNumber: caseNumber,
-			action: 'Ban',
-			targetID: user.id,
-			targetName: `${user.username}#${user.discriminator}`,
-			guildID: msg.guild.id,
-			guildName: msg.guild.name,
-			reason: reason,
-			userID: msg.author.id,
-			userName: `${msg.author.username}#${msg.author.discriminator}`
-		}).save().then(async () => {
-			msg.say(`🆗`).then(message => message.delete(3000));
+		return Case.sync()
+			.then(() => {
+				Case.create({
+					caseNumber: caseNumber,
+					action: 'Ban',
+					targetID: user.id,
+					targetName: `${user.username}#${user.discriminator}`,
+					guildID: msg.guild.id,
+					guildName: msg.guild.name,
+					reason: reason,
+					userID: msg.author.id,
+					userName: `${msg.author.username}#${msg.author.discriminator}`
+				});
+				msg.say(`🆗`).then(message => message.delete(3000));
 
-			return this.message(msg, user, caseNumber, reason);
-		})
-		.catch(error => { winston.error(error); });
+				return this.message(msg, user, caseNumber, reason);
+			})
+			.catch(error => { winston.error(error); });
 	}
 
 	async message(msg, user, caseNumber, reason) {
@@ -99,6 +99,6 @@ module.exports = class BanCommand extends Command {
 			**User:** ${user.username}#${user.discriminator} (${user.id})
 			**Reason:** ${reason ? reason : `Responsible moderator, please do \`reason ${caseNumber} <reason>!\``}
 			**Responsible Moderator:** ${msg.author.username}#${msg.author.discriminator}
-		`).then(messageID => { CaseModel.messageID(caseNumber, msg.guild.id, messageID.id); });
+		`).then(messageID => { Case.update({ messageID: messageID.id }, { where: { caseNumber, guildID: msg.guild.id } }); });
 	}
 };

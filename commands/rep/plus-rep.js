@@ -16,8 +16,6 @@ module.exports = class RepPlusCommand extends Command {
 			format: '<member> <reason>',
 			details: `Positively rep someone, usable for everyone on the server. (Markdown can be used.)`,
 			guildOnly: true,
-			argsType: 'multiple',
-			argsCount: 2,
 			autoAliases: false,
 
 			args: [
@@ -31,7 +29,7 @@ module.exports = class RepPlusCommand extends Command {
 					label: 'repreason',
 					prompt: 'What reason would you like to add?\n',
 					type: 'string',
-					max: 200
+					max: 250
 				}
 			]
 		});

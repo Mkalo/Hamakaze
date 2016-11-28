@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const stripIndents = require('common-tags').stripIndents;
 const winston = require('winston');
 
-const CaseModel = require('../../mongoDB/models/Case');
+const Case = require('../../postgreSQL/models/Case');
 
 module.exports = class ReasonCommand extends Command {
 	constructor(client) {
@@ -13,8 +13,6 @@ module.exports = class ReasonCommand extends Command {
 			description: 'Reason for a Ban/Kick.',
 			format: '<caseNumber> <reason>',
 			guildOnly: true,
-			argsType: 'multiple',
-			argsCount: 2,
 
 			args: [
 				{
@@ -26,7 +24,7 @@ module.exports = class ReasonCommand extends Command {
 					key: 'reason',
 					prompt: 'What is your reason for the ban/kick?\n',
 					type: 'string',
-					max: 200
+					max: 250
 				}
 			]
 		});

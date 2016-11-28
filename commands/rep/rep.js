@@ -15,8 +15,6 @@ module.exports = class RepCommand extends Command {
 			format: '<member> [page]',
 			details: `Shows someones rep, usable for everyone on the server.`,
 			guildOnly: true,
-			argsType: 'multiple',
-			argsCount: 2,
 
 			args: [
 				{
