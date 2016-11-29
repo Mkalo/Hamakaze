@@ -1,6 +1,5 @@
 const { Command } = require('discord.js-commando');
 const moment = require('moment');
-const stripIndents = require('common-tags').stripIndents;
 
 const Tag = require('../../postgreSQL/models/Tag');
 
