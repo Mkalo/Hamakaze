@@ -14,26 +14,7 @@ const client = new commando.Client({
 	commandPrefix: '',
 	disableEveryone: true,
 	messageCacheLifetime: 30,
-	messageSweepInterval: 60,
-	disabledEvents: [
-		'GUILD_UPDATE',
-		'GUILD_UNAVAILABLE',
-		'GUILD_AVAILABLE',
-		'GUILD_MEMBER_UPDATE',
-		'GUILD_MEMBER_AVAILABLE',
-		'GUILD_MEMBER_SPEAKING',
-		'GUILD_ROLE_UPDATE',
-		'CHANNEL_UPDATE',
-		'CHANNEL_PINS_UPDATE',
-		'MESSAGE_DELETE_BULK',
-		'USER_UPDATE',
-		'USER_NOTE_UPDATE',
-		'PRESENCE_UPDATE',
-		'TYPING_START',
-		'VOICE_STATE_UPDATE',
-		'RELATIONSHIP_ADD',
-		'RELATIONSHIP_REMOVE'
-	]
+	messageSweepInterval: 60
 });
 
 client.on('error', winston.error)

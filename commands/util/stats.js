@@ -19,7 +19,7 @@ module.exports = class StatsCommand extends Command {
 	async run(msg) {
 		let embed = {
 			color: 3447003,
-			description: '**Commando Statistics**\n',
+			description: '**Hamakaze Statistics**\n',
 			fields: [
 				{
 					name: '❯ Uptime',

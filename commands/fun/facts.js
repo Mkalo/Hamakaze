@@ -20,6 +20,10 @@ module.exports = class FactsCommand extends Command {
 				Formats: \`random trivia\` \`number 42\` \`math 42\` \`date 7/17\` \`year 1777\``,
 			argsType: 'multiple',
 			argsCount: 2,
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{

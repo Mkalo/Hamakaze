@@ -16,6 +16,10 @@ module.exports = class RepMinusCommand extends Command {
 			details: `Negatively rep someone, usable for everyone on the server. (Markdown can be used.)`,
 			guildOnly: true,
 			autoAliases: false,
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{

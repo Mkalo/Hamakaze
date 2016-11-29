@@ -11,7 +11,11 @@ module.exports = class TagListCommand extends Command {
 			group: 'tags',
 			memberName: 'tag-list',
 			description: 'Lists all server tags.',
-			guildOnly: true
+			guildOnly: true,
+			throttling: {
+				usages: 2,
+				duration: 3
+			}
 		});
 	}
 
@@ -20,7 +24,7 @@ module.exports = class TagListCommand extends Command {
 		if (!tags) return msg.say(`${msg.guild.name} doesn't have any tags, ${msg.author}. Why not add one?`);
 
 		return msg.say(stripIndents`**❯ Tags:**
-				${tags.map(tag => tag.name).sort().join(', ')}
+			${tags.map(tag => tag.name).sort().join(', ')}
 		`);
 	}
 };

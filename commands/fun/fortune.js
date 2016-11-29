@@ -15,6 +15,10 @@ module.exports = class FortuneCommand extends Command {
 			format: '[category]',
 			details: stripIndents`Get a fortune. The following categories are avaliable:
 				all, computers, cookie, definitions, miscellaneous, people, platitudes, politics, science, and wisdom.`,
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{

@@ -9,15 +9,19 @@ module.exports = class TagCommand extends Command {
 			name: 'tag',
 			group: 'tags',
 			memberName: 'tag',
-			description: 'Displays a Tag.',
+			description: 'Displays a tag.',
 			format: '<tagname>',
 			guildOnly: true,
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{
 					key: 'name',
 					label: 'tagname',
-					prompt: 'What Tag would you like to see?\n',
+					prompt: 'What tag would you like to see?\n',
 					type: 'string'
 				}
 			]
@@ -32,7 +36,7 @@ module.exports = class TagCommand extends Command {
 
 	async findTagCached(msg, name, guildID) {
 		return redis.getAsync(name + guildID).then(async reply => {
-			if (reply !== 'undefined') {
+			if (reply) {
 				let tag = await Tag.findOne({ where: { name: name, guildID: guildID } });
 				if (tag) tag.increment('uses');
 
@@ -42,7 +46,10 @@ module.exports = class TagCommand extends Command {
 				if (!tag) return msg.say(`A tag with the name **${name}** doesn't exist, ${msg.author}`);
 				tag.increment('uses');
 
-				return redis.set(name + guildID, tag.content, () => { msg.say(tag.content); });
+				return redis.setAsync(name + guildID, tag.content)
+					.then(() => {
+						msg.say(tag.content);
+					});
 			}
 		});
 	}

@@ -11,7 +11,11 @@ module.exports = class CatgirlCommand extends Command {
 			aliases: ['nyaa', 'neko', 'catgirls'],
 			group: 'fun',
 			memberName: 'catgirl',
-			description: 'Posts a random catgirl.'
+			description: 'Posts a random catgirl.',
+			throttling: {
+				usages: 2,
+				duration: 3
+			}
 		});
 	}
 

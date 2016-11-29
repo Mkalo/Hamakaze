@@ -11,15 +11,19 @@ module.exports = class TagWhoCommand extends Command {
 			aliases: ['tag-who'],
 			group: 'tags',
 			memberName: 'tag-info',
-			description: 'Displays information about a Tag.',
+			description: 'Displays information about a tag.',
 			format: '<tagname>',
 			guildOnly: true,
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{
 					key: 'name',
 					label: 'tagname',
-					prompt: 'What Tag would you like to have information on?\n',
+					prompt: 'What tag would you like to have information on?\n',
 					type: 'string'
 				}
 			]
