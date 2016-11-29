@@ -97,7 +97,7 @@ module.exports = class AnimeCommand extends Command {
 				],
 				thumbnail: { url: `${data.image_url_med}` },
 				footer: {
-					icon_url: msg.client.user.avatarURL, // eslint-disable-line camelcase
+					icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
 					text: `Started: ${moment.utc(data.start_date).format('DD/MM/YYYY')} | Finished: ${data.end_date !== null ? moment.utc(data.end_date).format('DD/MM/YYYY') : '?'}`
 				}
 			};
