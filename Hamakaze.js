@@ -86,16 +86,16 @@ if (config.abalURL && config.abalKey) {
 }
 
 function sendAbalStats() {
-	const body = { server_count: this.client.guilds.size }; // eslint-disable-line camelcase
+	const body = { server_count: client.guilds.size }; // eslint-disable-line camelcase
 
 	request({
 		method: 'POST',
-		uri: `${config.bdpwUrl}/bots/${this.client.user.id}/stats`,
-		headers: { Authorization: config.bdpwKey },
+		uri: `${config.abalURL}/bots/${client.user.id}/stats`,
+		headers: { Authorization: config.abalKey },
 		body: body,
 		json: true
 	}).then(() => {
-		winston.info(`Sent guild count to bots.discord.pw with ${this.client.guilds.size} guilds.`);
+		winston.info(`Sent guild count to bots.discord.pw with ${client.guilds.size} guilds.`);
 	}).catch(err => {
 		winston.error('Error while sending guild count to bots.discord.pw.', err);
 	});
