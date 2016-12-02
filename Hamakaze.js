@@ -3,6 +3,7 @@ global.Promise = require('bluebird');
 const commando = require('discord.js-commando');
 const oneLine = require('common-tags').oneLine;
 const path = require('path');
+const request = require('request-promise');
 const sqlite = require('sqlite');
 const winston = require('winston');
 
@@ -77,5 +78,27 @@ client.registry
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
+
+if (config.abalURL && config.abalKey) {
+	client.once('ready', sendAbalStats());
+	client.on('guildCreate', sendAbalStats());
+	client.on('guildDelete', sendAbalStats());
+}
+
+function sendAbalStats() {
+	const body = { server_count: this.client.guilds.size }; // eslint-disable-line camelcase
+
+	request({
+		method: 'POST',
+		uri: `${config.bdpwUrl}/bots/${this.client.user.id}/stats`,
+		headers: { Authorization: config.bdpwKey },
+		body: body,
+		json: true
+	}).then(() => {
+		winston.info(`Sent guild count to bots.discord.pw with ${this.client.guilds.size} guilds.`);
+	}).catch(err => {
+		winston.error('Error while sending guild count to bots.discord.pw.', err);
+	});
+}
 
 client.login(config.token);
