@@ -41,6 +41,9 @@ client.on('error', winston.error)
 	.on('reconnect', () => { winston.warn('Reconnecting...'); })
 	.on('guildCreate', () => { sendAbalStats(); })
 	.on('guildDelete', () => { sendAbalStats(); })
+	.on('commandRun', (cmd) => {
+		winston.info(`${cmd.groupID}:${cmd.memberName}`);
+	})
 	.on('commandError', (cmd, err) => {
 		if (err instanceof commando.FriendlyError) return;
 		winston.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
