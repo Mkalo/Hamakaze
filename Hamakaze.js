@@ -3,6 +3,7 @@ global.Promise = require('bluebird');
 const commando = require('discord.js-commando');
 const oneLine = require('common-tags').oneLine;
 const path = require('path');
+const sqlite = require('sqlite');
 const winston = require('winston');
 
 const Database = require('./postgreSQL/postgreSQL');
@@ -16,6 +17,12 @@ const client = new commando.Client({
 	messageCacheLifetime: 30,
 	messageSweepInterval: 60
 });
+
+database.start();
+
+client.setProvider(sqlite.open(path.join(__dirname, 'settings.db'))
+	.then(db => new commando.SQLiteProvider(db)))
+	.catch(error => { winston.error(error); });
 
 client.on('error', winston.error)
 	.on('warn', winston.warn)
@@ -70,7 +77,5 @@ client.registry
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
-
-database.start();
 
 client.login(config.token);
