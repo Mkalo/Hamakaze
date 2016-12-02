@@ -32,10 +32,12 @@ client.on('error', winston.error)
 			Hamakaze setting sail...
 			${client.user.username}#${client.user.discriminator} (${client.user.id})
 		`);
-		aballist();
+		sendAbalStats();
 	})
 	.on('disconnect', () => { winston.warn('Disconnected!'); })
 	.on('reconnect', () => { winston.warn('Reconnecting...'); })
+	.on('guildCreate', sendAbalStats())
+	.on('guildDelete', sendAbalStats())
 	.on('commandError', (cmd, err) => {
 		if (err instanceof commando.FriendlyError) return;
 		winston.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
@@ -79,14 +81,6 @@ client.registry
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
-
-function aballist() {
-	if (config.abalURL && config.abalKey) {
-		client.once('ready', sendAbalStats());
-		client.on('guildCreate', sendAbalStats());
-		client.on('guildDelete', sendAbalStats());
-	}
-}
 
 function sendAbalStats() {
 	const body = { server_count: client.guilds.size }; // eslint-disable-line camelcase
