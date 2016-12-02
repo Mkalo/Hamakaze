@@ -32,6 +32,7 @@ client.on('error', winston.error)
 			Hamakaze setting sail...
 			${client.user.username}#${client.user.discriminator} (${client.user.id})
 		`);
+		aballist();
 	})
 	.on('disconnect', () => { winston.warn('Disconnected!'); })
 	.on('reconnect', () => { winston.warn('Reconnecting...'); })
@@ -79,10 +80,12 @@ client.registry
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
-if (config.abalURL && config.abalKey) {
-	client.once('ready', sendAbalStats());
-	client.on('guildCreate', sendAbalStats());
-	client.on('guildDelete', sendAbalStats());
+function aballist() {
+	if (config.abalURL && config.abalKey) {
+		client.once('ready', sendAbalStats());
+		client.on('guildCreate', sendAbalStats());
+		client.on('guildDelete', sendAbalStats());
+	}
 }
 
 function sendAbalStats() {
