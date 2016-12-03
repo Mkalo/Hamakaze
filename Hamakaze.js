@@ -35,7 +35,6 @@ client.on('error', winston.error)
 			Hamakaze setting sail...
 			${client.user.username}#${client.user.discriminator} (${client.user.id})
 		`);
-		sendAbalStats();
 	})
 	.once('ready', () => {
 		sendAbalStats();
