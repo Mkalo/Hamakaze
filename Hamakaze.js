@@ -37,6 +37,9 @@ client.on('error', winston.error)
 		`);
 		sendAbalStats();
 	})
+	.once('ready', () => {
+		sendAbalStats();
+	})
 	.on('disconnect', () => { winston.warn('Disconnected!'); })
 	.on('reconnect', () => { winston.warn('Reconnecting...'); })
 	.on('guildCreate', () => { sendAbalStats(); })
