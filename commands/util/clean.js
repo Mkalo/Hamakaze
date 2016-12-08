@@ -43,12 +43,8 @@ module.exports = class CleanCommand extends Command {
 		});
 	}
 
-	hasPermission(msg) {
-		return msg.author.id === this.client.options.owner;
-	}
-
 	async run(msg, args) {
-		if (msg.author.id !== '81440962496172032') {
+		if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
 			return msg.say(`${msg.author}, don't set me up on stuff you can't even do yourself!`);
 		}
 		if (!args.limit) {
