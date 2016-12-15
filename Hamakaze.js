@@ -3,7 +3,7 @@ global.Promise = require('bluebird');
 const commando = require('discord.js-commando');
 const oneLine = require('common-tags').oneLine;
 const path = require('path');
-const raven = require('raven');
+const Raven = require('raven');
 const request = require('request-promise');
 const sqlite = require('sqlite');
 const winston = require('winston');
@@ -19,8 +19,8 @@ const client = new commando.Client({
 	messageCacheLifetime: 30,
 	messageSweepInterval: 60
 });
-const sentry = new raven.Client(config.ravenKey);
-sentry.patchGlobal();
+Raven.config(config.ravenKey);
+Raven.install();
 
 database.start();
 

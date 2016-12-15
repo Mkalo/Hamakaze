@@ -26,7 +26,7 @@ module.exports = class AboutCommand extends Command {
 
 				# CREATOR: [Crawl#3280 (ID: 81440962496172032)]
 				# LIBRARY: [Discord.js [v${discordversion}]
-				# VERSION: [${version}]
+				# VERSION: [v${version}]
 
 				* **Hamakaze is a multipurpose bot.**
 				* **If you have any suggestions or feedback head over to her server**

@@ -54,7 +54,7 @@ module.exports = class WeatherCommand extends Command {
 
 		return request({
 			uri: `https://maps.googleapis.com/maps/api/geocode/json?address=${locationURI}&key=${config.GoogleAPIKey}`,
-			headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/hamakaze-moe/Hamakaze/)` },
+			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
 		}).then(response => {
 			if (response.status !== 'OK') return this.handleNotOK(msg, response.status);
@@ -64,7 +64,7 @@ module.exports = class WeatherCommand extends Command {
 
 			return request({
 				uri: `https://api.darksky.net/forecast/${config.WeatherAPIKey}/${response.results[0].geometry.location.lat},${response.results[0].geometry.location.lng}?exclude=minutely,hourly,flags&units=auto`,
-				headers: { 'User-Agent': `Hamakaze ${version} (https://github.com/hamakaze-moe/Hamakaze/)` },
+				headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 				json: true
 			}).then(res => {
 				let datetime = moment().utcOffset(res.timezone).format('D MMMM, h:mma');
