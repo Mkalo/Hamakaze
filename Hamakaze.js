@@ -43,8 +43,8 @@ client.on('error', winston.error)
 	.on('reconnect', () => { winston.warn('Reconnecting...'); })
 	.on('guildCreate', () => { sendAbalStats(); })
 	.on('guildDelete', () => { sendAbalStats(); })
-	.on('commandRun', (cmd) => {
-		winston.info(`${cmd.groupID}:${cmd.memberName}`);
+	.on('commandRun', (cmd, promise, msg) => {
+		winston.info(`${msg.author.username}#${msg.author.discriminator} (${msg.author.id}) > ${msg.guild.name} (${msg.guild.id}) >> ${cmd.groupID}:${cmd.memberName} ${msg.argString ? `>>>${msg.argString}` : ''}`);
 	})
 	.on('commandError', (cmd, err) => {
 		if (err instanceof commando.FriendlyError) return;
