@@ -64,6 +64,6 @@ module.exports = class UserInfoCommand extends Command {
 			}
 		};
 
-		return msg.channel.sendMessage('', { embed });
+		return msg.embed(embed);
 	}
 };

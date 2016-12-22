@@ -41,6 +41,6 @@ module.exports = class AboutCommand extends Command {
 				text: 'About'
 			}
 		};
-		return msg.channel.sendMessage('', { embed });
+		return msg.embed(embed);
 	}
 };

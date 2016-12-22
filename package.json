@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iCrawl/Hamakaze.git"
+    "url": "git+https://github.com/WeebDev/Hamakaze.git"
   },
   "bugs": {
-    "url": "https://github.com/iCrawl/Hamakaze/issues"
+    "url": "https://github.com/WeebDev/Hamakaze/issues"
   },
   "keywords": [
     "discord",
     "bot"
   ],
-  "homepage": "https://github.com/iCrawl/Hamakaze#readme",
+  "homepage": "https://github.com/WeebDev/Hamakaze#readme",
   "dependencies": {
     "bluebird": "^3.4.6",
     "canvas": "^1.6.2",

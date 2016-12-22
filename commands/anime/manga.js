@@ -95,7 +95,7 @@ module.exports = class MangaCommand extends Command {
 				}
 			};
 
-			return msg.channel.sendMessage('', { embed });
+			return msg.embed(embed);
 		} catch (error) { winston.error(error); }
 	}
 };

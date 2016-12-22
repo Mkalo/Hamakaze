@@ -62,6 +62,6 @@ module.exports = class ServerInfoCommand extends Command {
 			}
 		};
 
-		return msg.channel.sendMessage('', { embed });
+		return msg.embed(embed);
 	}
 };

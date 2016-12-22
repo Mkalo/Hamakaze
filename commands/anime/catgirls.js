@@ -11,17 +11,28 @@ module.exports = class CatgirlCommand extends Command {
 			aliases: ['nyaa', 'neko', 'catgirls'],
 			group: 'fun',
 			memberName: 'catgirl',
-			description: 'Posts a random catgirl.',
+			description: 'Posts a random catgirl. Add `--nsfw` to the command to get nsfw pictures.',
 			throttling: {
 				usages: 2,
 				duration: 3
-			}
+			},
+
+			args: [
+				{
+					key: 'nsfw',
+					prompt: 'Would you like to see NSFW pictures?\n',
+					type: 'string',
+					default: ''
+				}
+			]
 		});
 	}
 
-	async run(msg) {
+	async run(msg, args) {
+		const nsfw = args.nsfw;
+
 		return request({
-			uri: 'http://catgirls.brussell98.tk/api/random',
+			uri: `http://catgirls.brussell98.tk/api${nsfw === '--nsfw' ? '/nsfw' : ''}/random`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
 		})
@@ -39,7 +50,7 @@ module.exports = class CatgirlCommand extends Command {
 					text: 'Catgirls'
 				}
 			};
-			return msg.channel.sendMessage('', { embed });
+			return msg.embed(embed);
 		})
 		.catch(error => { winston.error(error); });
 	}

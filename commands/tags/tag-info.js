@@ -65,6 +65,6 @@ module.exports = class TagWhoCommand extends Command {
 			}
 		};
 
-		return msg.channel.sendMessage('', { embed });
+		return msg.embed(embed);
 	}
 };

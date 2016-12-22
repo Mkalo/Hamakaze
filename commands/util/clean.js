@@ -81,7 +81,7 @@ module.exports = class CleanCommand extends Command {
 		if (!filter) {
 			return msg.channel.fetchMessages({ limit: limit })
 			.then(messagesToDelete => {
-				msg.channel.bulkDelete(messagesToDelete).catch(error => { winston.error(error); });
+				msg.channel.bulkDelete(messagesToDelete.array().reverse()).catch(error => { winston.error(error); });
 			})
 			.then(() => {
 				msg.say(`I cleaned up the number of messages you requested, ${msg.author}.`)
