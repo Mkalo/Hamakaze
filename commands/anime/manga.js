@@ -40,9 +40,17 @@ module.exports = class MangaCommand extends Command {
 				msg.channel.stopTyping();
 				return msg.say(data.error.messages[0]);
 			}
-			data = data.length === 1 ? data[0] : data.find(en => en.title_english.toLowerCase() === manga.toLowerCase() || en.title_romaji.toLowerCase() === manga.toLowerCase()) || data[0];
-			let title = data.title_english !== '' && data.title_romaji !== data.title_english ? `${data.title_english} / ${data.title_romaji} / ${data.title_japanese}` : `${data.title_romaji} / ${data.title_japanese}`;
-			let synopsis = data.description ? data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '').substring(0, 1000) : 'No description.';
+			data = data.length === 1
+			? data[0]
+			: data.find(en => en.title_english.toLowerCase() === manga.toLowerCase()
+			|| en.title_romaji.toLowerCase() === manga.toLowerCase())
+			|| data[0];
+			let title = data.title_english !== '' && data.title_romaji !== data.title_english
+			? `${data.title_english} / ${data.title_romaji} / ${data.title_japanese}`
+			: `${data.title_romaji} / ${data.title_japanese}`;
+			let synopsis = data.description
+			? data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '').substring(0, 1000)
+			: 'No description.';
 			let score = data.average_score / 10;
 
 			let embed = {
@@ -91,7 +99,10 @@ module.exports = class MangaCommand extends Command {
 				thumbnail: { url: `${data.image_url_med}` },
 				footer: {
 					icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
-					text: `Started: ${moment.utc(data.start_date).format('DD/MM/YYYY')} | Finished: ${data.end_date !== null ? moment.utc(data.end_date).format('DD/MM/YYYY') : '?'}`
+					text: `Started: ${moment.utc(data.start_date)
+						.format('DD/MM/YYYY')} | Finished: ${data.end_date !== null
+							? moment.utc(data.end_date).format('DD/MM/YYYY')
+							: '?'}`
 				}
 			};
 

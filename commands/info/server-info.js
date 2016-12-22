@@ -22,26 +22,29 @@ module.exports = class ServerInfoCommand extends Command {
 	async run(msg) {
 		let embed = {
 			color: 3447003,
-			author: {
-				name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-				icon_url: msg.author.avatarURL ? msg.author.avatarURL : this.client.user.avatarURL // eslint-disable-line camelcase
-			},
 			description: `Info on **${msg.guild.name}** (ID: ${msg.guild.id})\n`,
 			fields: [
 				{
 					name: '❯ Channels',
 					value: stripIndents`
-						• ${msg.guild.channels.filter(ch => ch.type === 'text').size} Text, ${msg.guild.channels.filter(ch => ch.type === 'voice').size} Voice
+						• ${msg.guild.channels
+							.filter(ch => ch.type === 'text').size} Text, ${msg.guild.channels
+								.filter(ch => ch.type === 'voice').size} Voice
 						• Default: ${msg.guild.defaultChannel}
-						• AFK: ${msg.guild.afkChannelID === null ? 'None' : `<#${msg.guild.afkChannelID}> after ${msg.guild.afkTimeout / 60}min`}
-					`
+						• AFK: ${msg.guild.afkChannelID
+							? `<#${msg.guild.afkChannelID}> after ${msg.guild.afkTimeout / 60}min`
+							: 'None.'}
+					`,
+					inline: true
 				},
 				{
 					name: '❯ Member',
 					value: stripIndents`
 						• ${msg.guild.memberCount} members
-						• Owner: ${msg.guild.owner.user.username}#${msg.guild.owner.user.discriminator} (ID: ${msg.guild.ownerID})
-					`
+						• Owner: ${msg.guild.owner.user.username}#${msg.guild.owner.user.discriminator}
+						(ID: ${msg.guild.ownerID})
+					`,
+					inline: true
 				},
 				{
 					name: '❯ Other',
@@ -50,16 +53,11 @@ module.exports = class ServerInfoCommand extends Command {
 						• Region: ${msg.guild.region}
 						• Created at: ${moment.utc(msg.guild.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss ZZ')}
 						• Verification Level: ${msg.guild.verificationLevel}
-						• Emojis: ${msg.guild.emojis.array().join(' ')}\n\u200B
+						• Emojis: ${msg.guild.emojis.array().join(' ')}
 					`
 				}
 			],
-			thumbnail: { url: msg.guild.iconURL },
-			timestamp: new Date(),
-			footer: {
-				icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
-				text: 'Server info'
-			}
+			thumbnail: { url: msg.guild.iconURL }
 		};
 
 		return msg.embed(embed);

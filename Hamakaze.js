@@ -44,7 +44,11 @@ client.on('error', winston.error)
 	.on('guildCreate', () => { sendAbalStats(); })
 	.on('guildDelete', () => { sendAbalStats(); })
 	.on('commandRun', (cmd, promise, msg, args) => {
-		winston.info(`${msg.author.username}#${msg.author.discriminator} (${msg.author.id}) > ${msg.guild.name} (${msg.guild.id}) >> ${cmd.groupID}:${cmd.memberName} ${args.length > 0 ? `>>> ${Object.values(args)}` : ''}`);
+		winston.info(oneLine`${msg.author.username}#${msg.author.discriminator} (${msg.author.id})
+			> ${msg.guild ? `${msg.guild.name} (${msg.guild.id})` : 'DM'}
+			>> ${cmd.groupID}:${cmd.memberName}
+			${Object.values(args)[0] !== '' ? `>>> ${Object.values(args)}` : ''}
+		`);
 	})
 	.on('commandError', (cmd, err) => {
 		if (err instanceof commando.FriendlyError) return;
@@ -91,7 +95,7 @@ client.registry
 function sendAbalStats() {
 	const body = { server_count: client.guilds.size }; // eslint-disable-line camelcase
 
-	request({
+	return request({
 		method: 'POST',
 		uri: `${config.abalURL}/bots/${client.user.id}/stats`,
 		headers: { Authorization: config.abalKey },

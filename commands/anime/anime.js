@@ -47,9 +47,16 @@ module.exports = class AnimeCommand extends Command {
 				msg.channel.stopTyping();
 				return msg.say(data.error.messages[0]);
 			}
-			data = data.length === 1 ? data[0] : data.find(en => en.title_english.toLowerCase() === anime.toLowerCase() || en.title_romaji.toLowerCase() === anime.toLowerCase()) || data[0];
-			let title = data.title_english !== '' && data.title_romaji !== data.title_english ? `${data.title_english} / ${data.title_romaji} / ${data.title_japanese}` : `${data.title_romaji} / ${data.title_japanese}`;
-			let synopsis = data.description ? data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '').substring(0, 1000) : 'No description.';
+			data = data.length === 1
+			? data[0]
+			: data.find(en => en.title_english.toLowerCase() === anime.toLowerCase()
+			|| en.title_romaji.toLowerCase() === anime.toLowerCase())
+			|| data[0];
+			let title = data.title_english !== '' && data.title_romaji !== data.title_english
+			? `${data.title_english} / ${data.title_romaji} / ${data.title_japanese}`
+			: `${data.title_romaji} / ${data.title_japanese}`;
+			let synopsis = data.description
+			? data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '').substring(0, 1000) : 'No description.';
 			let score = data.average_score / 10;
 
 			let embed = {
@@ -61,7 +68,11 @@ module.exports = class AnimeCommand extends Command {
 				fields: [
 					{
 						name: 'Type',
-						value: `${data.type}\n${data.season !== null ? this.parseSeason(data.season) : '?'}\n${data.source !== null ? data.source : '?'}`,
+						value: `${data.type}\n${data.season !== null
+							? this.parseSeason(data.season)
+							: '?'}\n${data.source !== null
+								? data.source
+								: '?'}`,
 						inline: true
 					},
 					{
@@ -98,7 +109,10 @@ module.exports = class AnimeCommand extends Command {
 				thumbnail: { url: `${data.image_url_med}` },
 				footer: {
 					icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
-					text: `Started: ${moment.utc(data.start_date).format('DD/MM/YYYY')} | Finished: ${data.end_date !== null ? moment.utc(data.end_date).format('DD/MM/YYYY') : '?'}`
+					text: `Started: ${moment.utc(data.start_date)
+						.format('DD/MM/YYYY')} | Finished: ${data.end_date !== null
+							? moment.utc(data.end_date).format('DD/MM/YYYY')
+							: '?'}`
 				}
 			};
 
@@ -107,6 +121,8 @@ module.exports = class AnimeCommand extends Command {
 	}
 
 	parseSeason(season) {
-		return season < 350 ? `${seasons[season % 10]} 20${Math.floor(season / 10)}` : `${seasons[season % 10]} 19${Math.floor(season / 10)}`;
+		return season < 350
+		? `${seasons[season % 10]} 20${Math.floor(season / 10)}`
+		: `${seasons[season % 10]} 19${Math.floor(season / 10)}`;
 	}
 };

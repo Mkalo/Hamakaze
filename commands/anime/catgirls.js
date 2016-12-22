@@ -43,12 +43,7 @@ module.exports = class CatgirlCommand extends Command {
 					name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
 					icon_url: `${msg.author.avatarURL}` // eslint-disable-line camelcase
 				},
-				image: { url: `${response.url}` },
-				timestamp: new Date(),
-				footer: {
-					icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
-					text: 'Catgirls'
-				}
+				image: { url: `${response.url}` }
 			};
 			return msg.embed(embed);
 		})

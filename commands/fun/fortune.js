@@ -32,12 +32,24 @@ module.exports = class FortuneCommand extends Command {
 	}
 
 	async run(msg, args) {
-		let category = /^(all|computers|cookie|definitions|miscellaneous|people|platitudes|politics|science|wisdom)$/i.test(args.category) ? args.category.toLowerCase() : 'wisdom';
+		const regex = /^(all|computers|cookie|definitions|miscellaneous|people|platitudes|politics|science|wisdom)$/i;
+		let category = regex.test(args.category)
+		? args.category.toLowerCase()
+		: 'wisdom';
 
 		return request({
 			uri: `http://www.yerkee.com/api/fortune/${category}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
-		}).then(response => { return msg.say(response.fortune); }).catch(error => { winston.error(error); });
+		}).then(response => {
+			let embed = {
+				color: 3447003,
+				description: stripIndents`
+					${response.fortune}
+				`
+			};
+
+			return msg.embed(embed);
+		}).catch(error => { winston.error(error); });
 	}
 };

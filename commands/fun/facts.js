@@ -15,9 +15,9 @@ module.exports = class FactsCommand extends Command {
 			group: 'fun',
 			memberName: 'facts',
 			description: 'Get facts about a number, date, or cats.',
-			format: '[random <math|date|year|trivia> | number <num> | math <num> | date <MM/DD> | year <year> | cats]',
+			format: '[rng <math|date|year|trivia> | number <num> | math <num> | date <MM/DD> | year <YYYY> | cat(s)]',
 			details: stripIndents`Get facts about cats, a number, date, year, or math facts on a number.
-				Formats: \`random trivia\` \`number 42\` \`math 42\` \`date 7/17\` \`year 1777\``,
+				Formats: \`rng trivia\` \`number 42\` \`math 42\` \`date 7/17\` \`year 1777\``,
 			argsType: 'multiple',
 			argsCount: 2,
 			throttling: {
@@ -45,7 +45,7 @@ module.exports = class FactsCommand extends Command {
 		const category = args.category;
 		const subcategory = args.subcategory;
 
-		if (category === 'random') {
+		if (category === 'random' || category === 'rng') {
 			return this.getRandom(msg, subcategory);
 		} else if (category === 'number') {
 			return this.getFact(msg, subcategory, 'trivia');
@@ -55,14 +55,18 @@ module.exports = class FactsCommand extends Command {
 			return this.getFact(msg, subcategory, 'date');
 		} else if (category === 'year') {
 			return this.getFact(msg, subcategory, 'year');
-		} else if (category === 'cat') {
+		} else if (category === 'cat' || category === 'cats') {
 			return this.getCat(msg);
 		}
-		return msg.say(`WRONG!`);
+		return msg.say(``);
 	}
 
 	async getRandom(msg, subcategory) {
-		let type = subcategory ? types.includes(subcategory) ? subcategory : types[Math.floor(Math.random() * types.length)] : types[Math.floor(Math.random() * types.length)];
+		let type = subcategory
+		? types.includes(subcategory)
+		? subcategory
+		: types[Math.floor(Math.random() * types.length)]
+		: types[Math.floor(Math.random() * types.length)];
 		return request({
 			uri: `http://numbersapi.com/random/${type}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },

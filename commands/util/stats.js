@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const moment = require('moment');
 require('moment-duration-format');
+const stripIndents = require('common-tags').stripIndents;
 
 const version = require('../../package').version;
 
@@ -23,7 +24,9 @@ module.exports = class StatsCommand extends Command {
 			fields: [
 				{
 					name: '❯ Uptime',
-					value: moment.duration(this.client.uptime).format('d[ days], h[ hours], m[ minutes, and ]s[ seconds]')
+					value: moment.duration(this.client.uptime)
+						.format('d[ days], h[ hours], m[ minutes, and ]s[ seconds]'),
+					inline: true
 				},
 				{
 					name: '❯ Memory usage',
@@ -31,21 +34,21 @@ module.exports = class StatsCommand extends Command {
 					inline: true
 				},
 				{
-					name: '❯ Version',
-					value: version,
+					name: '❯ General Stats',
+					value: stripIndents`
+					• Guilds: ${this.client.guilds.size}
+					• Channels: ${this.client.channels.size}
+					• Users: ${this.client.guilds.map(guild => guild.memberCount).reduce((a, b) => a + b)}
+					`,
 					inline: true
 				},
 				{
-					name: '\u200B',
-					value: '\u200B'
+					name: '❯ Version',
+					value: `v${version}`,
+					inline: true
 				}
 			],
-			thumbnail: { url: this.client.user.avatarURL },
-			timestamp: new Date(),
-			footer: {
-				icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
-				text: 'Statistics'
-			}
+			thumbnail: { url: this.client.user.avatarURL }
 		};
 
 		return msg.embed(embed);
