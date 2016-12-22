@@ -44,7 +44,7 @@ client.on('error', winston.error)
 	.on('guildCreate', () => { sendAbalStats(); })
 	.on('guildDelete', () => { sendAbalStats(); })
 	.on('commandRun', (cmd, promise, msg, args) => {
-		winston.info(`${msg.author.username}#${msg.author.discriminator} (${msg.author.id}) > ${msg.guild.name} (${msg.guild.id}) >> ${cmd.groupID}:${cmd.memberName} ${args ? `>>> ${Object.values(args)}` : ''}`);
+		winston.info(`${msg.author.username}#${msg.author.discriminator} (${msg.author.id}) > ${msg.guild.name} (${msg.guild.id}) >> ${cmd.groupID}:${cmd.memberName} ${args.length > 0 ? `>>> ${Object.values(args)}` : ''}`);
 	})
 	.on('commandError', (cmd, err) => {
 		if (err instanceof commando.FriendlyError) return;
