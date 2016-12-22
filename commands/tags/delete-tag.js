@@ -1,8 +1,10 @@
 const { Command } = require('discord.js-commando');
 const winston = require('winston');
 
-const { redis } = require('../../redis/redis');
+const Redis = require('../../redis/Redis');
 const Tag = require('../../postgreSQL/models/Tag');
+
+const redis = new Redis();
 
 module.exports = class TagDeleteCommand extends Command {
 	constructor(client) {
@@ -43,7 +45,7 @@ module.exports = class TagDeleteCommand extends Command {
 			.then(() => {
 				Tag.destroy({ where: { name, guildID: msg.guild.id } });
 
-				redis.delAsync(name + msg.guild.id);
+				redis.db.delAsync(name + msg.guild.id);
 
 				return msg.say(`The tag **${name}** has been deleted, ${msg.author}`);
 			})
