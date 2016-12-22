@@ -25,6 +25,6 @@ module.exports = class EchoCommand extends Command {
 	async run(msg, args) {
 		msg.delete();
 
-		return msg.say(`${args.message}`);
+		return msg.say(args.message);
 	}
 };

@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const moment = require('moment');
 const nani = require('nani');
+const stripIndents = require('common-tags').stripIndents;
 const winston = require('winston');
 
 const config = require('../../settings');
@@ -68,26 +69,28 @@ module.exports = class AnimeCommand extends Command {
 				fields: [
 					{
 						name: 'Type',
-						value: `${data.type}\n${data.season !== null
-							? this.parseSeason(data.season)
-							: '?'}\n${data.source !== null
-								? data.source
-								: '?'}`,
+						value: stripIndents`${data.type}
+							${data.season !== null
+								? this.parseSeason(data.season)
+								: '?'}
+								${data.source !== null
+									? data.source
+									: '?'}`,
 						inline: true
 					},
 					{
 						name: 'Episodes',
-						value: `${data.total_episodes}`,
+						value: data.total_episodes,
 						inline: true
 					},
 					{
 						name: 'Status',
-						value: `${data.airing_status.replace(/(\b\w)/gi, lc => lc.toUpperCase())}`,
+						value: data.airing_status.replace(/(\b\w)/gi, lc => lc.toUpperCase()),
 						inline: true
 					},
 					{
 						name: 'Genre(s)',
-						value: `${data.genres.join(', ')}`,
+						value: data.genres.join(', '),
 						inline: true
 					},
 					{
@@ -97,7 +100,7 @@ module.exports = class AnimeCommand extends Command {
 					},
 					{
 						name: 'Score',
-						value: `${score.toFixed(2)}`,
+						value: score.toFixed(2),
 						inline: true
 					},
 					{
@@ -106,7 +109,7 @@ module.exports = class AnimeCommand extends Command {
 						inline: false
 					}
 				],
-				thumbnail: { url: `${data.image_url_med}` },
+				thumbnail: { url: data.image_url_med },
 				footer: {
 					icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
 					text: `Started: ${moment.utc(data.start_date)

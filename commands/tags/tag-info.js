@@ -44,15 +44,15 @@ module.exports = class TagWhoCommand extends Command {
 				},
 				{
 					name: 'Guild',
-					value: `${tag.guildName}`
+					value: tag.guildName
 				},
 				{
 					name: 'Created at',
-					value: `${moment.utc(tag.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss ZZ')}`
+					value: moment.utc(tag.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss ZZ')
 				},
 				{
 					name: 'Uses',
-					value: `${tag.uses} `
+					value: tag.uses
 				}
 			]
 		};

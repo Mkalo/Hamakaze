@@ -41,9 +41,9 @@ module.exports = class CatgirlCommand extends Command {
 				color: 3447003,
 				author: {
 					name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-					icon_url: `${msg.author.avatarURL}` // eslint-disable-line camelcase
+					icon_url: msg.author.avatarURL // eslint-disable-line camelcase
 				},
-				image: { url: `${response.url}` }
+				image: { url: response.url }
 			};
 			return msg.embed(embed);
 		})

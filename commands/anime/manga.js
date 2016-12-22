@@ -62,32 +62,32 @@ module.exports = class MangaCommand extends Command {
 				fields: [
 					{
 						name: 'Type',
-						value: `${data.type}`,
+						value: data.type,
 						inline: true
 					},
 					{
 						name: 'Volumes',
-						value: `${data.total_volumes}`,
+						value: data.total_volumes,
 						inline: true
 					},
 					{
 						name: 'Status',
-						value: `${data.publishing_status.replace(/(\b\w)/gi, lc => lc.toUpperCase())}`,
+						value: data.publishing_status.replace(/(\b\w)/gi, lc => lc.toUpperCase()),
 						inline: true
 					},
 					{
 						name: 'Genre(s)',
-						value: `${data.genres.join(', ')}`,
+						value: data.genres.join(', '),
 						inline: true
 					},
 					{
 						name: 'Chapters',
-						value: `${data.total_chapters}`,
+						value: data.total_chapters,
 						inline: true
 					},
 					{
 						name: 'Score',
-						value: `${score.toFixed(2)}`,
+						value: score.toFixed(2),
 						inline: true
 					},
 					{
@@ -96,7 +96,7 @@ module.exports = class MangaCommand extends Command {
 						inline: false
 					}
 				],
-				thumbnail: { url: `${data.image_url_med}` },
+				thumbnail: { url: data.image_url_med },
 				footer: {
 					icon_url: this.client.user.avatarURL, // eslint-disable-line camelcase
 					text: `Started: ${moment.utc(data.start_date)

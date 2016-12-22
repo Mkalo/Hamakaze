@@ -44,9 +44,7 @@ module.exports = class FortuneCommand extends Command {
 		}).then(response => {
 			let embed = {
 				color: 3447003,
-				description: stripIndents`
-					${response.fortune}
-				`
+				description: response.fortune
 			};
 
 			return msg.embed(embed);
