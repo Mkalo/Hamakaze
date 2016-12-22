@@ -4,6 +4,7 @@ const commando = require('discord.js-commando');
 const oneLine = require('common-tags').oneLine;
 const path = require('path');
 const Raven = require('raven');
+const Redis = require('./redis/Redis');
 const request = require('request-promise');
 const sqlite = require('sqlite');
 const winston = require('winston');
@@ -12,6 +13,7 @@ const Database = require('./postgreSQL/postgreSQL');
 const config = require('./settings');
 
 const database = new Database();
+const redis = new Redis();
 const client = new commando.Client({
 	owner: config.owner,
 	commandPrefix: '',
@@ -19,10 +21,12 @@ const client = new commando.Client({
 	messageCacheLifetime: 30,
 	messageSweepInterval: 60
 });
+
 Raven.config(config.ravenKey);
 Raven.install();
 
 database.start();
+redis.start();
 
 client.setProvider(sqlite.open(path.join(__dirname, 'settings.db'))
 	.then(db => new commando.SQLiteProvider(db)))
@@ -33,7 +37,7 @@ client.on('error', winston.error)
 	.on('ready', () => {
 		winston.info(oneLine`
 			Hamakaze setting sail...
-			${client.user.username}#${client.user.discriminator} (${client.user.id})
+			${client.user.username}#${client.user.discriminator} (ID: ${client.user.id})
 		`);
 	})
 	.once('ready', () => {
