@@ -22,7 +22,7 @@ module.exports = class ServerInfoCommand extends Command {
 	async run(msg) {
 		let embed = {
 			color: 3447003,
-			description: `Info on **${msg.guild.name}** (ID: ${msg.guild.id})\n`,
+			description: `Info on **${msg.guild.name}** (ID: ${msg.guild.id})`,
 			fields: [
 				{
 					name: '❯ Channels',
