@@ -18,8 +18,6 @@ module.exports = class FactsCommand extends Command {
 			format: '[rng <math|date|year|trivia> | number <num> | math <num> | date <MM/DD> | year <YYYY> | cat(s)]',
 			details: stripIndents`Get facts about cats, a number, date, year, or math facts on a number.
 				Formats: \`rng trivia\` \`number 42\` \`math 42\` \`date 7/17\` \`year 1777\``,
-			argsType: 'multiple',
-			argsCount: 2,
 			throttling: {
 				usages: 2,
 				duration: 3

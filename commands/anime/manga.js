@@ -13,7 +13,6 @@ module.exports = class MangaCommand extends Command {
 			group: 'anime',
 			memberName: 'manga',
 			description: 'Get info on an manga.',
-			format: '<manga/novel>',
 			throttling: {
 				usages: 2,
 				duration: 3

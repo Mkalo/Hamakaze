@@ -9,7 +9,6 @@ module.exports = class CleanCommand extends Command {
 			group: 'util',
 			memberName: 'clean',
 			description: 'Deletes messages.',
-			format: '<number> [[filter] [argument]]',
 			details: `Deletes messages. Here is a list of filters:
 				__invites:__ Messages containing an invite
 				__user @user:__ Messages sent by @user

@@ -14,7 +14,6 @@ module.exports = class TagDeleteCommand extends Command {
 			group: 'tags',
 			memberName: 'tag-delete',
 			description: 'Deletes a tag.',
-			format: '<tagname>',
 			guildOnly: true,
 			throttling: {
 				usages: 2,

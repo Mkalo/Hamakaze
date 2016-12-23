@@ -21,7 +21,6 @@ module.exports = class AnimeCommand extends Command {
 			group: 'anime',
 			memberName: 'anime',
 			description: 'Get info on an anime.',
-			format: '<anime>',
 			throttling: {
 				usages: 2,
 				duration: 3

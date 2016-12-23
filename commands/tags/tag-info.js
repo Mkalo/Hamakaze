@@ -11,7 +11,6 @@ module.exports = class TagWhoCommand extends Command {
 			group: 'tags',
 			memberName: 'tag-info',
 			description: 'Displays information about a tag.',
-			format: '<tagname>',
 			guildOnly: true,
 			throttling: {
 				usages: 2,

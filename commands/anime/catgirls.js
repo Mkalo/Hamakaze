@@ -11,7 +11,8 @@ module.exports = class CatgirlCommand extends Command {
 			aliases: ['nyaa', 'neko', 'catgirls'],
 			group: 'fun',
 			memberName: 'catgirl',
-			description: 'Posts a random catgirl. Add `--nsfw` to the command to get nsfw pictures.',
+			description: 'Posts a random catgirl.',
+			details: 'Posts a random catgirl. Add `--nsfw` to the command to get nsfw pictures.',
 			throttling: {
 				usages: 2,
 				duration: 3

@@ -16,9 +16,6 @@ module.exports = class ChooseCommand extends Command {
 			group: 'fun',
 			memberName: 'choose',
 			description: 'Makes a choice for you.',
-			format: '<choice> <choice> [<choice> ...]',
-			argsType: 'multiple',
-			argsCount: 0,
 
 			args: [
 				{

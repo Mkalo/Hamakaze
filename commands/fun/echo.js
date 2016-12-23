@@ -7,7 +7,6 @@ module.exports = class EchoCommand extends Command {
 			group: 'fun',
 			memberName: 'echo',
 			description: 'Repeats your message.',
-			format: '<message>',
 			guildOnly: true,
 
 			args: [

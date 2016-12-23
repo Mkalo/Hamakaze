@@ -12,7 +12,6 @@ module.exports = class FortuneCommand extends Command {
 			group: 'util',
 			memberName: 'strawpoll',
 			description: 'Create a strawpoll.',
-			format: 'strawpoll \'[title]\' <option> <option> [<option> ...]',
 			details: stripIndents`Create a strawpoll.
 				The first argument is always the title, if you provde it, otherwise your username will be used!
 				If you need to use spaces in your title make sure you put them in SingleQuotes => \`'topic here'\``,
