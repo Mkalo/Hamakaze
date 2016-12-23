@@ -90,6 +90,7 @@ client.registry
 		['info', 'Info'],
 		['anime', 'Anime'],
 		['fun', 'Fun'],
+		['music', 'Music'],
 		['weather', 'Weather'],
 		['tags', 'Tags']
 	])
