@@ -4,11 +4,11 @@ const commando = require('discord.js-commando');
 const oneLine = require('common-tags').oneLine;
 const path = require('path');
 const Raven = require('raven');
-const Redis = require('./redis/Redis');
 const request = require('request-promise');
 const sqlite = require('sqlite');
 const winston = require('winston');
 
+const Redis = require('./redis/Redis');
 const Database = require('./postgreSQL/postgreSQL');
 const config = require('./settings');
 
