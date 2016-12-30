@@ -21,9 +21,9 @@
   ],
   "homepage": "https://github.com/WeebDev/Hamakaze#readme",
   "dependencies": {
-    "bluebird": "^3.4.6",
+    "bluebird": "^3.4.7",
     "canvas": "^1.6.2",
-    "discord.js": "github:hydrabolt/discord.js#indev",
+    "discord.js": "github:hydrabolt/discord.js#master",
     "discord.js-commando": "github:gawdl3y/discord.js-commando",
     "erlpack": "github:hammerandchisel/erlpack",
     "moment": "^2.17.1",
