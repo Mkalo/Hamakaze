@@ -1,7 +1,6 @@
 const { Command } = require('discord.js-commando');
 const request = require('request-promise');
 const stripIndents = require('common-tags').stripIndents;
-const winston = require('winston');
 
 const version = require('../../package').version;
 
