@@ -1,6 +1,5 @@
 const { Command } = require('discord.js-commando');
 const request = require('request-promise');
-const winston = require('winston');
 
 const version = require('../../package').version;
 
@@ -32,22 +31,19 @@ module.exports = class CatgirlCommand extends Command {
 	async run(msg, args) {
 		const nsfw = args.nsfw;
 
-		return request({
+		const response = request({
 			uri: `http://catgirls.brussell98.tk/api${nsfw === '--nsfw' ? '/nsfw' : ''}/random`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
-		})
-		.then(response => {
-			let embed = {
-				color: 3447003,
-				author: {
-					name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-					icon_url: msg.author.avatarURL // eslint-disable-line camelcase
-				},
-				image: { url: response.url }
-			};
-			return msg.embed(embed);
-		})
-		.catch(error => { winston.error(error); });
+		});
+
+		msg.embed({
+			color: 3447003,
+			author: {
+				name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
+				icon_url: msg.author.avatarURL // eslint-disable-line camelcase
+			},
+			image: { url: response.url }
+		});
 	}
 };

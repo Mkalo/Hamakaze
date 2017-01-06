@@ -32,11 +32,11 @@ module.exports = class TagCommand extends Command {
 	async run(msg, args) {
 		const name = args.name.toLowerCase();
 
-		return this.findTagCached(msg, name, msg.guild.id);
+		return this.findCached(msg, name, msg.guild.id);
 	}
 
-	async findTagCached(msg, name, guildID) {
-		return redis.db.getAsync(name + guildID).then(async reply => {
+	async findCached(msg, name, guildID) {
+		return redis.db.getAsync(`tag${name}${guildID}`).then(async reply => {
 			if (reply) {
 				let tag = await Tag.findOne({ where: { name: name, guildID: guildID } });
 				if (tag) tag.increment('uses');
@@ -47,7 +47,7 @@ module.exports = class TagCommand extends Command {
 				if (!tag) return msg.say(`A tag with the name **${name}** doesn't exist, ${msg.author}`);
 				tag.increment('uses');
 
-				return redis.db.setAsync(name + guildID, tag.content)
+				return redis.db.setAsync(`tag${name}${guildID}`, tag.content)
 					.then(() => {
 						msg.say(tag.content);
 					});

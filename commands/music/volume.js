@@ -8,6 +8,7 @@ module.exports = class ChangeVolumeCommand extends Command {
 			group: 'music',
 			memberName: 'volume',
 			description: 'Changes the volume.',
+			format: '[level]',
 			details: 'The volume level ranges from 0-10. You may specify "up" or "down" to modify the volume level by 2.',
 			examples: ['volume', 'volume 7', 'volume up', 'volume down'],
 			guildOnly: true

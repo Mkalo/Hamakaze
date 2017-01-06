@@ -22,7 +22,7 @@ module.exports = class TagSourceCommand extends Command {
 				{
 					key: 'name',
 					label: 'tagname',
-					prompt: 'What tag source would you like to see?\n',
+					prompt: 'What tag-source would you like to see?\n',
 					type: 'string'
 				}
 			]
@@ -32,22 +32,22 @@ module.exports = class TagSourceCommand extends Command {
 	async run(msg, args) {
 		const name = args.name.toLowerCase();
 
-		return this.findTagCached(msg, name, msg.guild.id);
+		return this.findCached(msg, name, msg.guild.id);
 	}
 
-	async findTagCached(msg, name, guildID) {
-		return redis.db.getAsync(name + guildID).then(async reply => {
+	async findCached(msg, name, guildID) {
+		return redis.db.getAsync(`tag${name}${guildID}`).then(async reply => {
 			if (reply) {
-				let tag = await Tag.findOne({ where: { name: name, guildID: guildID } });
+				const tag = await Tag.findOne({ where: { name: name, guildID: guildID } });
 				if (tag) tag.increment('uses');
 
 				return msg.code('md', reply);
 			} else {
-				let tag = await Tag.findOne({ where: { name: name, guildID: guildID } });
+				const tag = await Tag.findOne({ where: { name: name, guildID: guildID } });
 				if (!tag) return msg.say(`A tag with the name **${name}** doesn't exist, ${msg.author}`);
 				tag.increment('uses');
 
-				return redis.db.setAsync(name + guildID, tag.content)
+				return redis.db.setAsync(`tag${name}${guildID}`, tag.content)
 					.then(() => {
 						msg.code('md', tag.content);
 					});

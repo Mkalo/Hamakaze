@@ -153,7 +153,7 @@ module.exports = class PlaySongCommand extends Command {
 			}
 			const maxSongs = config.maxSongs;
 			if (maxSongs > 0 && queue.songs.reduce((prev, song) => prev + song.member.id === msg.author.id, 0) >= maxSongs) {
-				return `👎 you already have ${maxSongs} songs in the queue. Don't hog all the airtime!`;
+				return `👎 you already have ${maxSongs} songs in the queue.`;
 			}
 		}
 

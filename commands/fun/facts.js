@@ -39,7 +39,7 @@ module.exports = class FactsCommand extends Command {
 		});
 	}
 
-	async run(msg, args) {
+	async run(msg, args) { // eslint-disable-line consistent-return
 		const category = args.category;
 		const subcategory = args.subcategory;
 
@@ -56,7 +56,6 @@ module.exports = class FactsCommand extends Command {
 		} else if (category === 'cat' || category === 'cats') {
 			return this.getCat(msg);
 		}
-		return msg.say(``);
 	}
 
 	async getRandom(msg, subcategory) {
@@ -65,32 +64,36 @@ module.exports = class FactsCommand extends Command {
 		? subcategory
 		: types[Math.floor(Math.random() * types.length)]
 		: types[Math.floor(Math.random() * types.length)];
-		return request({
+		const response = await request({
 			uri: `http://numbersapi.com/random/${type}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
-		}).then(response => { return msg.say(response); }).catch(error => { winston.error(error); });
+		});
+
+		return msg.say(response);
 	}
 
 	async getFact(msg, number, type) {
 		if (number) {
-			return request({
+			const response = await request({
 				uri: `http://numbersapi.com/${number}/${type}`,
 				headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 				json: true
-			}).then(response => { return msg.say(response); }).catch(error => { winston.error(error); });
+			});
+
+			return msg.say(response);
 		}
 		return msg.reply(`you need to supply a number. Maybe you want \`facts random ${type}\`?`);
 	}
 
 	async getCat(msg) {
-		return request({
+		const response = await request({
 			uri: 'http://catfacts-api.appspot.com/api/facts',
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
-		}).then(response => {
-			return msg.say(stripIndents`🐱 **${msg.author}, did you know:**
+		});
+
+		return msg.say(stripIndents`🐱 **${msg.author}, did you know:**
 				${response.facts[0]}`);
-		}).catch(error => { winston.error(error); });
 	}
 };

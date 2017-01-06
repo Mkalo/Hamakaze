@@ -37,17 +37,15 @@ module.exports = class FortuneCommand extends Command {
 		? args.category.toLowerCase()
 		: 'wisdom';
 
-		return request({
+		const response = await request({
 			uri: `http://www.yerkee.com/api/fortune/${category}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
-		}).then(response => {
-			let embed = {
-				color: 3447003,
-				description: response.fortune
-			};
+		});
 
-			return msg.embed(embed);
-		}).catch(error => { winston.error(error); });
+		return msg.embed({
+			color: 3447003,
+			description: response.fortune
+		});
 	}
 };

@@ -1,7 +1,6 @@
 const { Command } = require('discord.js-commando');
 const request = require('request-promise');
 const stripIndents = require('common-tags').stripIndents;
-const winston = require('winston');
 
 const version = require('../../package').version;
 
@@ -35,13 +34,13 @@ module.exports = class FortuneCommand extends Command {
 	}
 
 	async run(msg, args) {
-		let title = args.title;
-		let options = args.options;
+		const title = args.title;
+		const options = args.options;
 
-		if (options.length < 3) return;
-		if (options.length > 31) return;
+		if (options.length < 3) return msg.reply('please provide 3 or more options.');
+		if (options.length > 31) return msg.reply('please provide less than 31 options.');
 
-		request({
+		const response = await request({
 			method: 'POST',
 			uri: `https://strawpoll.me/api/v2/polls`,
 			followAllRedirects: true,
@@ -52,10 +51,10 @@ module.exports = class FortuneCommand extends Command {
 				captcha: true
 			},
 			json: true
-		}).then(response => {
-			return msg.say(stripIndents`🗳 ${response.title}
-				<http://strawpoll.me/${response.id}>
-			`);
-		}).catch(error => { winston.error(error); });
+		});
+
+		return msg.say(stripIndents`🗳 ${response.title}
+			<http://strawpoll.me/${response.id}>
+		`);
 	}
 };

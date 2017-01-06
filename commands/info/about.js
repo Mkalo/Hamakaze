@@ -15,12 +15,12 @@ module.exports = class AboutCommand extends Command {
 	}
 
 	async run(msg) {
-		let embed = {
+		return msg.embed({
 			color: 3447003,
 			description: stripIndents`
 				**Hamakaze**
 
-				**❯ CREATOR:** <@${this.client.options.owner}> (ID: 81440962496172032)
+				**❯ CREATOR:** <@${this.client.options.owner}> (ID: ${this.client.options.owner})
 				**❯ LIBRARY:** Discord.js v${discordversion}
 				**❯ VERSION:** v${version}
 
@@ -32,8 +32,6 @@ module.exports = class AboutCommand extends Command {
 				**❯ SERVER:**  https://discord.gg/RtsZNk4
 			`,
 			thumbnail: { url: this.client.user.avatarURL }
-		};
-
-		return msg.embed(embed);
+		});
 	}
 };

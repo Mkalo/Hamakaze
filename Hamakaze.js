@@ -5,11 +5,11 @@ const oneLine = require('common-tags').oneLine;
 const path = require('path');
 const Raven = require('raven');
 const request = require('request-promise');
-const sqlite = require('sqlite');
 const winston = require('winston');
 
+const Database = require('./postgreSQL/PostgreSQL');
 const Redis = require('./redis/Redis');
-const Database = require('./postgreSQL/postgreSQL');
+const SequelizeProvider = require('./postgreSQL/SequelizeProvider');
 const config = require('./settings');
 
 const database = new Database();
@@ -28,9 +28,7 @@ Raven.install();
 database.start();
 redis.start();
 
-client.setProvider(sqlite.open(path.join(__dirname, 'settings.db'))
-	.then(db => new commando.SQLiteProvider(db)))
-	.catch(error => { winston.error(error); });
+client.setProvider(new SequelizeProvider(database.db));
 
 client.on('error', winston.error)
 	.on('warn', winston.warn)
