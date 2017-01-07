@@ -48,7 +48,7 @@ module.exports = class CleanCommand extends Command {
 		return msg.member.hasPermission('MANAGE_MESSAGES');
 	}
 
-	async run(msg, args) {
+	async run(msg, args) { // eslint-disable-line consistent-return
 		if (!args.limit) {
 			return msg.say(`${msg.author}, atleast provide me with a number!`);
 		}
