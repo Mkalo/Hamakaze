@@ -10,7 +10,11 @@ module.exports = class AboutCommand extends Command {
 			name: 'about',
 			group: 'info',
 			memberName: 'about',
-			description: 'Displays statistics about the bot.'
+			description: 'Displays statistics about the bot.',
+			throttling: {
+				usages: 2,
+				duration: 3
+			}
 		});
 	}
 

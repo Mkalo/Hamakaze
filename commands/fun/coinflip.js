@@ -7,7 +7,11 @@ module.exports = class CoinflipCommand extends Command {
 			aliases: ['flip', 'coin'],
 			group: 'fun',
 			memberName: 'coinflip',
-			description: 'Flip a coin.'
+			description: 'Flip a coin.',
+			throttling: {
+				usages: 2,
+				duration: 3
+			}
 		});
 	}
 

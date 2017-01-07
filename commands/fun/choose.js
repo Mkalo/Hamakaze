@@ -16,6 +16,10 @@ module.exports = class ChooseCommand extends Command {
 			group: 'fun',
 			memberName: 'choose',
 			description: 'Makes a choice for you.',
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{

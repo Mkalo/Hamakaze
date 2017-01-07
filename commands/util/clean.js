@@ -16,6 +16,10 @@ module.exports = class CleanCommand extends Command {
 				__uploads:__ Messages containing an attachment
 				__links:__ Messages containing a link`,
 			guildOnly: true,
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{
@@ -80,13 +84,13 @@ module.exports = class CleanCommand extends Command {
 		if (!filter) {
 			const messagesToDelete = await msg.channel.fetchMessages({ limit: limit });
 
-			return msg.channel.bulkDelete(messagesToDelete.array().reverse());
+			msg.channel.bulkDelete(messagesToDelete.array().reverse());
 		}
 
 		const messages = await msg.channel.fetchMessages({ limit: limit });
 		const messagesToDelete = messages.filter(messageFilter);
 
-		return msg.channel.bulkDelete(messagesToDelete.array().reverse());
+		msg.channel.bulkDelete(messagesToDelete.array().reverse());
 	}
 };
 

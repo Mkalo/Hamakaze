@@ -29,6 +29,10 @@ module.exports = class EightBallCommand extends Command {
 			group: 'fun',
 			memberName: '8ball',
 			description: 'Ask the magic 8 ball.',
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{

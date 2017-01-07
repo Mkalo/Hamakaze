@@ -8,6 +8,10 @@ module.exports = class EchoCommand extends Command {
 			memberName: 'echo',
 			description: 'Repeats your message.',
 			guildOnly: true,
+			throttling: {
+				usages: 2,
+				duration: 3
+			},
 
 			args: [
 				{

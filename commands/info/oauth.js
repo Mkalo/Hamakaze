@@ -10,7 +10,11 @@ module.exports = class AboutCommand extends Command {
 			aliases: ['invite'],
 			group: 'info',
 			memberName: 'oauth',
-			description: 'The link to add Hamakaze to a server.'
+			description: 'The link to add Hamakaze to a server.',
+			throttling: {
+				usages: 2,
+				duration: 3
+			}
 		});
 	}
 
