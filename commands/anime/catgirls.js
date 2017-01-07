@@ -7,7 +7,7 @@ module.exports = class CatgirlCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'catgirl',
-			aliases: ['nyaa', 'neko', 'catgirls'],
+			aliases: ['catgirls', 'neko', 'nekos', 'nya', 'nyaa'],
 			group: 'fun',
 			memberName: 'catgirl',
 			description: 'Posts a random catgirl.',

@@ -7,7 +7,7 @@ module.exports = class TagListCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'tag-list',
-			aliases: ['tags'],
+			aliases: ['tags', 'list-tag'],
 			group: 'tags',
 			memberName: 'list',
 			description: 'Lists all server tags.',
