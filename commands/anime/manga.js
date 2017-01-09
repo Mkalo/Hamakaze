@@ -20,7 +20,7 @@ module.exports = class MangaCommand extends Command {
 			args: [
 				{
 					key: 'manga',
-					prompt: 'What manga would you like to look up?\n',
+					prompt: 'what manga would you like to look up?\n',
 					type: 'string'
 				}
 			]

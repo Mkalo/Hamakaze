@@ -11,7 +11,7 @@ module.exports = class CatgirlCommand extends Command {
 			group: 'fun',
 			memberName: 'catgirl',
 			description: 'Posts a random catgirl.',
-			details: 'Posts a random catgirl. Add `--nsfw` to the command to get nsfw pictures.',
+			details: 'Posts a random catgirl. Add `-nsfw` to the command to get nsfw pictures.',
 			throttling: {
 				usages: 2,
 				duration: 3
@@ -20,7 +20,7 @@ module.exports = class CatgirlCommand extends Command {
 			args: [
 				{
 					key: 'nsfw',
-					prompt: 'Would you like to see NSFW pictures?\n',
+					prompt: 'would you like to see NSFW pictures?\n',
 					type: 'string',
 					default: ''
 				}
@@ -32,7 +32,7 @@ module.exports = class CatgirlCommand extends Command {
 		const nsfw = args.nsfw;
 
 		const response = request({
-			uri: `http://catgirls.brussell98.tk/api${nsfw === '--nsfw' ? '/nsfw' : ''}/random`,
+			uri: `http://catgirls.brussell98.tk/api${nsfw === '-nsfw' ? '/nsfw' : ''}/random`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
 		});

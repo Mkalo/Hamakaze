@@ -25,12 +25,12 @@ module.exports = class FactsCommand extends Command {
 			args: [
 				{
 					key: 'category',
-					prompt: 'What category would you like to get a fact on?\n',
+					prompt: 'what category would you like to get a fact on?\n',
 					type: 'string'
 				},
 				{
 					key: 'subcategory',
-					prompt: 'What subcategory would you like to get a fact on?\n',
+					prompt: 'what subcategory would you like to get a fact on?\n',
 					type: 'string',
 					default: ''
 				}

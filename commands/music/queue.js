@@ -22,7 +22,7 @@ module.exports = class ViewQueueCommand extends Command {
 			args: [
 				{
 					key: 'page',
-					prompt: 'What page would you like to view?\n',
+					prompt: 'what page would you like to view?\n',
 					type: 'integer',
 					default: 1
 				}
@@ -44,12 +44,12 @@ module.exports = class ViewQueueCommand extends Command {
 			color: 3447003,
 			author: {
 				name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-				icon_url: msg.author.avatarURL ? msg.author.avatarURL : this.client.user.avatarURL // eslint-disable-line camelcase
+				icon_url: msg.author.displayAvatarURL // eslint-disable-line camelcase
 			},
 			description: stripIndents`
 				__**Song queue, page ${paginated.page}**__
 				${paginated.items.map(song => `**-** ${!isNaN(song.id) ? `${song.name} (${song.lengthString})` : `[${song.name}](${`https://www.youtube.com/watch?v=${song.id}`})`} (${song.lengthString})`).join('\n')}
-				${paginated.maxPage > 1 ? `\nUse \`queue <page>\` to view a specific page.\n` : ''}
+				${paginated.maxPage > 1 ? `\nUse ${msg.usage()} to view a specific page.\n` : ''}
 
 				**Now playing:** ${!isNaN(currentSong.id) ? `${currentSong.name}` : `[${currentSong.name}](${`https://www.youtube.com/watch?v=${currentSong.id}`})`}
 				${oneLine`

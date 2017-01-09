@@ -26,7 +26,7 @@ module.exports = class PlaySongCommand extends Command {
 			args: [
 				{
 					key: 'url',
-					prompt: 'What music would you like to listen to?\n',
+					prompt: 'what music would you like to listen to?\n',
 					type: 'string'
 				}
 			]
@@ -55,7 +55,7 @@ module.exports = class PlaySongCommand extends Command {
 				return msg.reply('I don\'t have permission to speak in your voice channel. What a disappointment.');
 			}
 		} else if (!queue.voiceChannel.members.has(msg.author.id)) {
-			return msg.reply('you\'re not in the voice channel.');
+			return msg.reply('you\'re not in the voice channel. You better not be trying to mess with their mojo, man.');
 		}
 
 		const statusMsg = await msg.reply('obtaining video details...');
@@ -104,7 +104,7 @@ module.exports = class PlaySongCommand extends Command {
 				color: 3447003,
 				author: {
 					name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-					icon_url: msg.author.avatarURL ? msg.author.avatarURL : this.client.user.avatarURL // eslint-disable-line camelcase
+					icon_url: msg.author.displayAvatarURL // eslint-disable-line camelcase
 				},
 				description: result
 			};
@@ -131,7 +131,7 @@ module.exports = class PlaySongCommand extends Command {
 				color: 3447003,
 				author: {
 					name: `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`,
-					icon_url: msg.author.avatarURL ? msg.author.avatarURL : this.client.user.avatarURL // eslint-disable-line camelcase
+					icon_url: msg.author.displayAvatarURL // eslint-disable-line camelcase
 				},
 				description: result
 			};
@@ -157,7 +157,7 @@ module.exports = class PlaySongCommand extends Command {
 			}
 			const maxSongs = config.maxSongs;
 			if (maxSongs > 0 && queue.songs.reduce((prev, song) => prev + song.member.id === msg.author.id, 0) >= maxSongs) {
-				return `👎 you already have ${maxSongs} songs in the queue.`;
+				return `👎 you already have ${maxSongs} songs in the queue!`;
 			}
 		}
 
@@ -178,6 +178,7 @@ module.exports = class PlaySongCommand extends Command {
 		}
 
 		if (!song) {
+			queue.textChannel.sendMessage('We\'ve run out of songs! Better queue up some more tunes.');
 			queue.voiceChannel.leave();
 			this.queue.delete(guild.id);
 			return;
@@ -187,7 +188,7 @@ module.exports = class PlaySongCommand extends Command {
 			color: 3447003,
 			author: {
 				name: song.username,
-				icon_url: song.avatar ? song.avatar : this.client.user.avatarURL // eslint-disable-line camelcase
+				icon_url: song.avatar // eslint-disable-line camelcase
 			},
 			description: `${song.url.match(/^https?:\/\/(api.soundcloud.com)\/(.*)$/) ? `${song}` : `[${song}](${`${song.url}`})`}`,
 			image: { url: song.thumbnail }

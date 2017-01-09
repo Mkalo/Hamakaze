@@ -37,7 +37,7 @@ module.exports = class EightBallCommand extends Command {
 			args: [
 				{
 					key: 'question',
-					prompt: 'What question do you want ask the magic 8ball?\n',
+					prompt: 'what question do you want ask the magic 8ball?\n',
 					type: 'string',
 					default: ''
 				}

@@ -24,19 +24,19 @@ module.exports = class CleanCommand extends Command {
 			args: [
 				{
 					key: 'limit',
-					prompt: 'How many messages would you like to delete?\n',
+					prompt: 'how many messages would you like to delete?\n',
 					type: 'integer',
 					max: 100
 				},
 				{
 					key: 'filter',
-					prompt: 'What filter would you like to apply?\n',
+					prompt: 'what filter would you like to apply?\n',
 					type: 'string',
 					default: ''
 				},
 				{
 					key: 'member',
-					prompt: 'Whose messages would you like to delete?\n',
+					prompt: 'whose messages would you like to delete?\n',
 					type: 'member',
 					default: ''
 				}
@@ -49,13 +49,10 @@ module.exports = class CleanCommand extends Command {
 	}
 
 	async run(msg, args) { // eslint-disable-line consistent-return
-		if (!args.limit) {
-			return msg.say(`${msg.author}, atleast provide me with a number!`);
-		}
-
 		const limit = args.limit;
 		const filter = args.filter;
 		let messageFilter;
+
 		if (filter) {
 			if (filter === 'invite') {
 				messageFilter = message => message.content.search(/(discord\.gg\/.+|discordapp\.com\/invite\/.+)/i)

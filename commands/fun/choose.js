@@ -24,7 +24,7 @@ module.exports = class ChooseCommand extends Command {
 			args: [
 				{
 					key: 'choices',
-					prompt: 'Please tell me what I should choose from.\n',
+					prompt: 'what I should choose from?\n',
 					type: 'string',
 					infinite: true
 				}

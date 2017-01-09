@@ -22,7 +22,7 @@ module.exports = class FortuneCommand extends Command {
 			args: [
 				{
 					key: 'category',
-					prompt: 'What category would you like to get a fortune on?\n',
+					prompt: 'what category would you like to get a fortune on?\n',
 					type: 'string',
 					default: ''
 				}

@@ -28,7 +28,7 @@ module.exports = class AnimeCommand extends Command {
 			args: [
 				{
 					key: 'anime',
-					prompt: 'What anime would you like to look up?\n',
+					prompt: 'what anime would you like to look up?\n',
 					type: 'string'
 				}
 			]
