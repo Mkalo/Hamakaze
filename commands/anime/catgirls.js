@@ -31,7 +31,7 @@ module.exports = class CatgirlCommand extends Command {
 	async run(msg, args) {
 		const nsfw = args.nsfw;
 
-		const response = request({
+		const response = await request({
 			uri: `http://catgirls.brussell98.tk/api${nsfw === '-nsfw' ? '/nsfw' : ''}/random`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
