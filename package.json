@@ -1,6 +1,6 @@
 {
   "name": "hamakaze",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Hamakaze. A multipurpose discord boat.",
   "license": "MIT",
   "author": "Crawl",
@@ -35,16 +35,16 @@
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
     "raven": "^1.1.1",
-    "redis": "^2.6.3",
+    "redis": "^2.6.5",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "sequelize": "sequelize/sequelize",
     "simple-youtube-api": "^2.1.0",
-    "winston": "^2.3.0",
+    "winston": "^2.3.1",
     "ytdl-core": "^0.7.21"
   },
   "devDependencies": {
-    "eslint": "^3.12.2"
+    "eslint": "^3.14.0"
   },
   "engines": {
     "node": ">=7.0.0"
