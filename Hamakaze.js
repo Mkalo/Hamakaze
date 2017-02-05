@@ -1,7 +1,7 @@
 global.Promise = require('bluebird');
 
 const commando = require('discord.js-commando');
-const oneLine = require('common-tags').oneLine;
+const { oneLine } = require('common-tags');
 const path = require('path');
 const Raven = require('raven');
 const request = require('request-promise');

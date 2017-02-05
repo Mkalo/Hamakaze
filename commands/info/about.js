@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const discordversion = require('discord.js').version;
-const stripIndents = require('common-tags').stripIndents;
+const { stripIndents } = require('common-tags');
 
 const version = require('../../package').version;
 

@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const moment = require('moment');
 const nani = require('nani');
-const stripIndents = require('common-tags').stripIndents;
+const { stripIndents } = require('common-tags');
 
 const config = require('../../settings');
 
