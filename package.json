@@ -1,6 +1,6 @@
 {
   "name": "hamakaze",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Hamakaze. A multipurpose discord boat.",
   "license": "MIT",
   "author": "Crawl",
@@ -35,6 +35,7 @@
     "node-opus": "^0.2.4",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
+    "prism-media": "hydrabolt/prism-media",
     "raven": "^1.1.2",
     "redis": "^2.6.5",
     "request": "^2.79.0",
