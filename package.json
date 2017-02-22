@@ -1,6 +1,6 @@
 {
   "name": "hamakaze",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Hamakaze. A multipurpose discord boat.",
   "license": "MIT",
   "author": "Crawl",
@@ -24,6 +24,7 @@
   "homepage": "https://github.com/WeebDev/Hamakaze#readme",
   "dependencies": {
     "bluebird": "^3.4.7",
+    "bufferutil": "^2.0.1",
     "canvas": "automattic/node-canvas",
     "discord.js": "hydrabolt/discord.js#b21f8df1ec28cf5d1482a2b33894ce55397faa3c",
     "discord.js-commando": "gawdl3y/discord.js-commando",
@@ -40,6 +41,7 @@
     "request-promise": "^4.1.1",
     "sequelize": "sequelize/sequelize",
     "simple-youtube-api": "^2.1.0",
+    "sodium": "^2.0.1",
     "winston": "^2.3.1",
     "ytdl-core": "^0.9.1"
   },
