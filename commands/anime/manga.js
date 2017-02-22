@@ -41,13 +41,13 @@ module.exports = class MangaCommand extends Command {
 		: data.find(en => en.title_english.toLowerCase() === manga.toLowerCase()
 		|| en.title_romaji.toLowerCase() === manga.toLowerCase())
 		|| data[0];
-		let title = data.title_english !== '' && data.title_romaji !== data.title_english
+		const title = data.title_english !== '' && data.title_romaji !== data.title_english
 		? `${data.title_english} / ${data.title_romaji} / ${data.title_japanese}`
 		: `${data.title_romaji} / ${data.title_japanese}`;
-		let synopsis = data.description
+		const synopsis = data.description
 		? data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '').substring(0, 1000)
 		: 'No description.';
-		let score = data.average_score / 10;
+		const score = data.average_score / 10;
 
 		msg.embed({
 			color: 3447003,

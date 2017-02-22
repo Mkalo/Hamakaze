@@ -49,10 +49,10 @@ client.on('error', winston.error)
 	.once('ready', () => {
 		sendAbalStats();
 	})
-	.on('disconnect', () => { winston.warn('Disconnected!'); })
-	.on('reconnect', () => { winston.warn('Reconnecting...'); })
-	.on('guildCreate', () => { sendAbalStats(); })
-	.on('guildDelete', () => { sendAbalStats(); })
+	.on('disconnect', () => winston.warn('Disconnected!'))
+	.on('reconnect', () => winston.warn('Reconnecting...'))
+	.on('guildCreate', () => sendAbalStats())
+	.on('guildDelete', () => sendAbalStats())
 	.on('commandRun', (cmd, promise, msg, args) => {
 		winston.info(oneLine`${msg.author.username}#${msg.author.discriminator} (${msg.author.id})
 			> ${msg.guild ? `${msg.guild.name} (${msg.guild.id})` : 'DM'}
@@ -97,26 +97,27 @@ client.registry
 		['anime', 'Anime'],
 		['fun', 'Fun'],
 		['music', 'Music'],
-		['weather', 'Weather'],
-		['tags', 'Tags']
+		['weather', 'Weather']
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
-function sendAbalStats() {
+async function sendAbalStats() {
 	const body = { server_count: client.guilds.size }; // eslint-disable-line camelcase
 
-	return request({
-		method: 'POST',
-		uri: `${config.abalURL}/bots/${client.user.id}/stats`,
-		headers: { Authorization: config.abalKey },
-		body: body,
-		json: true
-	}).then(() => {
+	try {
+		await request({
+			method: 'POST',
+			uri: `${config.abalURL}/bots/${client.user.id}/stats`,
+			headers: { Authorization: config.abalKey },
+			body: body,
+			json: true
+		});
+
 		winston.info(`Sent guild count to bots.discord.pw with ${client.guilds.size} guilds.`);
-	}).catch(err => {
-		winston.error('Error while sending guild count to bots.discord.pw.', err);
-	});
+	} catch (error) {
+		winston.error('Error while sending guild count to bots.discord.pw.', error);
+	}
 }
 
 client.login(config.token);

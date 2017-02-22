@@ -58,7 +58,7 @@ module.exports = class FactsCommand extends Command {
 	}
 
 	async getRandom(msg, subcategory) {
-		let type = subcategory
+		const type = subcategory
 		? types.includes(subcategory)
 		? subcategory
 		: types[Math.floor(Math.random() * types.length)]

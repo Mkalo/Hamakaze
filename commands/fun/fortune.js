@@ -32,7 +32,7 @@ module.exports = class FortuneCommand extends Command {
 
 	async run(msg, args) {
 		const regex = /^(all|computers|cookie|definitions|miscellaneous|people|platitudes|politics|science|wisdom)$/i;
-		let category = regex.test(args.category)
+		const category = regex.test(args.category)
 		? args.category.toLowerCase()
 		: 'wisdom';
 

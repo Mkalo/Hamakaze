@@ -49,12 +49,12 @@ module.exports = class AnimeCommand extends Command {
 		: data.find(en => en.title_english.toLowerCase() === anime.toLowerCase()
 		|| en.title_romaji.toLowerCase() === anime.toLowerCase())
 		|| data[0];
-		let title = data.title_english !== '' && data.title_romaji !== data.title_english
+		const title = data.title_english !== '' && data.title_romaji !== data.title_english
 		? `${data.title_english} / ${data.title_romaji} / ${data.title_japanese}`
 		: `${data.title_romaji} / ${data.title_japanese}`;
-		let synopsis = data.description
+		const synopsis = data.description
 		? data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '').substring(0, 1000) : 'No description.';
-		let score = data.average_score / 10;
+		const score = data.average_score / 10;
 
 		return msg.embed({
 			color: 3447003,

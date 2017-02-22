@@ -38,6 +38,3 @@ jspm_packages
 
 .vscode
 settings.json
-settings.db
-commands/rep
-commands/mod
