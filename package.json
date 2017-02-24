@@ -26,7 +26,7 @@
     "bluebird": "^3.4.7",
     "bufferutil": "^2.0.1",
     "canvas": "automattic/node-canvas",
-    "discord.js": "hydrabolt/discord.js#b21f8df1ec28cf5d1482a2b33894ce55397faa3c",
+    "discord.js": "hydrabolt/discord.js",
     "discord.js-commando": "gawdl3y/discord.js-commando",
     "erlpack": "hammerandchisel/erlpack",
     "moment": "^2.17.1",
@@ -47,7 +47,7 @@
     "ytdl-core": "^0.9.1"
   },
   "devDependencies": {
-    "eslint": "^3.16.0"
+    "eslint": "^3.16.1"
   },
   "engines": {
     "node": ">=7.6.0"
