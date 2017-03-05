@@ -12,6 +12,6 @@
 		<a href="https://github.com/WeebDev/Hamakaze/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
 	</p>
 	<p>
-		<a href="#">Website</a> | <a href="https://discord.gg/RtsZNk4">Discord Server</a> | <a href="https://github.com/WeebDev/Hamakaze/projects">Todo list</a>
+		<a href="https://discord.gg/RtsZNk4">Discord Server</a> | <a href="https://github.com/WeebDev/Hamakaze/projects">Todo list</a>
 	</p>
 </div>
