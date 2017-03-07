@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 import * as moment from 'moment';
-const nani = require('nani');
+const nani: any = require('nani');
 
 const { aniListID, aniListSecret } = require('../../settings');
 
