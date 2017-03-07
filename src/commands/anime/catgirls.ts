@@ -2,7 +2,7 @@ import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 import * as request from 'request-promise';
 
-const { version } = require('../../../package');
+const { version }: { version: string } = require('../../../package');
 
 export default class CatgirlCommand extends Command {
 	constructor(client: CommandoClient) {
