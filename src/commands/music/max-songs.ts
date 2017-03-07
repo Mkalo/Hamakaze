@@ -32,12 +32,12 @@ export default class MaxSongsCommand extends Command {
 	public async run(msg: CommandMessage, args: string): Promise<Message | Message[]> {
 		if (!args) {
 			const mSongs: number = this.client.provider.get(msg.guild.id, 'maxSongs', maxSongs);
-			return msg.reply(`the maximum songs a user may have in the queue at one time is ${mSongs}.`);
+			return msg.reply(`the maximum songs a user may have in the queue at one time is **${mSongs}**.`);
 		}
 
 		if (args.toLowerCase() === 'default') {
 			this.client.provider.remove(msg.guild.id, 'maxSongs');
-			return msg.reply(`set the maximum songs to the default (currently ${maxSongs}).`);
+			return msg.reply(`set the maximum songs to the default (currently **${maxSongs}**).`);
 		}
 
 		const mSongs: number = parseInt(args);
@@ -47,6 +47,6 @@ export default class MaxSongsCommand extends Command {
 
 		this.client.provider.set(msg.guild.id, 'maxSongs', mSongs);
 
-		return msg.reply(`set the maximum songs to ${mSongs}.`);
+		return msg.reply(`set the maximum songs to **${mSongs}**.`);
 	}
 }

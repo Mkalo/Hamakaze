@@ -26,12 +26,12 @@ export default class DefaultVolumeCommand extends Command {
 	public async run(msg: CommandMessage, args: string): Promise<Message | Message[]> {
 		if (!args) {
 			const defVolume: number = this.client.provider.get(msg.guild.id, 'defaultVolume', defaultVolume);
-			return msg.reply(`the default volume level is ${defVolume}.`);
+			return msg.reply(`the default volume level is **${defVolume}**.`);
 		}
 
 		if (args.toLowerCase() === 'default') {
 			this.client.provider.remove(msg.guild.id, 'defaultVolume');
-			return msg.reply(`set the default volume level to the bot's default (currently ${defaultVolume}).`);
+			return msg.reply(`set the default volume level to the bot's default (currently **${defaultVolume}**).`);
 		}
 
 		const defVolume: number = parseInt(args);
@@ -41,6 +41,6 @@ export default class DefaultVolumeCommand extends Command {
 
 		this.client.provider.set(msg.guild.id, 'defaultVolume', defVolume);
 
-		return msg.reply(`set the default volume level to ${defVolume}.`);
+		return msg.reply(`set the default volume level to **${defVolume}**.`);
 	}
 }

@@ -33,12 +33,12 @@ export default class MaxLengthCommand extends Command {
 	public async run(msg: CommandMessage, args: string): Promise<Message | Message[]> {
 		if (!args) {
 			const mLength: number = this.client.provider.get(msg.guild.id, 'maxLength', maxLength);
-			return msg.reply(`the maximum length of a song is ${mLength} minutes.`);
+			return msg.reply(`the maximum length of a song is **${mLength}** minutes.`);
 		}
 
 		if (args.toLowerCase() === 'default') {
 			this.client.provider.remove(msg.guild.id, 'maxLength');
-			return msg.reply(`set the maximum song length to the default (currently ${maxLength} minutes).`);
+			return msg.reply(`set the maximum song length to the default (currently **${maxLength}** minutes).`);
 		}
 
 		const mLength: number = parseInt(args);
@@ -48,6 +48,6 @@ export default class MaxLengthCommand extends Command {
 
 		this.client.provider.set(msg.guild.id, 'maxLength', mLength);
 
-		return msg.reply(`set the maximum song length to ${mLength} minutes.`);
+		return msg.reply(`set the maximum song length to **${mLength}** minutes.`);
 	}
 }

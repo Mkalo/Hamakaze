@@ -100,7 +100,7 @@ export default class SkipSongCommand extends Command {
 		const song: song = queue.songs[0];
 		song.dispatcher.end();
 
-		return `**${song}**`;
+		return `Skipped: **${song.name}**`;
 	}
 
 	private _setTimeout(vote: vote): number {
