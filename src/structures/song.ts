@@ -52,11 +52,11 @@ export default class Song {
 	}
 
 	get lengthString(): string {
-		return Song.timeString(this.length);
+		return (this.constructor as typeof Song).timeString(this.length);
 	}
 
-	private _timeLeft(currentTime: number): string {
-		return Song.timeString(this.length - currentTime);
+	public timeLeft(currentTime: number): string {
+		return (this.constructor as typeof Song).timeString(this.length - currentTime);
 	}
 
 	private _toString(): string {
