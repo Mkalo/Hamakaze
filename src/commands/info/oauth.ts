@@ -2,7 +2,7 @@ import { stripIndents } from 'common-tags';
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 
-const { oauthLink }: { oauthLink: string } = require('../../../package');
+const { oauthLink }: { oauthLink: string } = require('../../settings');
 
 export default class AboutCommand extends Command {
 	constructor(client: CommandoClient) {
