@@ -80,9 +80,12 @@ export default class CleanCommand extends Command {
 			const messagesToDelete = messages.filter(messageFilter);
 
 			msg.channel.bulkDelete(messagesToDelete.array().reverse());
-			return;
+
+			return null;
 		}
 
 		msg.channel.bulkDelete(limit);
+
+		return null;
 	}
 }

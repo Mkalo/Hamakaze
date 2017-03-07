@@ -1,5 +1,5 @@
 import { Message, User } from 'discord.js';
-import { Command, CommandMessage, CommandoClient, CommandoClientOptions } from 'discord.js-commando';
+import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 
 export default class BlacklistUserCommand extends Command {
 	constructor(client: CommandoClient) {

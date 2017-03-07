@@ -1,7 +1,6 @@
 import { stripIndents } from 'common-tags';
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
-import { duration } from 'moment';
 import * as request from 'request-promise';
 
 const { version }: { version: string } = require('../../../package');
@@ -34,6 +33,7 @@ export default class StrawpollComamnd extends Command {
 								Please limit your title to 200 characters.
 							`;
 						}
+
 						return true;
 					}
 				},
@@ -49,6 +49,7 @@ export default class StrawpollComamnd extends Command {
 								Please limit your option to 160 characters.
 							`;
 						}
+
 						return true;
 					},
 					infinite: true
@@ -76,7 +77,8 @@ export default class StrawpollComamnd extends Command {
 			json: true
 		});
 
-		return msg.say(stripIndents`🗳 ${response.title}
+		return msg.say(stripIndents`
+			🗳 ${response.title}
 			<http://strawpoll.me/${response.id}>
 		`);
 	}
