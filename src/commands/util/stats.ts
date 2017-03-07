@@ -43,7 +43,7 @@ export default class StatsCommand extends Command {
 					value: stripIndents`
 					• Guilds: ${this.client.guilds.size}
 					• Channels: ${this.client.channels.size}
-					• Users: ${this.client.guilds.map((guild: Guild) => guild.memberCount).reduce((a, b) => a + b)}
+					• Users: ${this.client.guilds.map((guild: Guild) => guild.memberCount).reduce((a: number, b: number): number => a + b)}
 					`,
 					inline: true
 				},

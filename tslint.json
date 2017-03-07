@@ -43,21 +43,29 @@
 		"no-eval": true,
 		"no-duplicate-variable": true,
 		"no-use-before-declare": true,
-		"ter-max-len": [true, 120],
+		"ter-max-len": [false],
+		"max-line-length": [false],
 		"no-var-keyword": true,
 		"prefer-const": true,
 		"no-for-in-array": true,
 		"no-angle-bracket-type-assertion": true,
 		"no-var-requires": false,
 		"class-name": true,
-		"max-line-length": [120],
 		"one-variable-per-declaration": [true],
 		"ordered-imports": [true],
 		"prefer-for-of": true,
-		"typedef": [true],
 		"use-isnan": true,
 		"array-type": [true],
 		"interface-name": [true, "never-prefix"],
-		"radix": false
+		"radix": false,
+		"typedef": [
+			"parameter",
+			"arrow-parameter",
+			"call-signature",
+			"member-variable-declaration",
+			"property-declaration",
+			"variable-declaration"
+		],
+		"no-inferrable-types": [false]
 	}
 }

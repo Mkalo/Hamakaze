@@ -30,7 +30,7 @@ redis.start();
 client.setProvider(new SequelizeProvider(database.db)).catch(winston.error);
 
 client.dispatcher.addInhibitor((msg: Message): any => {
-	const blacklist = client.provider.get('global', 'userBlacklist', []);
+	const blacklist: string[] = client.provider.get('global', 'userBlacklist', []);
 
 	if (!blacklist.includes(msg.author.id)) return false;
 
