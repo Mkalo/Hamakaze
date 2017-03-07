@@ -1,0 +1,18 @@
+{
+	"token": "BOT_TOKEN",
+	"owner": ["YOUR_ID"],
+	"db": "POSTGRES_CONNECT_URI",
+	"abalURL": "BOTS.DISCORD.PW_API_URL",
+	"abalKey": "BOTS.DISCORD.PW_API_KEY",
+	"aniListID": "ANILIST_API_ID",
+	"aniListSecret": "ANILIST_API_SECRET",
+	"weatherAPIKey": "DARKSKY_NET_API_KEY",
+	"googleAPIKey": "GOOGLE_API_KEY",
+	"soundcloudID": "SOUNDCLOUD_API_KEY",
+	"oauthLink": "YOUR_BOT_INVITE_LINK",
+	"defaultVolume": 2,
+	"paginationItems": 10,
+	"maxLength": 15,
+	"maxSongs": 5,
+	"passes": 2
+}
