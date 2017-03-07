@@ -34,7 +34,7 @@ export default class WhitelistUserCommand extends Command {
 		const blacklist: string[] = this.client.provider.get('global', 'userBlacklist', []);
 		if (!blacklist.includes(user.id)) return msg.reply('that user is not blacklisted.');
 
-		const index = blacklist.indexOf(user.id);
+		const index: number = blacklist.indexOf(user.id);
 		blacklist.splice(index, 1);
 
 		if (blacklist.length === 0) {
