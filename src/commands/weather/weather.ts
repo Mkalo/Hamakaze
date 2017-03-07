@@ -117,7 +117,7 @@ export default class WeatherCommand extends Command {
 		const ctx: any = canvas.getContext('2d');
 		const base: { src: string } = new Image();
 		const cond: { src: string } = new Image();
-		const humid: { src: string} = new Image();
+		const humid: { src: string } = new Image();
 		const precip: { src: string } = new Image();
 
 		let theme: string = 'light';
