@@ -69,7 +69,6 @@ export default class AnimeCommand extends Command {
 		}
 		data = data.length === 1
 			? data[0]
-			// tslint:disable-next-line:ter-max-len
 			: data.find((en: { title_english: string, title_romaji: string }) => en.title_english.toLowerCase() === anime.toLowerCase()
 				|| en.title_romaji.toLowerCase() === anime.toLowerCase())
 			|| data[0];

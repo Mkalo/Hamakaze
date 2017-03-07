@@ -32,7 +32,6 @@ export default class FortuneCommand extends Command {
 
 	public async run(msg: CommandMessage, args: { category: string }): Promise<Message | Message[]> {
 		const { category }: { category: string } = args;
-		// tslint:disable-next-line:ter-max-len
 		const regex: RegExp = /^(all|computers|cookie|definitions|miscellaneous|people|platitudes|politics|science|wisdom)$/i;
 		const fortuneCategory: string = regex.test(category)
 		? category.toLowerCase()

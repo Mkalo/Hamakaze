@@ -61,7 +61,6 @@ export default class MangaCommand extends Command {
 		}
 		data = data.length === 1
 			? data[0]
-			// tslint:disable-next-line:ter-max-len
 			: data.find((en: { title_english: string, title_romaji: string }) => en.title_english.toLowerCase() === manga.toLowerCase()
 				|| en.title_romaji.toLowerCase() === manga.toLowerCase())
 			|| data[0];

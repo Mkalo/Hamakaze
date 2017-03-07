@@ -22,7 +22,6 @@ export default class Song {
 	public dispatcher: any;
 	public playing: boolean;
 
-	// tslint:disable-next-line:ter-max-len
 	constructor(video: { title: string, id: string | number, duration?: number, durationSeconds?: number }, member: GuildMember) {
 		this.name = Util.escapeMarkdown(video.title);
 		this.id = video.id;
@@ -33,7 +32,6 @@ export default class Song {
 	}
 
 	get url(): string {
-		// tslint:disable-next-line:ter-max-len
 		if (!isNaN(Number(this.id))) return `https://api.soundcloud.com/tracks/${this.id}/stream?client_id=${soundcloudID}`;
 		else return `https://www.youtube.com/watch?v=${this.id}`;
 	}

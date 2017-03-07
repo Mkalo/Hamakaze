@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize';
 import * as winston from 'winston';
 
-// tslint:disable-next-line:no-var-requires
 const { db } = require('../settings.json');
 const database: Sequelize = new Sequelize(db, { logging: false });
 

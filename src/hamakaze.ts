@@ -2,7 +2,6 @@ global.Promise = require('bluebird');
 
 import { oneLine } from 'common-tags';
 import { Collection, Guild, Message, TextChannel } from 'discord.js';
-// tslint:disable-next-line:ter-max-len
 import { Command, CommandGroup, CommandMessage, CommandoClient, CommandRegistry, FriendlyError, GuildExtension, SQLiteProvider } from 'discord.js-commando';
 import * as path from 'path';
 import * as request from 'request-promise';
@@ -50,7 +49,6 @@ client.on('error', (err: Error) => winston.error(`${err}`))
 	.on('reconnecting', () => winston.warn('Reconnecting...'))
 	/*.on('guildCreate', () => sendAbalStats())*/
 	/*.on('guildDelete', () => sendAbalStats())*/
-	// tslint:disable-next-line:ter-max-len
 	.on('commandRun', (cmd: Command, promise: Promise<any>, msg: CommandMessage, args: string | {} | string[]) => {
 		winston.info(oneLine`${msg.author.username}#${msg.author.discriminator} (${msg.author.id})
 			> ${msg.guild ? `${msg.guild.name} (${msg.guild.id})` : 'DM'}
@@ -103,7 +101,7 @@ client.registry
 client.login(config.token);
 
 async function sendAbalStats(): Promise<any> {
-	const body: { server_count: number } = { server_count: client.guilds.size }; // eslint-disable-line camelcase
+	const body: { server_count: number } = { server_count: client.guilds.size };
 
 	try {
 		await request({

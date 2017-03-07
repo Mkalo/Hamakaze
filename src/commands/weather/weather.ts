@@ -63,11 +63,8 @@ export default class WeatherCommand extends Command {
 		const { location }: { location: string } = args;
 		const Image: any = Canvas.Image;
 
-		// tslint:disable-next-line:ter-max-len
 		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'weather', 'fonts', 'Roboto-Regular.ttf'), { family: 'Roboto' });
-		// tslint:disable-next-line:ter-max-len
 		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'weather', 'fonts', 'RobotoCondensed-Regular.ttf'), { family: 'Roboto Condensed' });
-		// tslint:disable-next-line:ter-max-len
 		Canvas.registerFont(path.join(__dirname, '..', '..', 'assets', 'weather', 'fonts', 'RobotoMono-Light.ttf'), { family: 'Roboto Mono' });
 
 		if (!googleAPIKey) return msg.reply('my Commander has not set the Google API Key, go yell at him!');
@@ -75,7 +72,6 @@ export default class WeatherCommand extends Command {
 
 		const locationURI: string = encodeURIComponent(location.replace(/ /g, '+'));
 
-		// tslint:disable-next-line:ter-max-len
 		const response: response = await request({
 			uri: `https://maps.googleapis.com/maps/api/geocode/json?address=${locationURI}&key=${googleAPIKey}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
@@ -86,16 +82,11 @@ export default class WeatherCommand extends Command {
 		if (response.results.length === 0) return msg.reply('your request returned no results.');
 
 		const geocodeLocation: string = response.results[0].formatted_address;
-		// tslint:disable-next-line:ter-max-len
 		const params: string = `${response.results[0].geometry.location.lat},${response.results[0].geometry.location.lng}`;
 
-		// tslint:disable-next-line:ter-max-len
 		const locality: {} = response.results[0].address_components.find((loc: { types: string }) => loc.types.includes('locality'));
-		// tslint:disable-next-line:ter-max-len
 		const governing: {} = response.results[0].address_components.find((gov: { types: string }) => gov.types.includes('administrative_area_level_1'));
-		// tslint:disable-next-line:ter-max-len
 		const country: {} = response.results[0].address_components.find((cou: { types: string }) => cou.types.includes('country'));
-		// tslint:disable-next-line:ter-max-len
 		const continent: {} = response.results[0].address_components.find((con: { types: string }) => con.types.includes('continent'));
 
 		const city: { long_name?: string } = locality || governing || country || continent || {};
@@ -161,11 +152,8 @@ export default class WeatherCommand extends Command {
 		};
 
 		base.src = await fsPromise.readFileAsync(this._getBase(icon));
-		// tslint:disable-next-line:ter-max-len
 		cond.src = await fsPromise.readFileAsync(path.join(__dirname, '..', '..', 'assets', 'weather', 'icons', theme, `${icon}.png`));
-		// tslint:disable-next-line:ter-max-len
 		humid.src = await fsPromise.readFileAsync(path.join(__dirname, '..', '..', 'assets', 'weather', 'icons', theme, 'humidity.png'));
-		// tslint:disable-next-line:ter-max-len
 		precip.src = await fsPromise.readFileAsync(path.join(__dirname, '..', '..', 'assets', 'weather', 'icons', theme, 'precip.png'));
 		generate();
 

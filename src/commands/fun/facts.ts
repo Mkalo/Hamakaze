@@ -39,7 +39,6 @@ export default class FactsCommand extends Command {
 		});
 	}
 
-	// tslint:disable-next-line:ter-max-len
 	public async run(msg: CommandMessage, args: { category: string, subcategory: string }): Promise<Message | Message[]> {
 		const { category, subcategory }: { category: string, subcategory: string } = args;
 
@@ -73,7 +72,6 @@ export default class FactsCommand extends Command {
 		return msg.say(response);
 	}
 
-	// tslint:disable-next-line:ter-max-len
 	private async _getFact(msg: CommandMessage, numberFact: string | number, type: string): Promise<Message | Message[]> {
 		if (!numberFact) return msg.reply(`you need to supply a number. Maybe you want \`facts random ${type}\`?`);
 
