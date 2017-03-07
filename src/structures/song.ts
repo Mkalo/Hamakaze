@@ -4,7 +4,7 @@ import { GuildMember, Util } from 'discord.js';
 const { soundcloudID } = require('../settings');
 
 export default class Song {
-	private static _timeString(seconds: number, forceHours = false): string {
+	public static timeString(seconds: number, forceHours = false): string {
 		const hours: number = Math.floor(seconds / 3600);
 		const minutes: number = Math.floor(seconds % 3600 / 60);
 
@@ -23,10 +23,10 @@ export default class Song {
 	public playing: boolean;
 
 	// tslint:disable-next-line:ter-max-len
-	constructor(video: { title: string, id: string | number, duration: string, durationSeconds: string }, member: GuildMember) {
+	constructor(video: { title: string, id: string | number, duration?: number, durationSeconds?: number }, member: GuildMember) {
 		this.name = Util.escapeMarkdown(video.title);
 		this.id = video.id;
-		this.length = video.durationSeconds ? parseInt(video.durationSeconds) : parseInt(video.duration) / 1000;
+		this.length = video.durationSeconds ? video.durationSeconds : video.duration / 1000;
 		this.member = member;
 		this.dispatcher = null;
 		this.playing = false;
@@ -54,14 +54,14 @@ export default class Song {
 	}
 
 	get lengthString(): string {
-		return Song._timeString(this.length);
+		return Song.timeString(this.length);
 	}
 
-	public timeLeft(currentTime: number): string {
-		return Song._timeString(this.length - currentTime);
+	private _timeLeft(currentTime: number): string {
+		return Song.timeString(this.length - currentTime);
 	}
 
-	private toString(): string {
+	private _toString(): string {
 		return `${this.name} (${this.lengthString})`;
 	}
 }
