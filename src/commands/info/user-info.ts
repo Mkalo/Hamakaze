@@ -29,31 +29,29 @@ export default class UserInfoCommand extends Command {
 		const member: GuildMember = args.member || msg.member;
 		const user: User = member.user;
 
-		return msg.edit({
-			embed: {
-				color: 3447003,
-				fields: [
-					{
-						name: '❯ Member Details',
-						value: stripIndents`
-						${member.nickname !== null ? ` • Nickname: ${member.nickname}` : '• No nickname'}
-						• Roles: ${member.roles.map((roles: Role) => `\`${roles.name}\``).join(' ')}
-						• Joined at: ${moment.utc(member.joinedAt).format('dddd, MMMM Do YYYY, HH:mm:ss ZZ')}
-					`
-					},
-					{
-						name: '❯ User Details',
-						value: stripIndents`
-						• Created at: ${moment.utc(user.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss ZZ')}${user.bot
-								? '\n• Is a bot account'
-								: ''}
-						• Status: ${user.presence.status}
-						• Game: ${user.presence.game ? user.presence.game.name : 'None'}
-					`
-					}
-				],
-				thumbnail: { url: user.avatarURL }
-			}
+		return msg.embed({
+			color: 3447003,
+			fields: [
+				{
+					name: '❯ Member Details',
+					value: stripIndents`
+					${member.nickname !== null ? ` • Nickname: ${member.nickname}` : '• No nickname'}
+					• Roles: ${member.roles.map((roles: Role) => `\`${roles.name}\``).join(' ')}
+					• Joined at: ${moment.utc(member.joinedAt).format('dddd, MMMM Do YYYY, HH:mm:ss ZZ')}
+				`
+				},
+				{
+					name: '❯ User Details',
+					value: stripIndents`
+					• Created at: ${moment.utc(user.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss ZZ')}${user.bot
+							? '\n• Is a bot account'
+							: ''}
+					• Status: ${user.presence.status}
+					• Game: ${user.presence.game ? user.presence.game.name : 'None'}
+				`
+				}
+			],
+			thumbnail: { url: user.avatarURL }
 		});
 	}
 }
