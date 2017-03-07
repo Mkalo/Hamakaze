@@ -39,3 +39,4 @@ jspm_packages
 src/settings.json
 typings
 old
+build
