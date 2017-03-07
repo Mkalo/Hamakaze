@@ -1,4 +1,4 @@
-import { GuildMember, Message } from 'discord.js';
+import { Collection, GuildMember, Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 
 export default class CleanCommand extends Command {
@@ -76,8 +76,8 @@ export default class CleanCommand extends Command {
 				return msg.say(`${msg.author}, that is not a valid filter. \`help clean\` for all available filters.`);
 			}
 
-			const messages = await msg.channel.fetchMessages({ limit });
-			const messagesToDelete = messages.filter(messageFilter);
+			const messages: Collection<string, Message> = await msg.channel.fetchMessages({ limit });
+			const messagesToDelete: Collection<string, Message> = messages.filter(messageFilter);
 
 			msg.channel.bulkDelete(messagesToDelete.array().reverse());
 
