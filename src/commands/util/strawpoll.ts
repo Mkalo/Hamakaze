@@ -1,7 +1,6 @@
 import { stripIndents } from 'common-tags';
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
-import { duration } from 'moment';
 import * as request from 'request-promise';
 
 const { version }: { version: string } = require('../../../package');
