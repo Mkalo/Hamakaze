@@ -6,7 +6,7 @@
 			"es2017",
 			"es2017.object"
 		],
-		"declaration": true,
+		"declaration": false,
 		"noImplicitAny": true,
 		"removeComments": true,
 		"sourceMap": true,
