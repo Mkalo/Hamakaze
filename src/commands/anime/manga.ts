@@ -3,7 +3,29 @@ import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 import * as moment from 'moment';
 const nani = require('nani');
 
-const { aniListID, aniListSecret } = require('../settings');
+const { aniListID, aniListSecret } = require('../../settings');
+
+type data = {
+	error: {
+		messages: {}[];
+	}
+	title_english: string;
+	title_romaji: string;
+	title_japanese: string;
+	description: string;
+	average_score: number;
+	id: number;
+	type: string;
+	season: number;
+	source: string;
+	total_volumes: string;
+	publishing_status: string;
+	genres: string[];
+	total_chapters: number;
+	image_url_med: string;
+	start_date: Date;
+	end_date: Date;
+};
 
 export default class MangaCommand extends Command {
 	constructor(client: CommandoClient) {
@@ -31,9 +53,9 @@ export default class MangaCommand extends Command {
 	}
 
 	public async run(msg: CommandMessage, args: { manga: string }): Promise<Message | Message[]> {
-		const { manga } = args;
+		const { manga }: { manga: string } = args;
 
-		let data: any = await nani.get(`manga/search/${manga}`);
+		let data: data = await nani.get(`manga/search/${manga}`);
 		if (!Array.isArray(data)) {
 			return msg.reply(data.error.messages[0]);
 		}
@@ -43,13 +65,13 @@ export default class MangaCommand extends Command {
 			: data.find((en: { title_english: string, title_romaji: string }) => en.title_english.toLowerCase() === manga.toLowerCase()
 				|| en.title_romaji.toLowerCase() === manga.toLowerCase())
 			|| data[0];
-		const title = data.title_english !== '' && data.title_romaji !== data.title_english
+		const title: string = data.title_english !== '' && data.title_romaji !== data.title_english
 			? `${data.title_english} / ${data.title_romaji} / ${data.title_japanese}`
 			: `${data.title_romaji} / ${data.title_japanese}`;
-		const synopsis = data.description
+		const synopsis: string = data.description
 			? data.description.replace(/\\n/g, '\n').replace(/<br>|\\r/g, '').substring(0, 1000)
 			: 'No description';
-		const score = data.average_score / 10;
+		const score: number = data.average_score / 10;
 
 		return msg.embed({
 			color: 3447003,

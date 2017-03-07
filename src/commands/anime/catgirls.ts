@@ -2,7 +2,7 @@ import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 import * as request from 'request-promise';
 
-const { version } = require('../../package.json');
+const { version } = require('../../../package');
 
 export default class CatgirlCommand extends Command {
 	constructor(client: CommandoClient) {
@@ -30,7 +30,7 @@ export default class CatgirlCommand extends Command {
 	}
 
 	public async run(msg: CommandMessage, args: { nsfw: string }): Promise<Message | Message[]> {
-		const { nsfw } = args;
+		const { nsfw }: { nsfw: string } = args;
 
 		const response: { url: string } = await request({
 			uri: `http://catgirls.brussell98.tk/api${nsfw === '-nsfw' ? '/nsfw' : ''}/random`,
