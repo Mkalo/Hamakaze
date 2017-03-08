@@ -11,12 +11,12 @@ import Database from './database/postgresql';
 import Redis from './database/redis';
 import * as SequelizeProvider from './providers/sequelize';
 
-const config: any = require('./settings.json');
+const { abalURL, abalKey, owner, token }: { abalURL: string, abalKey: string, owner: string[], token: string } = require('./settings.json');
 
 const database: Database = new Database();
 const redis: Redis = new Redis();
 const client: CommandoClient = new CommandoClient({
-	owner: config.owner,
+	owner,
 	commandPrefix: '',
 	disableEveryone: true,
 	messageCacheLifetime: 30,
@@ -98,7 +98,7 @@ client.registry
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
-client.login(config.token);
+client.login(token);
 
 async function sendAbalStats(): Promise<any> {
 	const body: { server_count: number } = { server_count: client.guilds.size };
@@ -106,8 +106,8 @@ async function sendAbalStats(): Promise<any> {
 	try {
 		await request({
 			method: 'POST',
-			uri: `${config.abalURL}/bots/${client.user.id}/stats`,
-			headers: { Authorization: config.abalKey },
+			uri: `${abalURL}/bots/${client.user.id}/stats`,
+			headers: { Authorization: abalKey },
 			body,
 			json: true
 		});
