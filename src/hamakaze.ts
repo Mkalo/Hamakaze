@@ -14,7 +14,7 @@ import * as SequelizeProvider from './providers/sequelize';
 const { abalURL, abalKey, owner, token }: { abalURL: string, abalKey: string, owner: string[], token: string } = require('./settings.json');
 
 const database: Database = new Database();
-/*const redis: Redis = new Redis();*/
+const redis: Redis = new Redis();
 const client: CommandoClient = new CommandoClient({
 	owner,
 	commandPrefix: '',
@@ -24,7 +24,7 @@ const client: CommandoClient = new CommandoClient({
 });
 
 database.start();
-/*redis.start();*/
+redis.start();
 
 client.setProvider(new SequelizeProvider(database.db)).catch(winston.error);
 
