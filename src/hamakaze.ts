@@ -14,7 +14,7 @@ import * as SequelizeProvider from './providers/sequelize';
 const { abalURL, abalKey, owner, token }: { abalURL: string, abalKey: string, owner: string[], token: string } = require('./settings.json');
 
 const database: Database = new Database();
-const redis: Redis = new Redis();
+/*const redis: Redis = new Redis();*/
 const client: CommandoClient = new CommandoClient({
 	owner,
 	commandPrefix: '',
@@ -24,7 +24,7 @@ const client: CommandoClient = new CommandoClient({
 });
 
 database.start();
-redis.start();
+/*redis.start();*/
 
 client.setProvider(new SequelizeProvider(database.db)).catch(winston.error);
 
@@ -44,11 +44,11 @@ client.on('error', (err: Error) => winston.error(`${err}`))
 			${client.user.username}#${client.user.discriminator} (ID: ${client.user.id})
 		`);
 	})
-	/*.once('ready', () => sendAbalStats())*/
+	.once('ready', () => sendAbalStats())
 	.on('disconnect', () => winston.warn('Disconnected!'))
 	.on('reconnecting', () => winston.warn('Reconnecting...'))
-	/*.on('guildCreate', () => sendAbalStats())*/
-	/*.on('guildDelete', () => sendAbalStats())*/
+	.on('guildCreate', () => sendAbalStats())
+	.on('guildDelete', () => sendAbalStats())
 	.on('commandRun', (cmd: Command, promise: Promise<any>, msg: CommandMessage, args: string | {} | string[]) => {
 		winston.info(oneLine`${msg.author.username}#${msg.author.discriminator} (${msg.author.id})
 			> ${msg.guild ? `${msg.guild.name} (${msg.guild.id})` : 'DM'}
