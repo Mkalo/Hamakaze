@@ -5,7 +5,7 @@
   "license": "MIT",
   "author": "Crawl",
   "scripts": {
-    "test": "npm run lint -s && npm run build -s",
+    "test": "npm run build -s",
     "lint:gulp": "gulp lint",
     "build:gulp": "gulp build",
     "lint": "npm run lint:gulp -s",
