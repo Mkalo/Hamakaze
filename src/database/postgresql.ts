@@ -2,22 +2,17 @@ import { Sequelize } from 'sequelize';
 import * as winston from 'winston';
 
 const { db } = require('../settings.json');
+const database: Sequelize = new Sequelize(db, { logging: false });
 
 export default class Database {
-	private _database: Sequelize;
-
-	constructor() {
-		this._database = new Sequelize(db, { logging: false });
-	}
-
 	get db(): Sequelize {
-		return this._database;
+		return database;
 	}
 
 	public start(): void {
-		this._database.authenticate()
+		database.authenticate()
 			.then(() => winston.info('Connection has been established successfully.'))
-			.then(() => this._database.sync())
+			.then(() => database.sync())
 			.then(() => winston.info('Syncing Database...'))
 			.catch((err: Error) => winston.error(`Unable to connect to the database: ${err}`));
 	}
