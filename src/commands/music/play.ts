@@ -203,7 +203,7 @@ export default class PlaySongCommand extends Command {
 		const song: song = new Song(video, msg.member);
 		queue.songs.push(song);
 
-		return `👍 ${song.url.match(/^https?:\/\/(api.soundcloud.com)\/(.*)$/) ? `${song}` : `[${song}](${`${song.url}`})`}`;
+		return `👍 ${song.url.match(/^https?:\/\/(api.soundcloud.com)\/(.*)$/) ? `${song.name}` : `[${song.name}](${`${song.url}`})`}`;
 	}
 
 	private _play(guild: Guild, song: song): void {
