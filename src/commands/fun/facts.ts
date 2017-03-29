@@ -42,45 +42,35 @@ export default class FactsCommand extends Command {
 	public async run(msg: CommandMessage, args: { category: string, subcategory: string }): Promise<Message | Message[]> {
 		const { category, subcategory }: { category: string, subcategory: string } = args;
 
-		if (category === 'random' || category === 'rng') {
-			return this._getRandom(msg, subcategory);
-		} else if (category === 'number') {
-			return this._getFact(msg, subcategory, 'trivia');
-		} else if (category === 'math') {
-			return this._getFact(msg, subcategory, 'math');
-		} else if (category === 'date') {
-			return this._getFact(msg, subcategory, 'date');
-		} else if (category === 'year') {
-			return this._getFact(msg, subcategory, 'year');
-		} else if (category === 'cat' || category === 'cats') {
-			return this._getCat(msg);
-		}
+		if (category === 'random' || category === 'rng') return this._getRandom(msg, subcategory);
+		else if (category === 'number') return this._getFact(msg, subcategory, 'trivia');
+		else if (category === 'math') return this._getFact(msg, subcategory, 'math');
+		else if (category === 'date') return this._getFact(msg, subcategory, 'date');
+		else if (category === 'year') return this._getFact(msg, subcategory, 'year');
+		else if (category === 'cat' || category === 'cats') return this._getCat(msg);
 	}
 
 	private async _getRandom(msg: CommandMessage, subcategory: string): Promise<Message | Message[]> {
 		const type: string = subcategory
-		? types.includes(subcategory)
-		? subcategory
-		: types[Math.floor(Math.random() * types.length)]
-		: types[Math.floor(Math.random() * types.length)];
+			? types.includes(subcategory)
+			? subcategory
+			: types[Math.floor(Math.random() * types.length)]
+			: types[Math.floor(Math.random() * types.length)];
 		const response: string = await request({
 			uri: `http://numbersapi.com/random/${type}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
 		});
-
 		return msg.say(response);
 	}
 
 	private async _getFact(msg: CommandMessage, numberFact: string | number, type: string): Promise<Message | Message[]> {
 		if (!numberFact) return msg.reply(`you need to supply a number. Maybe you want \`facts random ${type}\`?`);
-
 		const response: string = await request({
 			uri: `http://numbersapi.com/${numberFact}/${type}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
 		});
-
 		return msg.say(response);
 	}
 
@@ -90,7 +80,6 @@ export default class FactsCommand extends Command {
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
 		});
-
 		return msg.say(stripIndents`
 			🐱 **${msg.author}, did you know:**
 			${response.facts[0]}

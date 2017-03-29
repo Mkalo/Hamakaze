@@ -30,7 +30,6 @@ export default class WhitelistUserCommand extends Command {
 
 	public async run(msg: CommandMessage, args: { user: User }): Promise<Message | Message[]> {
 		const { user }: { user: User } = args;
-
 		const blacklist: string[] = this.client.provider.get('global', 'userBlacklist', []);
 		if (!blacklist.includes(user.id)) return msg.reply('that user is not blacklisted.');
 
@@ -39,7 +38,6 @@ export default class WhitelistUserCommand extends Command {
 
 		if (blacklist.length === 0) this.client.provider.remove('global', 'userBlacklist');
 		else this.client.provider.set('global', 'userBlacklist', blacklist);
-
 		return msg.reply(`${user.username}#${user.discriminator} has been removed from the blacklist.`);
 	}
 }

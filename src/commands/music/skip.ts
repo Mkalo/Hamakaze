@@ -1,6 +1,7 @@
 import { oneLine } from 'common-tags';
 import { Guild, Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
+
 import { queue, song } from './play';
 
 export type vote = {
@@ -47,9 +48,9 @@ export default class SkipSongCommand extends Command {
 
 		const threshold: number = Math.ceil((queue.voiceChannel.members.size - 1) / 3);
 		const force: boolean = threshold <= 1
-		|| queue.voiceChannel.members.size < threshold
-		|| (msg.member.hasPermission('MANAGE_MESSAGES')
-		&& args.toLowerCase() === 'force');
+			|| queue.voiceChannel.members.size < threshold
+			|| (msg.member.hasPermission('MANAGE_MESSAGES')
+			&& args.toLowerCase() === 'force');
 		if (force) return msg.reply(this._skip(msg.guild, queue));
 
 		const vote: vote = this.votes.get(msg.guild.id);
@@ -58,13 +59,10 @@ export default class SkipSongCommand extends Command {
 
 			vote.count++;
 			vote.users.push(msg.author.id);
-			if (vote.count >= threshold) {
-				return msg.reply(this._skip(msg.guild, queue));
-			}
+			if (vote.count >= threshold) return msg.reply(this._skip(msg.guild, queue));
 
 			const time: number = this._setTimeout(vote);
 			const remaining: number = threshold - vote.count;
-
 			return msg.say(oneLine`
 					${vote.count} vote${vote.count > 1 ? 's' : ''} received so far,
 					${remaining} more ${remaining > 1 ? 'are' : 'is'} needed to skip.
@@ -99,7 +97,6 @@ export default class SkipSongCommand extends Command {
 
 		const song: song = queue.songs[0];
 		song.dispatcher.end();
-
 		return `Skipped: **${song.name}**`;
 	}
 
@@ -110,13 +107,11 @@ export default class SkipSongCommand extends Command {
 			this.votes.delete(vote.guild);
 			vote.queue.textChannel.sendMessage('The vote to skip the current song has ended.');
 		}, time);
-
 		return Math.round(time / 1000);
 	}
 
 	get queue(): Map<string, queue> {
-		if (!this._queue) this._queue = this.client.registry.resolveCommand('music:play').queue;
-
+		if (!this._queue) this._queue = (this.client.registry.resolveCommand('music:play') as this).queue;
 		return this._queue;
 	}
 }

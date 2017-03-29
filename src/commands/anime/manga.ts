@@ -6,9 +6,7 @@ const nani: any = require('nani');
 const { aniListID, aniListSecret } = require('../../settings');
 
 type data = {
-	error: {
-		messages: {}[];
-	}
+	error: { messages: {}[]; }
 	title_english: string;
 	title_romaji: string;
 	title_japanese: string;

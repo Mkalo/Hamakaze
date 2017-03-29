@@ -7,9 +7,7 @@ const nani: any = require('nani');
 const { aniListID, aniListSecret }: { aniListID: string, aniListSecret: string } = require('../../settings');
 
 type data = {
-	error: {
-		messages: {}[];
-	}
+	error: { messages: {}[]; }
 	title_english: string;
 	title_romaji: string;
 	title_japanese: string;
@@ -92,7 +90,7 @@ export default class AnimeCommand extends Command {
 					value: stripIndents`
 						${data.type}
 						${data.season !== null
-							? this.parseSeason(data.season)
+							? this._parseSeason(data.season)
 							: '?'}
 						${data.source !== null
 							? data.source
@@ -144,7 +142,7 @@ export default class AnimeCommand extends Command {
 		});
 	}
 
-	private parseSeason(season: number): string {
+	private _parseSeason(season: number): string {
 		return season < 350
 			? `${seasons[season % 10]} 20${Math.floor(season / 10)}`
 			: `${seasons[season % 10]} 19${Math.floor(season / 10)}`;

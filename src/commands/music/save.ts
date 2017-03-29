@@ -1,6 +1,7 @@
 import { stripIndents } from 'common-tags';
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
+
 import { queue, song } from './play';
 
 export default class SaveQueueCommand extends Command {
@@ -36,16 +37,19 @@ export default class SaveQueueCommand extends Command {
 			},
 			description: stripIndents`
 				**Currently playing:**
-				${song.url.match(/^https?:\/\/(api.soundcloud.com)\/(.*)$/) ? `${song.name}` : `[${song.name}](${`${song.url}`})`}
-				${song.url.match(/^https?:\/\/(api.soundcloud.com)\/(.*)$/) ? 'A SoundCloud song is currently playing.' : ''}
+				${song.url.match(/^https?:\/\/(api.soundcloud.com)\/(.*)$/)
+					? `${song.name}`
+					: `[${song.name}](${`${song.url}`})`}
+				${song.url.match(/^https?:\/\/(api.soundcloud.com)\/(.*)$/)
+					? 'A SoundCloud song is currently playing.'
+					: ''}
 			`,
 			image: { url: song.thumbnail }
 		});
 	}
 
 	get queue(): Map<string, queue> {
-		if (!this._queue) this._queue = this.client.registry.resolveCommand('music:play').queue;
-
+		if (!this._queue) this._queue = (this.client.registry.resolveCommand('music:play') as this).queue;
 		return this._queue;
 	}
 }

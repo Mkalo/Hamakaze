@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
+
 import { queue } from './play';
 
 export default class ResumeSongCommand extends Command {
@@ -35,7 +36,7 @@ export default class ResumeSongCommand extends Command {
 	}
 
 	get queue(): Map<string, queue> {
-		if (!this._queue) this._queue = this.client.registry.resolveCommand('music:play').queue;
+		if (!this._queue) this._queue = (this.client.registry.resolveCommand('music:play') as this).queue;
 
 		return this._queue;
 	}

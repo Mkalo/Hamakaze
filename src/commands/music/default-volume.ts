@@ -20,7 +20,7 @@ export default class DefaultVolumeCommand extends Command {
 	}
 
 	public hasPermission(msg: CommandMessage): boolean {
-		return msg.member.hasPermission('ADMINISTRATOR');
+		return this.client.isOwner(msg.author) || msg.member.hasPermission('ADMINISTRATOR');
 	}
 
 	public async run(msg: CommandMessage, args: string): Promise<Message | Message[]> {
@@ -40,7 +40,6 @@ export default class DefaultVolumeCommand extends Command {
 		}
 
 		this.client.provider.set(msg.guild.id, 'defaultVolume', defVolume);
-
 		return msg.reply(`set the default volume level to **${defVolume}**.`);
 	}
 }

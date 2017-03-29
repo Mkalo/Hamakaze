@@ -34,15 +34,14 @@ export default class FortuneCommand extends Command {
 		const { category }: { category: string } = args;
 		const regex: RegExp = /^(all|computers|cookie|definitions|miscellaneous|people|platitudes|politics|science|wisdom)$/i;
 		const fortuneCategory: string = regex.test(category)
-		? category.toLowerCase()
-		: 'wisdom';
+			? category.toLowerCase()
+			: 'wisdom';
 
 		const response: { fortune: string } = await request({
 			uri: `http://www.yerkee.com/api/fortune/${category}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
 			json: true
 		});
-
 		return msg.embed({
 			color: 3447003,
 			description: response.fortune

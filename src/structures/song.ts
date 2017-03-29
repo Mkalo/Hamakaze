@@ -7,7 +7,6 @@ export default class Song {
 	public static timeString(seconds: number, forceHours = false): string {
 		const hours: number = Math.floor(seconds / 3600);
 		const minutes: number = Math.floor(seconds % 3600 / 60);
-
 		return oneLineTrim`
 			${forceHours || hours >= 1 ? `${hours}:` : ''}
 			${hours >= 1 ? `0${minutes}`.slice(-2) : minutes}:

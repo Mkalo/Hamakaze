@@ -27,7 +27,7 @@ export default class MaxLengthCommand extends Command {
 	}
 
 	public hasPermission(msg: CommandMessage): boolean {
-		return msg.member.hasPermission('ADMINISTRATOR');
+		return this.client.isOwner(msg.author) || msg.member.hasPermission('ADMINISTRATOR');
 	}
 
 	public async run(msg: CommandMessage, args: string): Promise<Message | Message[]> {
@@ -47,7 +47,6 @@ export default class MaxLengthCommand extends Command {
 		}
 
 		this.client.provider.set(msg.guild.id, 'maxLength', mLength);
-
 		return msg.reply(`set the maximum song length to **${mLength}** minutes.`);
 	}
 }

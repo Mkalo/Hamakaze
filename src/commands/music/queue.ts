@@ -1,7 +1,8 @@
 import { oneLine, stripIndents } from 'common-tags';
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient, util } from 'discord.js-commando';
-import Song from '../../structures/song';
+
+import Song from '../../structures/Song';
 import { queue, song } from './play';
 
 const { paginationItems }: { paginationItems: number } = require('../../settings');
@@ -51,10 +52,14 @@ export default class ViewQueueCommand extends Command {
 			},
 			description: stripIndents`
 				__**Song queue, page ${paginated.page}**__
-				${paginated.items.map((song: song) => `**-** ${!isNaN(Number(song.id)) ? `${song.name} (${song.lengthString})` : `[${song.name}](${`https://www.youtube.com/watch?v=${song.id}`})`} (${song.lengthString})`).join('\n')}
+				${paginated.items.map((song: song) => `**-** ${!isNaN(Number(song.id))
+					? `${song.name} (${song.lengthString})`
+					: `[${song.name}](${`https://www.youtube.com/watch?v=${song.id}`})`} (${song.lengthString})`).join('\n')}
 				${paginated.maxPage > 1 ? `\nUse ${msg.usage()} to view a specific page.\n` : ''}
 
-				**Now playing:** ${!isNaN(Number(currentSong.id)) ? `${currentSong.name}` : `[${currentSong.name}](${`https://www.youtube.com/watch?v=${currentSong.id}`})`}
+				**Now playing:** ${!isNaN(Number(currentSong.id))
+					? `${currentSong.name}`
+					: `[${currentSong.name}](${`https://www.youtube.com/watch?v=${currentSong.id}`})`}
 				${oneLine`
 					**Progress:**
 					${!currentSong.playing ? 'Paused: ' : ''}${Song.timeString(currentTime)} /
@@ -67,8 +72,7 @@ export default class ViewQueueCommand extends Command {
 	}
 
 	get queue(): Map<string, queue> {
-		if (!this._queue) this._queue = this.client.registry.resolveCommand('music:play').queue;
-
+		if (!this._queue) this._queue = (this.client.registry.resolveCommand('music:play') as this).queue;
 		return this._queue;
 	}
 }

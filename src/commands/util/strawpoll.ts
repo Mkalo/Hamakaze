@@ -1,4 +1,4 @@
-import { stripIndents } from 'common-tags';
+import { oneLine, stripIndents } from 'common-tags';
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 import * as request from 'request-promise';
@@ -33,14 +33,16 @@ export default class StrawpollComamnd extends Command {
 								Please limit your title to 200 characters.
 							`;
 						}
-
 						return true;
 					}
 				},
 				{
 					key: 'options',
 					label: 'option',
-					prompt: 'what options would you like the strawpoll to have?\n',
+					prompt: oneLine`
+						what options would you like to have?
+						Every message you send will be interpreted as a single option.\n
+					`,
 					type: 'string',
 					validate: (option: string) => {
 						if (option.length > 160) {
@@ -49,7 +51,6 @@ export default class StrawpollComamnd extends Command {
 								Please limit your option to 160 characters.
 							`;
 						}
-
 						return true;
 					},
 					infinite: true
@@ -60,7 +61,6 @@ export default class StrawpollComamnd extends Command {
 
 	public async run(msg: CommandMessage, args: { title: string, options: string }): Promise<Message | Message[]> {
 		const { title, options }: { title: string, options: string } = args;
-
 		if (options.length < 2) return msg.reply('please provide 2 or more options.');
 		if (options.length > 31) return msg.reply('please provide less than 31 options.');
 

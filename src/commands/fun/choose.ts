@@ -47,10 +47,10 @@ export default class ChooseCommand extends Command {
 		let pick: number = Math.floor(Math.random() * choices.length);
 		choices.forEach((ch: string, i: number) => {
 			if ((ch.includes('homework')
-			|| ch.includes('sleep')
-			|| ch.includes('study')
-			|| ch.includes('productiv')
-			|| ch.includes('shower'))
+				|| ch.includes('sleep')
+				|| ch.includes('study')
+				|| ch.includes('productiv')
+				|| ch.includes('shower'))
 			&& Math.random() < 0.3) {
 				pick = i;
 			}

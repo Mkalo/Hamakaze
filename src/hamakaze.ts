@@ -7,9 +7,9 @@ import * as path from 'path';
 import * as request from 'request-promise';
 import * as winston from 'winston';
 
-import Database from './database/postgresql';
-import Redis from './database/redis';
-import * as SequelizeProvider from './providers/sequelize';
+import * as SequelizeProvider from './providers/Sequelize';
+import Database from './structures/PostgreSQL';
+import Redis from './structures/Redis';
 
 const { abalURL, abalKey, owner, token }: { abalURL: string, abalKey: string, owner: string[], token: string } = require('./settings.json');
 
@@ -30,9 +30,7 @@ client.setProvider(new SequelizeProvider(database.db)).catch(winston.error);
 
 client.dispatcher.addInhibitor((msg: Message): any => {
 	const blacklist: string[] = client.provider.get('global', 'userBlacklist', []);
-
 	if (!blacklist.includes(msg.author.id)) return false;
-
 	return `User ${msg.author.username}#${msg.author.discriminator} (${msg.author.id}) has been blacklisted.`;
 });
 
@@ -102,7 +100,6 @@ client.login(token);
 
 async function sendAbalStats(): Promise<any> {
 	const body: { server_count: number } = { server_count: client.guilds.size };
-
 	try {
 		await request({
 			method: 'POST',
@@ -111,7 +108,6 @@ async function sendAbalStats(): Promise<any> {
 			body,
 			json: true
 		});
-
 		winston.info(`Sent guild count to bots.discord.pw with ${client.guilds.size} guilds.`);
 	} catch (error) {
 		winston.error('Error while sending guild count to bots.discord.pw.', error);

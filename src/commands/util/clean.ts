@@ -1,4 +1,4 @@
-import { Collection, GuildMember, Message } from 'discord.js';
+import { Collection, GuildMember, Message, User } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
 
 export default class CleanCommand extends Command {
@@ -32,7 +32,8 @@ export default class CleanCommand extends Command {
 					key: 'filter',
 					prompt: 'what filter would you like to apply?\n',
 					type: 'string',
-					default: ''
+					default: '',
+					parse: (str: string) => str.toLowerCase()
 				},
 				{
 					key: 'member',
@@ -45,22 +46,21 @@ export default class CleanCommand extends Command {
 	}
 
 	public hasPermission(msg: CommandMessage): boolean {
-		return msg.member.hasPermission('MANAGE_MESSAGES');
+		return this.client.isOwner(msg.author) || msg.member.hasPermission('MANAGE_MESSAGES');
 	}
 
-	public async run(msg: CommandMessage, args: { limit: number, filter: string, member: GuildMember }): Promise<Message | Message[]> { // tslint:disable-line:ter-max-len
-		const limit: number = args.limit;
-		const filter: string = args.filter.toLowerCase();
-
+	public async run(msg: CommandMessage, args: { limit: number, filter: string, member: GuildMember }): Promise<Message | Message[]> {
+		const { filter, limit } = args;
 		let messageFilter: (message: Message) => boolean;
 
 		if (filter) {
 			if (filter === 'invite') {
-				messageFilter = (message: Message) => message.content.search(/(discord\.gg\/.+|discordapp\.com\/invite\/.+)/i) !== -1; // tslint:disable-line:ter-max-len
+				messageFilter = (message: Message) => message.content.search(/(discord\.gg\/.+|discordapp\.com\/invite\/.+)/i) !== -1;
 			} else if (filter === 'user') {
 				if (args.member) {
-					const member: GuildMember = args.member;
-					messageFilter = (message: Message) => message.author.id === member.id;
+					const { member } = args;
+					const user: User = member.user;
+					messageFilter = (message: Message) => message.author.id === user.id;
 				} else {
 					return msg.say(`${msg.author}, you have to mention someone.`);
 				}
@@ -79,13 +79,11 @@ export default class CleanCommand extends Command {
 			const messages: Collection<string, Message> = await msg.channel.fetchMessages({ limit });
 			const messagesToDelete: Collection<string, Message> = messages.filter(messageFilter);
 
-			msg.channel.bulkDelete(messagesToDelete.array().reverse());
-
+			msg.channel.bulkDelete(messagesToDelete.array().reverse()).catch((err: Error) => null);
 			return null;
 		}
 
-		msg.channel.bulkDelete(limit);
-
+		msg.channel.bulkDelete(limit).catch((err: Error) => null);
 		return null;
 	}
 }

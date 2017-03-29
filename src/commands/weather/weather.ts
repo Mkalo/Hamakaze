@@ -71,7 +71,6 @@ export default class WeatherCommand extends Command {
 		if (!weatherAPIKey) return msg.reply('my Commander has not set the Weather API Key, go yell at him!');
 
 		const locationURI: string = encodeURIComponent(location.replace(/ /g, '+'));
-
 		const response: response = await request({
 			uri: `https://maps.googleapis.com/maps/api/geocode/json?address=${locationURI}&key=${googleAPIKey}`,
 			headers: { 'User-Agent': `Hamakaze v${version} (https://github.com/WeebDev/Hamakaze/)` },
@@ -113,7 +112,6 @@ export default class WeatherCommand extends Command {
 
 		let theme: string = 'light';
 		let fontColor: string = '#FFFFFF';
-
 		if (icon === 'snow' || icon === 'sleet' || icon === 'fog') {
 			theme = 'dark';
 			fontColor = '#444444';
@@ -161,17 +159,11 @@ export default class WeatherCommand extends Command {
 	}
 
 	private _handleNotOK(msg: CommandMessage, status: string): string {
-		if (status === 'ZERO_RESULTS') {
-			return `your request returned no results.`;
-		} else if (status === 'REQUEST_DENIED') {
-			return `Geocode API Request was denied.`;
-		} else if (status === 'INVALID_REQUEST') {
-			return `Invalid Request,`;
-		} else if (status === 'OVER_QUERY_LIMIT') {
-			return `Query Limit Exceeded. Try again tomorrow.`;
-		} else {
-			return `Unknown.`;
-		}
+		if (status === 'ZERO_RESULTS') return `your request returned no results.`;
+		else if (status === 'REQUEST_DENIED') return `Geocode API Request was denied.`;
+		else if (status === 'INVALID_REQUEST') return `Invalid Request,`;
+		else if (status === 'OVER_QUERY_LIMIT') return `Query Limit Exceeded. Try again tomorrow.`;
+		else return `Unknown.`;
 	}
 
 	private _getBase(icon: string): string {

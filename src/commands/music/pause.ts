@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
 import { Command, CommandMessage, CommandoClient } from 'discord.js-commando';
+
 import { queue } from './play';
 
 export default class PauseSongCommand extends Command {
@@ -22,7 +23,7 @@ export default class PauseSongCommand extends Command {
 	}
 
 	public hasPermission(msg: CommandMessage): boolean {
-		return msg.member.hasPermission('MANAGE_MESSAGES');
+		return this.client.isOwner(msg.author) || msg.member.hasPermission('MANAGE_MESSAGES');
 	}
 
 	public async run(msg: CommandMessage): Promise<Message | Message[]> {
@@ -32,13 +33,11 @@ export default class PauseSongCommand extends Command {
 		if (!queue.songs[0].playing) return msg.reply('pausing a song that is already paused is a bad move.');
 		queue.songs[0].dispatcher.pause();
 		queue.songs[0].playing = false;
-
 		return msg.reply(`paused the music. Use \`${this.client.commandPrefix}resume\` to continue playing.`);
 	}
 
 	get queue(): Map<string, queue> {
-		if (!this._queue) this._queue = this.client.registry.resolveCommand('music:play').queue;
-
+		if (!this._queue) this._queue = (this.client.registry.resolveCommand('music:play') as this).queue;
 		return this._queue;
 	}
 }

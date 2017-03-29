@@ -21,7 +21,6 @@ export default class AboutCommand extends Command {
 
 	public async run(msg: CommandMessage): Promise<Message | Message[]> {
 		if (!oauthLink) return msg.say(`I don't have an invite link for you at the moment. Sorry, ${msg.author}.`);
-
 		return msg.say(stripIndents`Use this to add me to a server, ${msg.author}:
 			${oauthLink}
 			Make sure you are logged in!

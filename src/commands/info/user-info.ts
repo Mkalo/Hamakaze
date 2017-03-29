@@ -28,7 +28,6 @@ export default class UserInfoCommand extends Command {
 	public async run(msg: CommandMessage, args: { member: GuildMember }): Promise<Message | Message[]> {
 		const member: GuildMember = args.member || msg.member;
 		const user: User = member.user;
-
 		return msg.embed({
 			color: 3447003,
 			fields: [

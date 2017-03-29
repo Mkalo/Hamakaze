@@ -34,10 +34,6 @@ gulp.task('build', () => {
 		.pipe(project());
 
 	return tsCompile.js
-		.pipe(sourcemaps.write({
-			sourceRoot: file => {
-				return path.relative(path.join(file.cwd, file.path), file.base);
-			}
-		}))
+		.pipe(sourcemaps.write({ sourceRoot: file => path.relative(path.join(file.cwd, file.path), file.base) }))
 		.pipe(gulp.dest('build/'));
 });
