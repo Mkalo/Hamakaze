@@ -232,7 +232,7 @@ export default class PlaySongCommand extends Command {
 			description: stripIndents`
 				Playlist: [${playlist.title}](https://www.youtube.com/playlist?list=${playlist.id}) has been added to the queue!
 
-				Check what's been added with: \`?queue\` or \`@Commando#3509 queue\`!
+				Check what's been added with: \`@Hamakaze#8574 queue\`!
 			`
 		});
 		return null;
