@@ -29,6 +29,6 @@ export default class EchoCommand extends Command {
 	public async run(msg: CommandMessage, args: { message: string }): Promise<Message | Message[]> {
 		const { message }: { message: string } = args;
 		msg.delete();
-		return msg.say(message);
+		return msg.say(message ? message : 'kek');
 	}
 }
