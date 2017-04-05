@@ -210,6 +210,7 @@ export default class PlaySongCommand extends Command {
 				(statusMsg as Message).edit(`${msg.author}, joining your voice channel...`);
 				try {
 					const connection: VoiceConnection = await queue.voiceChannel.join();
+					connection.player.opusEncoder.setPLP(0.01);
 					queue.connection = connection;
 					this._play(msg.guild, queue.songs[0]);
 					(statusMsg as Message).delete();
