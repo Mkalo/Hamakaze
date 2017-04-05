@@ -210,7 +210,6 @@ export default class PlaySongCommand extends Command {
 				(statusMsg as Message).edit(`${msg.author}, joining your voice channel...`);
 				try {
 					const connection: VoiceConnection = await queue.voiceChannel.join();
-					connection.player.opusEncoder.setPLP(0.01);
 					queue.connection = connection;
 					this._play(msg.guild, queue.songs[0]);
 					(statusMsg as Message).delete();
@@ -323,6 +322,7 @@ export default class PlaySongCommand extends Command {
 				winston.error('Error occurred in stream dispatcher:', err);
 				queue.textChannel.sendMessage(`An error occurred while playing the song: \`${err}\``);
 			});
+		queue.connection.player.opusEncoder.setPLP(0.01);
 		dispatcher.setVolumeLogarithmic(queue.volume / 5);
 		song.dispatcher = dispatcher;
 		song.playing = true;
